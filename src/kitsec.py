@@ -9,7 +9,8 @@ from tabulate import tabulate
 
 #todo: add cred_tester
 #add IP shuffler/VPN
-#add crawler to check if the subdomains are in scope or not. and use HackerOne and Bug whatever
+#todo : add hackerone crawler for enumerator/testor
+#todo : add bugcrowd crawler for enumerator/testor
 
 @click.group()
 def cli():
