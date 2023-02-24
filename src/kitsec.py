@@ -21,7 +21,7 @@ def cli():
 @click.command()
 @click.argument('domain')
 @click.option('-t', '--test', is_flag=True, help='Test subdomains and print http response for active ones')
-@click.option('-f', '--filter-domain', multiple=True, help='Filter one or multiple subdomains based on HTTP response')
+@click.option('-f', '--filter-domain', multiple=True, help='Filter 404 domains')
 def enumerator(domain, test, filter_domain):
     """
     Enumerates subdomains for a given domain using Subfinder.
