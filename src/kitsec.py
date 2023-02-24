@@ -8,8 +8,8 @@ from tqdm import tqdm
 from tabulate import tabulate
 
 #todo: add cred_tester
-#todo: fix filter in enumerator
 #add IP shuffler/VPN
+#add crawler to check if the subdomains are in scope or not. and use HackerOne and Bug whatever
 
 @click.group()
 def cli():
