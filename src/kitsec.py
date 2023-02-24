@@ -19,6 +19,20 @@ def cli():
     pass
 
 @click.command()
+@click.argument('godeps', default='github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest')
+def godeps(godeps):
+    """Install subfinder using Go"""
+    cmd = ["go", "install", "-v", godeps]
+    with tqdm(total=100, desc="Installing go dependencies") as pbar:
+        try:
+            subprocess.check_call(cmd)
+            pbar.update(100)
+        except subprocess.CalledProcessError as e:
+            pbar.write(f"Installation failed with exit code {e.returncode}")
+            return
+    click.echo("go dependencies installed successfully!")
+
+@click.command()
 @click.argument('domain')
 @click.option('-t', '--test', is_flag=True, help='Test subdomains and print http response for active ones')
 @click.option('-f', '--filter-domain', multiple=True, help='Filter 404 domains')
@@ -152,6 +166,7 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
+cli.add_command(godeps)
 cli.add_command(injector)
 cli.add_command(enumerator)
 cli.add_command(intruder)
