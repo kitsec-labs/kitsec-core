@@ -18,6 +18,8 @@ from tabulate import tabulate
 def cli():
     pass
 
+
+
 @click.command()
 @click.argument('godeps', default='github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest')
 def godeps(godeps):
@@ -31,6 +33,16 @@ def godeps(godeps):
             pbar.write(f"Installation failed with exit code {e.returncode}")
             return
     click.echo("go dependencies installed successfully!")
+
+@click.command()
+@click.option('--path', default='.', help='Path to project directory')
+def pydeps(path):
+    """Install all Python dependencies specified in requirements.txt"""
+    req_file = os.path.join(path, 'kitsec-core', 'requirements.txt')
+    try:
+        subprocess.check_call(['pip', 'install', '-r', req_file])
+    except subprocess.CalledProcessError:
+        click.echo('Error: Failed to install dependencies.')
 
 @click.command()
 @click.argument('domain')
@@ -166,6 +178,7 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
+cli.add_command(pydeps)
 cli.add_command(godeps)
 cli.add_command(injector)
 cli.add_command(enumerator)
