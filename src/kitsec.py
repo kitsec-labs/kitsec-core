@@ -11,6 +11,8 @@ from tabulate import tabulate
 #add IP shuffler/VPN
 #todo : add hackerone crawler for enumerator/testor
 #todo : add bugcrowd crawler for enumerator/testor
+#todo : add yes we hack crawler for enumerator/testor
+
 
 @click.group()
 def cli():
