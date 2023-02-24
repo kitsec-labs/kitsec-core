@@ -1,0 +1,5 @@
+#python packages
+
+pandas==1.2.5
+requests==2.28.1
+tqdm==4.64.1
