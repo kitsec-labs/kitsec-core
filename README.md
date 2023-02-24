@@ -4,7 +4,7 @@
 
 # Ethical hacking, made easy. 🪄
 
-Seckit is a powerful CLI designed to help you streamline your security workflow and take your cybersecurity skills to the next level. Whether you're a seasoned professional or just getting started, Seckit provides a comprehensive set of tools to help you stay on top of your game.
+Kitsec is a powerful CLI designed to help you streamline your security workflow and take your cybersecurity skills to the next level. Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
 
 ## Features
 
@@ -13,7 +13,7 @@ Seckit is a powerful CLI designed to help you streamline your security workflow 
 
 ## Installation
 
-To install Seckit, simply clone the repository and run the following command to install the required dependencies:
+To install Kitsec, simply clone the repository and run the following command to install the required dependencies:
 
 ```
 git clone https://github.com/your-username/seckit.git
@@ -24,40 +24,35 @@ pip install -r requirements.txt
 
 ## Usage
 
-To start Seckit, run the following command:
-
-```
-python seckit.py
-```
 ### Enumerator
 
 Enumerate subdomains for example.com:
 
-`python main.py enumerator example.com`
+`kitsec enumerator example.com`
 
 Test subdomains for example.com and print http response for active ones:
 
-`python seckit.py enumerator -t example.com -f 404`
+`kitsec enumerator -t example.com -f 404`
 
 ### Intruder
 
 Tests a base url against a bruteforce threat
 
-`python seckit.py intruder example.com`
+`kitsec intruder example.com`
 
 Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry
 
-`python seckit.py intruder example.com -t 10 -r 100 -n 8 -p 5000`
+`kitsec intruder example.com -t 10 -r 100 -n 8 -p 5000`
 
 ### Injector
 
 Tests a base URL against a curated list of sqli [sql, php, ASP.NET]:
 
-`python seckit.py injector example.com`
+`kitsec injector example.com`
 
 To test a base URL with a list of paths in a file:
 
-`python seckit.py injector https://example.com /path/to/lists`
+`kitsec injector https://example.com /path/to/lists`
 
 ## Reporting Bugs and Contributing
 
