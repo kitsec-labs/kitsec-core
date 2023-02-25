@@ -3,13 +3,19 @@ import time
 import click
 import platform
 import requests
+import paramiko
 import subprocess
 import pandas as pd
 from tqdm import tqdm
 from tabulate import tabulate
 
-#todo : add hackerone crawler for enumerator/testor
-#todo : add bugcrowd crawler for enumerator/testor
+#todo: add active subdomains enumeration/ so -a and -p
+#todo: wordlist courte à lancer sur les sous domaines valides https://github.com/ayoubfathi/leaky-paths
+#todo : add wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
+#todo: add web fuzzing: https://github.com/ffuf/ffuf
+#todo: port checker https://github.com/projectdiscovery/naabu
+#check: https://github.com/six2dez/reconftw
+
 
 @click.group()
 def cli():
@@ -35,7 +41,7 @@ def deps(force):
     os_name = platform.system()
     if os_name == 'Darwin':  # check if running on a Mac
         click.echo("Detected Mac OS. Installing Homebrew...")
-        subprocess.run(['sudo','/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
+        subprocess.run(['/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
         click.echo("Installing Go...")
         subprocess.run(['brew', 'install', 'go'])  # install Go using Homebrew
         click.echo("Installing Go deps...")
@@ -70,6 +76,32 @@ def deps(force):
         click.echo("Done!")
     else:
         click.echo("Sorry, this function does not support your operating system.")
+
+@click.command()
+@click.option('--hostname', prompt='Enter the hostname', help='The hostname of the Linode VPS')
+@click.option('--username', prompt='Enter the username', help='The username to log in with')
+@click.password_option(confirmation_prompt=True, help='The password to log in with')
+def linode(hostname, username, password):
+    """
+    Logs into a Linode VPS using SSH.
+    """
+    # Create an SSH client
+    ssh_client = paramiko.SSHClient()
+
+    # Automatically add the host key
+    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    # Connect to the Linode VPS
+    ssh_client.connect(hostname=hostname, username=username, password=password)
+
+    # Execute a command on the Linode VPS
+    stdin, stdout, stderr = ssh_client.exec_command('ls')
+
+    # Print the output of the command
+    click.echo(stdout.read().decode())
+
+    # Close the SSH client
+    ssh_client.close()
 
 
 @click.command()
@@ -207,8 +239,10 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
+
 cli.add_command(deps)
 cli.add_command(godeps)
+cli.add_command(linode)
 cli.add_command(injector)
 cli.add_command(enumerator)
 cli.add_command(intruder)
