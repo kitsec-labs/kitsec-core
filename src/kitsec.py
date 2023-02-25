@@ -8,7 +8,6 @@ import pandas as pd
 from tqdm import tqdm
 from tabulate import tabulate
 
-#deps: fix deps to also run godeps & add progress bar
 #todo : add hackerone crawler for enumerator/testor
 #todo : add bugcrowd crawler for enumerator/testor
 
@@ -30,37 +29,47 @@ def godeps(godeps):
             return
     click.echo("go dependencies installed successfully!")
 
-
 @click.command()
-@click.option('--force', '-f', is_flag=True, help='Force installation, even if dependencies are already installed.')
+@click.option('--force', is_flag=True, help='Force installation, even if dependencies are already installed.')
 def deps(force):
-    system = platform.system()
-    if system == 'Darwin':  # macOS
-        # Install Homebrew
-        #use subprocess to install homebrew    
-        subprocess.check_call(['/usr/bin/env','/bin/bash', '-c', '"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'])
-        # Install Go using Homebrew
-        subprocess.check_call(['/usr/bin/env', 'brew', 'install', 'go'])
-        #install go dependencies
-        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
-        
-    elif system == 'Linux':  # Linux
-        # Install Go using apt-get
-        subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'update'])
-        subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'install', '-y', 'golang'])
-        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
-        
-    elif system == 'Windows':  # Windows
-        # Install Go using Chocolatey
-        subprocess.check_call(['powershell', '-Command', 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://chocolatey.org/install.ps1\'))'])
-        subprocess.check_call(['choco', 'install', '-y', 'golang'])
-        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
-        
+    os_name = platform.system()
+    if os_name == 'Darwin':  # check if running on a Mac
+        click.echo("Detected Mac OS. Installing Homebrew...")
+        subprocess.run(['sudo','/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
+        click.echo("Installing Go...")
+        subprocess.run(['brew', 'install', 'go'])  # install Go using Homebrew
+        click.echo("Installing Go SubDFinder...")
+        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+            if force:
+                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            else:
+                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            pbar.update(100)
+        click.echo("Done!")
+    elif os_name == 'Linux':  # check if running on Linux
+        click.echo("Detected Linux OS. Installing Go...")
+        subprocess.run(['sudo', 'apt', 'install', '-y', 'golang-go'])  # install Go using apt package manager on Ubuntu-based systems
+        click.echo("Installing Go SubDFinder...")
+        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+            if force:
+                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            else:
+                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            pbar.update(100)
+        click.echo("Done!")
+    elif os_name == 'Windows':  # check if running on Windows
+        click.echo("Detected Windows OS. Installing Go...")
+        subprocess.run(['choco', 'install', '-y', 'golang'])  # install Go using Chocolatey package manager
+        click.echo("Installing Go SubDFinder...")
+        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+            if force:
+                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            else:
+                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
+            pbar.update(100)
+        click.echo("Done!")
     else:
-        click.echo(f'This function is not supported on {system}.')
-        return
-    
-    click.echo('Dependencies installed successfully!')
+        click.echo("Sorry, this function does not support your operating system.")
 
 
 @click.command()
