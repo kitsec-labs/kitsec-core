@@ -9,8 +9,8 @@ import pandas as pd
 from tqdm import tqdm
 from tabulate import tabulate
 
-#todo: add active subdomains enumeration/ so -a and -p
-#todo : add wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
+#todo: fix active subdomain enumeration
+#todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #todo: port checker https://github.com/projectdiscovery/naabu
 #check: https://github.com/six2dez/reconftw
@@ -106,48 +106,49 @@ def linode(hostname, username, password):
 @click.command()
 @click.argument('domain')
 @click.option('-t', '--test', is_flag=True, help='Test subdomains and print http response for active ones')
-@click.option('-f', '--filter-domain', multiple=True, help='Filter 404 domains')
-def enumerator(domain, test, filter_domain):
+def enumerator(domain, test):
     """
     Enumerates subdomains for a given domain using Subfinder.
 
     Args:
         domain (str): The domain to enumerate subdomains for.
         test (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
-        filter_domain (list): List of subdomains to filter from output based on HTTP response.
 
     Returns:
         pandas.DataFrame: A DataFrame containing the enumerated subdomains.
     """
     # Call Subfinder and capture output
-    with open('/dev/null', 'w') as nullfile:
+    with open(os.devnull, 'w') as nullfile:
         subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
 
     # Split output into lines and remove any duplicates
     subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
 
-    # Filter subdomains based on HTTP response
-    filtered_subdomains = []
-    if filter_domain:
-        for subdomain in subdomains:
-            if subdomain not in filter_domain:
-                try:
-                    response = requests.get(f'http://{subdomain}')
-                    if response.status_code != 404:
-                        filtered_subdomains.append(subdomain)
-                except requests.exceptions.RequestException:
-                    pass
-    else:
-        filtered_subdomains = subdomains
+    # Add active subdomains from the list
+#    active_subdomains = []
+#    with open(os.path.join(os.path.dirname(__file__), '../lists/subdomains')) as subdomains_file:
+#        subdomains_list = subdomains_file.read().splitlines()
+#        with tqdm(total=len(subdomains_list), desc='Adding active subdomains', unit='subdomain') as pbar:
+#            for subdomain in subdomains_list:
+#                try:
+#                    response = requests.get(f'http://{subdomain}.{domain}')
+#                    if response.status_code != 404:
+#                        active_subdomains.append(f'{subdomain}.{domain}')
+#                except requests.exceptions.RequestException:
+#                    pass
+#                pbar.update(1)
+
+    # Combine subdomains and active_subdomains and remove duplicates
+#    subdomains |= set(active_subdomains)
 
     # Create a Pandas DataFrame with the subdomains
-    df = pd.DataFrame(filtered_subdomains, columns=['Subdomain'])
+    df = pd.DataFrame(subdomains, columns=['Subdomain'])
 
     if test:
         # Test subdomains and print http response for active ones
         table = []
-        with tqdm(total=len(filtered_subdomains), desc='Testing subdomains', unit='subdomain') as pbar:
-            for subdomain in filtered_subdomains:
+        with tqdm(total=len(subdomains), desc='Testing subdomains', unit='subdomain') as pbar:
+            for subdomain in subdomains:
                 try:
                     response = requests.get(f'http://{subdomain}')
                     table.append([subdomain, response.status_code, response.reason])
