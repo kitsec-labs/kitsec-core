@@ -8,8 +8,7 @@ import pandas as pd
 from tqdm import tqdm
 from tabulate import tabulate
 
-#todo: add cred_tester
-#add IP shuffler/VPN
+#deps: fix deps to also run godeps & add progress bar
 #todo : add hackerone crawler for enumerator/testor
 #todo : add bugcrowd crawler for enumerator/testor
 #todo : add yes we hack crawler for enumerator/testor
@@ -38,70 +37,31 @@ def godeps(godeps):
 def deps(force):
     system = platform.system()
     if system == 'Darwin':  # macOS
-        try:
-            # Check if Homebrew is installed
-            subprocess.check_call(['/usr/bin/env', 'brew', '--version'])
-            if not force:
-                click.echo('Dependencies already installed.')
-                return
-        except subprocess.CalledProcessError:
-            # Install Homebrew if it's not already installed
-            subprocess.check_call(['/bin/bash', '-c', '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"'])
-        
+        # Install Homebrew
+        #use subprocess to install homebrew    
+        subprocess.check_call(['/bin/bash', '-c', '"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'])
         # Install Go using Homebrew
-        with tqdm(desc='Installing Go', unit='pkg') as progress_bar:
-            subprocess.check_call(['/usr/bin/env', 'brew', 'install', 'go'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
-        
-        # Install Python using Homebrew
-        with tqdm(desc='Installing Python', unit='pkg') as progress_bar:
-            subprocess.check_call(['/usr/bin/env', 'brew', 'install', 'python'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
+        subprocess.check_call(['/usr/bin/env', 'brew', 'install', 'go'])
+        #install go dependencies
+        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
         
     elif system == 'Linux':  # Linux
         # Install Go using apt-get
         subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'update'])
-        with tqdm(desc='Installing Go', unit='pkg') as progress_bar:
-            subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'install', '-y', 'golang'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
-        
-        # Install Python using apt-get
-        with tqdm(desc='Installing Python', unit='pkg') as progress_bar:
-            subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'install', '-y', 'python3'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
+        subprocess.check_call(['/usr/bin/env', 'sudo', 'apt-get', 'install', '-y', 'golang'])
+        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
         
     elif system == 'Windows':  # Windows
         # Install Go using Chocolatey
         subprocess.check_call(['powershell', '-Command', 'Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://chocolatey.org/install.ps1\'))'])
-        with tqdm(desc='Installing Go', unit='pkg') as progress_bar:
-            subprocess.check_call(['choco', 'install', '-y', 'golang'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
-        
-        # Install Python using Chocolatey
-        with tqdm(desc='Installing Python', unit='pkg') as progress_bar:
-            subprocess.check_call(['choco', 'install', '-y', 'python'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            progress_bar.update(1)
+        subprocess.check_call(['choco', 'install', '-y', 'golang'])
+        subprocess.check_call(['go', 'get', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder'])
         
     else:
         click.echo(f'This function is not supported on {system}.')
         return
     
     click.echo('Dependencies installed successfully!')
-
-@click.command()
-@click.option('--dir', default=os.getcwd(), help='The directory path where kitset-core/requirements.txt can be found')
-def pydeps(dir):
-    try:
-        # search for requirements.txt in the specified directory path
-        requirements_file = os.path.join(dir, "kitset-core/requirements.txt")
-        
-        # use pip to install the requirements in the file
-        subprocess.check_call(["pip", "install", "-r", requirements_file])
-        
-        print("Successfully installed kitset-core dependencies!")
-        
-    except subprocess.CalledProcessError as e:
-        print(f"Error installing kitset-core dependencies: {e}")
 
 @click.command()
 @click.argument('domain')
