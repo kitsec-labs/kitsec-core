@@ -11,7 +11,6 @@ from tabulate import tabulate
 #deps: fix deps to also run godeps & add progress bar
 #todo : add hackerone crawler for enumerator/testor
 #todo : add bugcrowd crawler for enumerator/testor
-#todo : add yes we hack crawler for enumerator/testor
 
 @click.group()
 def cli():
@@ -39,7 +38,7 @@ def deps(force):
     if system == 'Darwin':  # macOS
         # Install Homebrew
         #use subprocess to install homebrew    
-        subprocess.check_call(['/bin/bash', '-c', '"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'])
+        subprocess.check_call(['/usr/bin/env','/bin/bash', '-c', '"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'])
         # Install Go using Homebrew
         subprocess.check_call(['/usr/bin/env', 'brew', 'install', 'go'])
         #install go dependencies
