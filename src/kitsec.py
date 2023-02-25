@@ -38,7 +38,7 @@ def deps(force):
         subprocess.run(['sudo','/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
         click.echo("Installing Go...")
         subprocess.run(['brew', 'install', 'go'])  # install Go using Homebrew
-        click.echo("Installing Go SubDFinder...")
+        click.echo("Installing SubDFinder...")
         with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
             if force:
                 subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
