@@ -49,8 +49,8 @@ def deps(force):
     elif os_name == 'Linux':  # check if running on Linux
         click.echo("Detected Linux OS. Installing Go...")
         subprocess.run(['sudo', 'apt', 'install', '-y', 'golang-go'])  # install Go using apt package manager on Ubuntu-based systems
-        click.echo("Installing Go SubDFinder...")
-        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+        click.echo("Installing Go deps...")
+        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
             if force:
                 subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
             else:
