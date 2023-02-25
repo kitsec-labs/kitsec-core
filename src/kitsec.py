@@ -76,31 +76,31 @@ def deps(force):
     else:
         click.echo("Sorry, this function does not support your operating system.")
 
-@click.command()
-@click.option('--hostname', prompt='Enter the hostname', help='The hostname of the Linode VPS')
-@click.option('--username', prompt='Enter the username', help='The username to log in with')
-@click.password_option(confirmation_prompt=True, help='The password to log in with')
-def linode(hostname, username, password):
-    """
-    Logs into a Linode VPS using SSH.
-    """
+#@click.command()
+#@click.option('--hostname', prompt='Enter the hostname', help='The hostname of the Linode VPS')
+#@click.option('--username', prompt='Enter the username', help='The username to log in with')
+#@click.password_option(confirmation_prompt=True, help='The password to log in with')
+#def linode(hostname, username, password):
+#    """
+#    Logs into a Linode VPS using SSH.
+#    """
     # Create an SSH client
-    ssh_client = paramiko.SSHClient()
+#    ssh_client = paramiko.SSHClient()
 
     # Automatically add the host key
-    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     # Connect to the Linode VPS
-    ssh_client.connect(hostname=hostname, username=username, password=password)
+#    ssh_client.connect(hostname=hostname, username=username, password=password)
 
     # Execute a command on the Linode VPS
-    stdin, stdout, stderr = ssh_client.exec_command('ls')
+#    stdin, stdout, stderr = ssh_client.exec_command('ls')
 
     # Print the output of the command
-    click.echo(stdout.read().decode())
+#    click.echo(stdout.read().decode())
 
     # Close the SSH client
-    ssh_client.close()
+#    ssh_client.close()
 
 
 @click.command()
