@@ -38,8 +38,8 @@ def deps(force):
         subprocess.run(['sudo','/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
         click.echo("Installing Go...")
         subprocess.run(['brew', 'install', 'go'])  # install Go using Homebrew
-        click.echo("Installing Go SubDFinder...")
-        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+        click.echo("Installing Go deps...")
+        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
             if force:
                 subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
             else:
@@ -60,8 +60,8 @@ def deps(force):
     elif os_name == 'Windows':  # check if running on Windows
         click.echo("Detected Windows OS. Installing Go...")
         subprocess.run(['choco', 'install', '-y', 'golang'])  # install Go using Chocolatey package manager
-        click.echo("Installing Go SubDFinder...")
-        with tqdm(total=100, desc="Installing Go SubDFinder", unit="%", ncols=80) as pbar:
+        click.echo("Installing Go deps...")
+        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
             if force:
                 subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
             else:
