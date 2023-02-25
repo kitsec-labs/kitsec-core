@@ -13,7 +13,6 @@ from tabulate import tabulate
 #todo : add bugcrowd crawler for enumerator/testor
 #todo : add yes we hack crawler for enumerator/testor
 
-
 @click.group()
 def cli():
     pass
@@ -31,6 +30,7 @@ def godeps(godeps):
             pbar.write(f"Installation failed with exit code {e.returncode}")
             return
     click.echo("go dependencies installed successfully!")
+
 
 @click.command()
 @click.option('--force', '-f', is_flag=True, help='Force installation, even if dependencies are already installed.')
@@ -62,6 +62,7 @@ def deps(force):
         return
     
     click.echo('Dependencies installed successfully!')
+
 
 @click.command()
 @click.argument('domain')
@@ -164,6 +165,7 @@ def intruder(url, num_threats, num_requests, num_retries, pause_before_retry):
                     pbar.update(1)
             results.append(threat_results)
     click.echo(results)
+
 
 @click.command()
 @click.argument('base_url')
