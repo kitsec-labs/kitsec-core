@@ -16,9 +16,14 @@ Kitsec is a powerful CLI designed to help you streamline your security workflow 
 To install Kitsec, simply clone the repository and run the following command to install the required dependencies:
 
 ```
-git clone https://github.com/your-username/seckit.git
+git clone https://github.com/your-username/kitsec.git
 cd seckit
 pip install -r requirements.txt
+```
+
+To install Kitsec's dependencies run
+```
+kitsec deps
 ```
 
 
