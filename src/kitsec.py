@@ -10,7 +10,6 @@ from tqdm import tqdm
 from tabulate import tabulate
 
 #todo: add active subdomains enumeration/ so -a and -p
-#todo: wordlist courte à lancer sur les sous domaines valides https://github.com/ayoubfathi/leaky-paths
 #todo : add wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #todo: port checker https://github.com/projectdiscovery/naabu
