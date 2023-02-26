@@ -263,6 +263,7 @@ def intruder(url, num_threats, num_requests, num_retries, pause_before_retry):
             results.append(threat_results)
     click.echo(results)
 
+
 @click.command()
 @click.argument('url')
 def portscanner(url):
@@ -351,4 +352,4 @@ cli.add_command(enumerator)
 cli.add_command(portscanner)
 
 if __name__ == '__main__':
-    cli() 
+    cli()
