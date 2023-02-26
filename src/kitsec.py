@@ -19,8 +19,6 @@ from Wappalyzer import Wappalyzer, WebPage
 
 
 #ignore JAVA warnings on wappalyzer
-
-
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
 warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
