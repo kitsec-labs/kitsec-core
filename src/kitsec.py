@@ -16,9 +16,7 @@ from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
-#add sound play when enumeration is finished
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
-#todo: port checker https://github.com/projectdiscovery/naabu
 #check: https://github.com/six2dez/reconftw
 
 
