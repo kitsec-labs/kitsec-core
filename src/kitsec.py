@@ -94,7 +94,7 @@ def linode():
     print(stdout.read().decode())
     client.close()
 
-def get_website_technologies(url):
+def get_tech(url):
     if not url.startswith('http'):
         url = 'https://' + url
     webpage = WebPage.new_from_url(url)
