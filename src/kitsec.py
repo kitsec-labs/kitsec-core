@@ -10,6 +10,7 @@ from tqdm import tqdm
 from tabulate import tabulate
 
 #todo: fix active subdomain enumeration
+#add sound play when enumeration is finished
 #todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #todo: port checker https://github.com/projectdiscovery/naabu
@@ -76,31 +77,19 @@ def deps(force):
     else:
         click.echo("Sorry, this function does not support your operating system.")
 
-#@click.command()
-#@click.option('--hostname', prompt='Enter the hostname', help='The hostname of the Linode VPS')
-#@click.option('--username', prompt='Enter the username', help='The username to log in with')
-#@click.password_option(confirmation_prompt=True, help='The password to log in with')
-#def linode(hostname, username, password):
-#    """
-#    Logs into a Linode VPS using SSH.
-#    """
-    # Create an SSH client
-#    ssh_client = paramiko.SSHClient()
+@click.command()
+def linode():
+    host = click.prompt("Enter the IP address of the Linode server to connect to")
+    username = click.prompt("Enter the limited user account to use for connecting to the Linode server")
+    password = click.prompt("Enter the password for the user account", hide_input=True)
 
-    # Automatically add the host key
-#    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-    # Connect to the Linode VPS
-#    ssh_client.connect(hostname=hostname, username=username, password=password)
-
-    # Execute a command on the Linode VPS
-#    stdin, stdout, stderr = ssh_client.exec_command('ls')
-
-    # Print the output of the command
-#    click.echo(stdout.read().decode())
-
-    # Close the SSH client
-#    ssh_client.close()
+    command = "df"
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(host, username=username, password=password)
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    client.close()
 
 
 @click.command()
@@ -123,23 +112,6 @@ def enumerator(domain, test):
 
     # Split output into lines and remove any duplicates
     subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
-
-    # Add active subdomains from the list
-#    active_subdomains = []
-#    with open(os.path.join(os.path.dirname(__file__), '../lists/subdomains')) as subdomains_file:
-#        subdomains_list = subdomains_file.read().splitlines()
-#        with tqdm(total=len(subdomains_list), desc='Adding active subdomains', unit='subdomain') as pbar:
-#            for subdomain in subdomains_list:
-#                try:
-#                    response = requests.get(f'http://{subdomain}.{domain}')
-#                    if response.status_code != 404:
-#                        active_subdomains.append(f'{subdomain}.{domain}')
-#                except requests.exceptions.RequestException:
-#                    pass
-#                pbar.update(1)
-
-    # Combine subdomains and active_subdomains and remove duplicates
-#    subdomains |= set(active_subdomains)
 
     # Create a Pandas DataFrame with the subdomains
     df = pd.DataFrame(subdomains, columns=['Subdomain'])
