@@ -185,22 +185,30 @@ def enumerator(domain, request, technology):
     active_subdomains = active_enumerator(domain)
     subdomains.update(active_subdomains)
 
-    # Create a Pandas DataFrame with the subdomains
-    df = pd.DataFrame(subdomains, columns=['Subdomain'])
-
     if request:
         # Test subdomains and print http response for active ones
-        table = []
-        with tqdm(total=len(subdomains), desc='Passive enumerator', unit='subdomain') as pbar:
-            for subdomain in subdomains:
-                try:
-                    response = requests.get(f'http://{subdomain}')
-                    table.append([subdomain, response.status_code, response.reason])
-                except requests.exceptions.RequestException:
-                    pass
-                pbar.update(1)
-        sorted_table = sorted(table, key=lambda row: row[1], reverse=True)
-        click.echo(tabulate(sorted_table, headers=['Subdomain', 'Status', 'Reason']))
+        response_table = []
+        for subdomain in tqdm(subdomains, desc='Testing subdomains', unit='subdomain', leave=False):
+            try:
+                response = requests.get(f'http://{subdomain}')
+                response_table.append([subdomain, response.status_code, response.reason])
+            except requests.exceptions.RequestException:
+                pass
+
+        if technology:
+            # Analyze technology used by subdomains
+            tech_table = []
+            for subdomain, status, reason in tqdm(response_table, desc='Analyzing technology', unit='subdomain', leave=False):
+                tech = get_tech(subdomain)
+                tech_table.append([subdomain, status, reason, tech])
+            # sort tech_table by status in ascending order
+            tech_table = sorted(tech_table, key=lambda x: x[1])
+            click.echo(tabulate(tech_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+        else:
+            # sort response_table by status in ascending order
+            response_table = sorted(response_table, key=lambda x: x[1])
+            click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+
     elif technology:
         # Analyze technology used by subdomains
         technologies = []
@@ -209,6 +217,7 @@ def enumerator(domain, request, technology):
             technologies.append([subdomain, tech])
         click.echo(tabulate(technologies, headers=['Subdomain', 'Technology']))
         click.echo('Analyzing technology Done!')
+
     else:
         # Just print the subdomains
         subdomains_list = df['Subdomain'].tolist()
@@ -216,7 +225,6 @@ def enumerator(domain, request, technology):
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
-
 
 
 @click.command()
