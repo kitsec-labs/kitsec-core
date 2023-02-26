@@ -1,6 +1,7 @@
 import os
 import time
 import click
+import socket
 import platform
 import requests
 import paramiko
@@ -8,9 +9,12 @@ import warnings
 import subprocess
 import pandas as pd
 from tqdm import tqdm
+import concurrent.futures
 from bs4 import BeautifulSoup
 from tabulate import tabulate
+from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
+
 
 #add sound play when enumeration is finished
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
@@ -270,6 +274,51 @@ def intruder(url, num_threats, num_requests, num_retries, pause_before_retry):
             results.append(threat_results)
     click.echo(results)
 
+@click.command()
+@click.argument('url')
+def portscanner(url):
+    """
+    Performs a TCP port scan on a specified hostname or URL and a range of ports.
+
+    Args:
+    - url (str): the hostname or URL of the target host
+    """
+
+    # Add a scheme to the URL if it is not present
+    if not url.startswith('http://') and not url.startswith('https://'):
+        url = 'https://' + url
+
+    # Parse the URL to extract the hostname
+    hostname = urlparse(url).hostname or url
+
+    # Resolve the hostname to an IP address
+    ip_address = socket.gethostbyname(hostname)
+
+    open_ports = []
+
+    # Define a function to scan a single port
+    def scan_port(port):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(0.1)
+        try:
+            sock.connect((ip_address, port))
+            open_ports.append(f"{hostname}:{port}")
+        except:
+            pass
+        finally:
+            sock.close()
+
+    # Use multi-threading to scan ports in parallel
+    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+        futures = [executor.submit(scan_port, port) for port in range(1, 65536)]
+        with tqdm(total=len(futures), desc="Scanning Ports", unit="ports") as progress:
+            for future in concurrent.futures.as_completed(futures):
+                progress.update(1)
+
+    # Print the open ports
+    click.echo('\nOpen Ports:')
+    for port in open_ports:
+        click.echo(port)
 
 @click.command()
 @click.argument('base_url')
@@ -308,8 +357,9 @@ cli.add_command(deps)
 cli.add_command(godeps)
 cli.add_command(linode)
 cli.add_command(injector)
-cli.add_command(enumerator)
 cli.add_command(intruder)
+cli.add_command(enumerator)
+cli.add_command(portscanner)
 
 if __name__ == '__main__':
     cli() 
