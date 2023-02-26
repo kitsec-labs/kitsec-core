@@ -123,6 +123,36 @@ def passive_enumerator(domain):
 
     return subdomains
 
+def active_enumerator(domain):
+    """
+    Enumerates subdomains for a given domain, and checks which ones are active.
+
+    Args:
+        domain (str): The domain to enumerate subdomains for.
+
+    Returns:
+        set: A set of subdomains.
+    """
+    subdomains = set()
+
+    with open("../lists/subdomains", "r") as subdomain_file:
+        for line in subdomain_file:
+            subdomain = line.strip()
+            if subdomain.endswith(domain):
+                subdomains.add(subdomain)
+
+    active_subdomains = set()
+
+    for subdomain in subdomains:
+        try:
+            response = requests.get(f"http://{subdomain}")
+            if response.status_code < 400:
+                active_subdomains.add(subdomain)
+        except:
+            pass
+
+    return subdomains
+
 @click.command()
 @click.argument('domain')
 @click.option('-t', '--test', is_flag=True, help='Test subdomains and print http response for active ones')
