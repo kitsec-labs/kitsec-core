@@ -122,37 +122,29 @@ def passive_enumerator(domain):
 def active_enumerator(domain):
     """
     Enumerates subdomains for a given domain, and checks which ones are active.
-
     Args:
         domain (str): The domain to enumerate subdomains for.
-
     Returns:
         set or None: A set of subdomains, or None if no subdomains were found.
     """
     subdomains = set()
-
     dir_path = "../lists/active_enumerator"
     if not os.path.isdir(dir_path):
         raise FileNotFoundError(f"Subdomains directory '{dir_path}' not found")
-
     file_names = [file_name for file_name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, file_name)) and file_name.endswith(".txt")]
     total_files = len(file_names)
-
     for i, file_name in enumerate(file_names):
         file_path = os.path.join(dir_path, file_name)
-
         with open(file_path, "r") as subdomain_file:
             for line in tqdm(subdomain_file, desc="Active enumeration", unit="Subdomains"):
                 subdomain = line.strip()
                 full_domain = subdomain + "." + domain
-
                 try:
                     response = requests.head("https://" + full_domain, timeout=3)
                     if response.status_code < 400:
                         subdomains.add(subdomain)
                 except:
                     pass
-
     if subdomains:
         return subdomains
     else:
