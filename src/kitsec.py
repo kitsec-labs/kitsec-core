@@ -91,18 +91,6 @@ def linode():
     print(stdout.read().decode())
     client.close()
 
-def get_tech(url):
-    if not url.startswith('http'):
-        url = 'https://' + url
-    webpage = WebPage.new_from_url(url)
-    wappalyzer = Wappalyzer.latest()
-    technologies = []
-    with tqdm(desc='Analyzing technology', unit='technologies') as pbar:
-        for tech in wappalyzer.analyze(webpage):
-            technologies.append(tech)
-            pbar.update()
-    return technologies
-
 def passive_enumerator(domain):
     """
     Uses Subfinder to enumerate subdomains for a given domain.
@@ -159,17 +147,33 @@ def active_enumerator(domain):
     else:
         return set()
 
+def get_tech(url):
+    if not url.startswith('http'):
+        url = 'https://' + url
+    webpage = WebPage.new_from_url(url)
+    wappalyzer = Wappalyzer.latest()
+    technologies = []
+    for tech in wappalyzer.analyze(webpage):
+        technologies.append(tech)
+    return technologies
+
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
+warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
 @click.command()
 @click.argument('domain')
 @click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
-def enumerator(domain, request):
+@click.option('-t', '--technology', is_flag=True, help='Analyze technology used by subdomains')
+def enumerator(domain, request, technology):
     """
     Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
     Args:
         domain (str): The domain to enumerate subdomains for.
         request (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
+        technology (bool): Flag to indicate if technology used by subdomains should be analyzed.
 
     Returns:
         pandas.DataFrame: A DataFrame containing the enumerated subdomains.
@@ -197,6 +201,14 @@ def enumerator(domain, request):
                 pbar.update(1)
         sorted_table = sorted(table, key=lambda row: row[1], reverse=True)
         click.echo(tabulate(sorted_table, headers=['Subdomain', 'Status', 'Reason']))
+    elif technology:
+        # Analyze technology used by subdomains
+        technologies = []
+        for subdomain in tqdm(subdomains, desc='Analyzing technology', unit='subdomain', leave=False):
+            tech = get_tech(subdomain)
+            technologies.append([subdomain, tech])
+        click.echo(tabulate(technologies, headers=['Subdomain', 'Technology']))
+        click.echo('Analyzing technology Done!')
     else:
         # Just print the subdomains
         subdomains_list = df['Subdomain'].tolist()
@@ -204,6 +216,7 @@ def enumerator(domain, request):
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
 
 
 @click.command()
