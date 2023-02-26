@@ -14,7 +14,7 @@ from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
-
+#replace subfinder
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #check: https://github.com/six2dez/reconftw
 
@@ -28,62 +28,6 @@ warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at p
 @click.group()
 def cli():
     pass
-
-@click.command()
-@click.argument('godeps', default='github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest')
-def godeps(godeps):
-    """Install subfinder using Go"""
-    cmd = ["go", "install", "-v", godeps]
-    with tqdm(total=100, desc="Installing go dependencies") as pbar:
-        try:
-            subprocess.check_call(cmd)
-            pbar.update(100)
-        except subprocess.CalledProcessError as e:
-            pbar.write(f"Installation failed with exit code {e.returncode}")
-            return
-    click.echo("go dependencies installed successfully!")
-
-@click.command()
-@click.option('--force', is_flag=True, help='Force installation, even if dependencies are already installed.')
-def deps(force):
-    os_name = platform.system()
-    if os_name == 'Darwin':  # check if running on a Mac
-        click.echo("Detected Mac OS. Installing Homebrew...")
-        subprocess.run(['/bin/bash', '-c', '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'])  # install Homebrew using the official script
-        click.echo("Installing Go...")
-        subprocess.run(['brew', 'install', 'go'])  # install Go using Homebrew
-        click.echo("Installing Go deps...")
-        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
-            if force:
-                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            else:
-                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            pbar.update(100)
-        click.echo("Done!")
-    elif os_name == 'Linux':  # check if running on Linux
-        click.echo("Detected Linux OS. Installing Go...")
-        subprocess.run(['sudo', 'apt', 'install', '-y', 'golang-go'])  # install Go using apt package manager on Ubuntu-based systems
-        click.echo("Installing Go deps...")
-        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
-            if force:
-                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            else:
-                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            pbar.update(100)
-        click.echo("Done!")
-    elif os_name == 'Windows':  # check if running on Windows
-        click.echo("Detected Windows OS. Installing Go...")
-        subprocess.run(['choco', 'install', '-y', 'golang'])  # install Go using Chocolatey package manager
-        click.echo("Installing Go deps...")
-        with tqdm(total=100, desc="Installing Go deps", unit="%", ncols=80) as pbar:
-            if force:
-                subprocess.run(['go', 'install', '-u', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            else:
-                subprocess.run(['go', 'install', 'github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest'], stdout=subprocess.PIPE, universal_newlines=True, bufsize=1)
-            pbar.update(100)
-        click.echo("Done!")
-    else:
-        click.echo("Sorry, this function does not support your operating system.")
 
 @click.command()
 def linode():
