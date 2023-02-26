@@ -9,7 +9,6 @@ import warnings
 import subprocess
 import pandas as pd
 from tqdm import tqdm
-import concurrent.futures
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 from urllib.parse import urlparse
