@@ -25,6 +25,26 @@ To install Kitsec's dependencies run
 ```
 kitsec deps
 ```
+##create your linode VPS
+
+- Generate a new SSH key
+  
+```
+ssh-keygen -t rsa -b 4096 -C "example@email.com"
+```
+
+- Add your SSH key to the ssh-agent
+
+```
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+```
+or copy paste it from
+
+```
+cat ~/.ssh/id_rsa.pub
+```
+
 
 
 ## Usage
