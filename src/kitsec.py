@@ -11,7 +11,6 @@ from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
 
-#todo: fix active subdomain enumeration
 #todo: test linode
 #add sound play when enumeration is finished
 #todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
@@ -131,38 +130,48 @@ def active_enumerator(domain):
         domain (str): The domain to enumerate subdomains for.
 
     Returns:
-        set: A set of subdomains.
+        set or None: A set of subdomains, or None if no subdomains were found.
     """
     subdomains = set()
 
-    with open("../lists/subdomains", "r") as subdomain_file:
-        for line in subdomain_file:
-            subdomain = line.strip()
-            if subdomain.endswith(domain):
-                subdomains.add(subdomain)
+    dir_path = "../lists/active_enumerator"
+    if not os.path.isdir(dir_path):
+        raise FileNotFoundError(f"Subdomains directory '{dir_path}' not found")
 
-    active_subdomains = set()
+    file_names = [file_name for file_name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, file_name)) and file_name.endswith(".txt")]
+    total_files = len(file_names)
 
-    for subdomain in subdomains:
-        try:
-            response = requests.get(f"http://{subdomain}")
-            if response.status_code < 400:
-                active_subdomains.add(subdomain)
-        except:
-            pass
+    for i, file_name in enumerate(file_names):
+        file_path = os.path.join(dir_path, file_name)
 
-    return subdomains
+        with open(file_path, "r") as subdomain_file:
+            for line in tqdm(subdomain_file, desc="Active enumeration", unit="Subdomains"):
+                subdomain = line.strip()
+                full_domain = subdomain + "." + domain
+
+                try:
+                    response = requests.head("https://" + full_domain, timeout=3)
+                    if response.status_code < 400:
+                        subdomains.add(subdomain)
+                except:
+                    pass
+
+    if subdomains:
+        return subdomains
+    else:
+        return set()
+
 
 @click.command()
 @click.argument('domain')
-@click.option('-t', '--test', is_flag=True, help='Test subdomains and print http response for active ones')
-def enumerator(domain, test):
+@click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
+def enumerator(domain, request):
     """
-    Enumerates subdomains for a given domain using Subfinder.
+    Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
     Args:
         domain (str): The domain to enumerate subdomains for.
-        test (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
+        request (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
 
     Returns:
         pandas.DataFrame: A DataFrame containing the enumerated subdomains.
@@ -170,10 +179,14 @@ def enumerator(domain, test):
     # Get subdomains using Subfinder
     subdomains = passive_enumerator(domain)
 
+    # Perform active enumeration and add to subdomains
+    active_subdomains = active_enumerator(domain)
+    subdomains.update(active_subdomains)
+
     # Create a Pandas DataFrame with the subdomains
     df = pd.DataFrame(subdomains, columns=['Subdomain'])
 
-    if test:
+    if request:
         # Test subdomains and print http response for active ones
         table = []
         with tqdm(total=len(subdomains), desc='Testing subdomains', unit='subdomain') as pbar:
@@ -238,7 +251,7 @@ def intruder(url, num_threats, num_requests, num_retries, pause_before_retry):
 
 @click.command()
 @click.argument('base_url')
-@click.argument('path', default='../lists/paths')
+@click.argument('path', default='../lists/injector')
 def injector(base_url, path):
     # Add http or https prefix if missing
     if not base_url.startswith('http'):
