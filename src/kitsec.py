@@ -10,8 +10,6 @@ from tqdm import tqdm
 from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
-
-#todo: test linode
 #add sound play when enumeration is finished
 #todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
@@ -189,7 +187,7 @@ def enumerator(domain, request):
     if request:
         # Test subdomains and print http response for active ones
         table = []
-        with tqdm(total=len(subdomains), desc='Testing subdomains', unit='subdomain') as pbar:
+        with tqdm(total=len(subdomains), desc='Passive enumerator', unit='subdomain') as pbar:
             for subdomain in subdomains:
                 try:
                     response = requests.get(f'http://{subdomain}')
