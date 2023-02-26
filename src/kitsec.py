@@ -8,8 +8,11 @@ import subprocess
 import pandas as pd
 from tqdm import tqdm
 from tabulate import tabulate
+from Wappalyzer import Wappalyzer, WebPage
+
 
 #todo: fix active subdomain enumeration
+#todo: test linode
 #add sound play when enumeration is finished
 #todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
@@ -91,6 +94,34 @@ def linode():
     print(stdout.read().decode())
     client.close()
 
+def get_website_technologies(url):
+    if not url.startswith('http'):
+        url = 'https://' + url
+    webpage = WebPage.new_from_url(url)
+    wappalyzer = Wappalyzer.latest()
+    technologies = []
+    with tqdm(desc='Analyzing technology', unit='technologies') as pbar:
+        for tech in wappalyzer.analyze(webpage):
+            technologies.append(tech)
+            pbar.update()
+    return technologies
+
+def passive_enumerator(domain):
+    """
+    Uses Subfinder to enumerate subdomains for a given domain.
+
+    Args:
+        domain (str): The domain to enumerate subdomains for.
+
+    Returns:
+        set: A set of subdomains.
+    """
+    with open(os.devnull, 'w') as nullfile:
+        subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
+
+    subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
+
+    return subdomains
 
 @click.command()
 @click.argument('domain')
@@ -106,12 +137,8 @@ def enumerator(domain, test):
     Returns:
         pandas.DataFrame: A DataFrame containing the enumerated subdomains.
     """
-    # Call Subfinder and capture output
-    with open(os.devnull, 'w') as nullfile:
-        subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
-
-    # Split output into lines and remove any duplicates
-    subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
+    # Get subdomains using Subfinder
+    subdomains = passive_enumerator(domain)
 
     # Create a Pandas DataFrame with the subdomains
     df = pd.DataFrame(subdomains, columns=['Subdomain'])
