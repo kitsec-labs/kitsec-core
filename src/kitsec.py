@@ -4,9 +4,11 @@ import click
 import platform
 import requests
 import paramiko
+import warnings
 import subprocess
 import pandas as pd
 from tqdm import tqdm
+from bs4 import BeautifulSoup
 from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
@@ -14,6 +16,14 @@ from Wappalyzer import Wappalyzer, WebPage
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #todo: port checker https://github.com/projectdiscovery/naabu
 #check: https://github.com/six2dez/reconftw
+
+
+#ignore JAVA warnings on wappalyzer
+
+
+warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
+warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
+warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
 
 @click.group()
@@ -156,12 +166,6 @@ def fetch_tech(url):
         technologies.append(tech)
     return technologies
 
-
-#ignore JAVA warnings on wappalyzer
-import warnings
-
-warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
-warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
 @click.command()
 @click.argument('domain')
