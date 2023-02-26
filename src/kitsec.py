@@ -146,7 +146,7 @@ def active_enumerator(domain):
     else:
         return set()
 
-def get_tech(url):
+def fetch_tech(url):
     if not url.startswith('http'):
         url = 'https://' + url
     webpage = WebPage.new_from_url(url)
@@ -200,10 +200,10 @@ def enumerator(domain, request, technology):
             # Analyze technology used by subdomains
             tech_table = []
             for subdomain, status, reason in tqdm(response_table, desc='Analyzing technology', unit='subdomain', leave=False):
-                tech = get_tech(subdomain)
+                tech = fetch_tech(subdomain)
                 tech_table.append([subdomain, status, reason, tech])
             # sort tech_table by status in ascending order
-            tech_table = sorted(tech_table, key=lambda x: x[1])
+            tech_table = sorted(tech_table, key=lambda x: -x[1])
             click.echo(tabulate(tech_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
         else:
             # sort response_table by status in ascending order
@@ -214,7 +214,7 @@ def enumerator(domain, request, technology):
         # Analyze technology used by subdomains
         technologies = []
         for subdomain in tqdm(subdomains, desc='Analyzing technology', unit='subdomain', leave=False):
-            tech = get_tech(subdomain)
+            tech = fetch_tech(subdomain)
             technologies.append([subdomain, tech])
         click.echo(tabulate(technologies, headers=['Subdomain', 'Technology']))
         click.echo('Analyzing technology Done!')
