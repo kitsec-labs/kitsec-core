@@ -11,7 +11,6 @@ from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
 #add sound play when enumeration is finished
-#todo : Enrich with  wappalyzer informations about the website https://github.com/chorsley/python-Wappalyzer
 #todo: add web fuzzing: https://github.com/ffuf/ffuf
 #todo: port checker https://github.com/projectdiscovery/naabu
 #check: https://github.com/six2dez/reconftw
@@ -157,6 +156,8 @@ def get_tech(url):
         technologies.append(tech)
     return technologies
 
+
+#ignore JAVA warnings on wappalyzer
 import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
