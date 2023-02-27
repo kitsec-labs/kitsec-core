@@ -11,6 +11,7 @@ Kitsec is a powerful toolkit CLI designed to help you streamline your security w
 - **VPS login**: Login to your linode VPS with a single command.
 - **Subdomain Enumeration**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
 - **Threat Testing**: A tool to help you test your web applications against intruding.
+- **Port Scanner**: A tool to help you scan ports.
 - **SQL Injection Testing**: A tool to help you test your web applications against SQL injection attacks
 - **Vulnerability Scanning Tools**: A comprehensive suite of vulnerability scanning tools to help you identify and prioritize potential threats.
 - **Reporting and Documentation Tools**: Built-in reporting and documentation tools to help you quickly and accurately report security issues and maintain audit trails.
@@ -56,6 +57,13 @@ Test subdomains for example.com and print http response and technology
 `kitsec enumerator -t -r example.com`
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
+
+### Port Scanner 📡
+
+Scan ports for example.com:
+
+`kitsec portscanner example.com`
+
 
 ### Intruder 🥷
 
