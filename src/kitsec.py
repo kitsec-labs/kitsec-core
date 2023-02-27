@@ -286,9 +286,6 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
-
-cli.add_command(deps)
-cli.add_command(godeps)
 cli.add_command(linode)
 cli.add_command(injector)
 cli.add_command(intruder)
