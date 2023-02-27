@@ -55,7 +55,7 @@ Test subdomains for example.com and print http response and technology
 
 `kitsec enumerator -t -r example.com`
 
-This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  `lists/active_enumerator/`
+This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
 ### Intruder 🥷
 
@@ -77,11 +77,11 @@ To test a base URL with a list of paths in a file:
 
 `kitsec injector https://example.com /path/to/lists`
 
-You can update the list you want to inject in the directory `lists/injector/`
+You can update the list you want to inject in the directory lists/injector/.
 
 ## Reporting Bugs and Contributing
 
-If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Seckit, please create a pull request on the GitHub repository.
+If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
 ## Guidelines
 
