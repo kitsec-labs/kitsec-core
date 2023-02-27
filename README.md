@@ -4,7 +4,7 @@
 
 # Ethical hacking, made easy. 🪄
 
-Kitsec is a powerful toolkit CLI designed to help you streamline your security workflow and take your cybersecurity skills to the next level. Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
+Kitsec is a powerful toolkit CLI designed to help you centralize your security workflow and take your cybersecurity skills to the next level. Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
 
 Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Security Audits. The author is not responsible for any misuse of this tool.
 
@@ -92,10 +92,6 @@ To test a base URL with a list of paths in a file:
 
 You can update the list you want to inject in the directory lists/injector/.
 
-# Reporting Bugs and Contributing
-
-If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
-
 # Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
@@ -130,7 +126,9 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
   <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical.</li>
 </ol>
 
+# Reporting Bugs and Contributing
 
+If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
 # Acknowledgements
 
