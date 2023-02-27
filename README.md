@@ -119,9 +119,9 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
   <li><a href="https://www.hackerone.com/">HackerOne</a> - A platform for businesses to connect with ethical hackers who can identify security vulnerabilities and report them.</li>
 
-  <li><a href="https://bughunters.google.com/">Google Vulnerability Reward Program</a> - A program that offers rewards to ethical hackers who can identify vulnerabilities in Google's products.</li>
+ <li><a href="https://www.microsoft.com/en-us/msrc/bounty">Microsoft Bounty Program</a> - A program that offers rewards to ethical hackers who can identify vulnerabilities in Microsoft's products.</li>
 
-  <li><a href="https://www.microsoft.com/en-us/msrc/bounty">Microsoft Bounty Program</a> - A program that offers rewards to ethical hackers who can identify vulnerabilities in Microsoft's products.</li>
+  <li><a href="https://bughunters.google.com/">Google Vulnerability Reward Program</a> - A program that offers rewards to ethical hackers who can identify vulnerabilities in Google's products.</li>
 
   <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical. In other words: Stay withing your scope and safe harbour</li>
 </ol>
