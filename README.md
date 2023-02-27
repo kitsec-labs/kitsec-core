@@ -8,7 +8,7 @@ Kitsec is a powerful toolkit CLI designed to help you streamline your security w
 
 Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Security Audits. The author is not responsible for any misuse of this tool.
 
-## Features
+### Features
 
 - **Linode**: Login to your linode VPS with a single command.
 - **Enumerator**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
@@ -16,13 +16,13 @@ Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Secur
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 
-## Soon
+### Soon
 
 - **Vulnerability Scanner**: A tool to help you scan for vulnerabilities.
 - **Report Generator**: A tool to help you generate reports.
 - **Slack Bot**: A tool to help you integrate Kitsec with Slack.
 
-## Installation 
+### Installation 
 
 To install the dependencies, run the following commands:
 
@@ -45,7 +45,7 @@ To log into your linode vps (optional):
 kitsec linode
 ```
 
-## Usage
+# Usage
 
 ### Enumerator 🧮
 
@@ -92,19 +92,19 @@ To test a base URL with a list of paths in a file:
 
 You can update the list you want to inject in the directory lists/injector/.
 
-## Reporting Bugs and Contributing
+# Reporting Bugs and Contributing
 
 If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
-## Guidelines
+# Guidelines
 
 Keep it ethical and legal. Do not use this tool for illegal purposes.
 This tool was created for educational purposes only. The author is not responsible for any misuse of this tool.
 
-## Acknowledgements
+# Acknowledgements
 
 Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
 
-## License
+# License
 
 Seckit is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
