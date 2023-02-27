@@ -98,8 +98,41 @@ If you encounter any bugs or would like to suggest new features, please create a
 
 # Guidelines
 
-Keep it ethical and legal. Do not use this tool for illegal purposes.
-This tool was created for educational purposes only. The author is not responsible for any misuse of this tool.
+Here are some guidelines for using open source tools for ethical hacking:
+
+Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
+Here are some guidelines for using open source tools for ethical hacking:
+
+<ol>
+  <li>Always obtain written permission from the owner of the target system before performing any security testing or vulnerability scanning. This can include website owners, system administrators, and software developers.</li>
+
+  <li>Keep all testing within the bounds of the permission granted. Don't go beyond the scope of the agreement and avoid harming the system, data, and users.</li>
+
+  <li>Ensure you have a strong understanding of the open source tools being used and the potential impact of their use. This includes knowledge of common vulnerabilities and attacks, as well as the best practices for mitigating them.</li>
+
+  <li>Use the open source tools in a controlled environment, with isolated testing environments and measures in place to prevent any damage to live systems or data.</li>
+
+  <li>Be professional in your approach and avoid using tools to exploit vulnerabilities without clear intentions of reporting them to the owner.</li>
+</ol>
+
+Here are some examples of websites that offer bug bounty programs for ethical hackers to test their skills:
+
+<ol>
+
+  <li>HackerOne - A platform for businesses to connect with ethical hackers who can identify security vulnerabilities and report them.</li>
+
+  <li>Bugcrowd - A crowdsourced security testing platform that offers bug bounty programs to ethical hackers.</li>
+
+  <li>Synack - A platform that offers a crowdsourced model for testing security and identifying vulnerabilities.</li>
+
+  <li>Google Vulnerability Reward Program - A program that offers rewards to ethical hackers who can identify vulnerabilities in Google's products.</li>
+
+  <li>Microsoft Bounty Program - A program that offers rewards to ethical hackers who can identify vulnerabilities in Microsoft's products.</li>
+
+  <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical.</li>
+</ol>
+
+
 
 # Acknowledgements
 
