@@ -14,6 +14,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
+- **A jupyter Notebook**: A tool to help you run the tools in a jupyter notebook instead of the terminal.
 
 ### 🛣️ Roadmap
 
@@ -122,7 +123,7 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
   <li><a href="https://bughunters.google.com/">Google Vulnerability Reward Program</a> - A program that offers rewards to ethical hackers who can identify vulnerabilities in Google's products.</li>
 
-  <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical.</li>
+  <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical. In other words: Stay withing your scope and safe harbour</li>
 </ol>
 
 
