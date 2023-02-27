@@ -6,6 +6,7 @@ import platform
 import requests
 import paramiko
 import warnings
+import concurrent
 import subprocess
 import pandas as pd
 from tqdm import tqdm
@@ -45,7 +46,7 @@ def linode():
 
 def passive_enumerator(domain):
     """
-    Uses Subfinder and Amass to enumerate subdomains for a given domain.
+    Uses Subfinder to enumerate subdomains for a given domain.
 
     Args:
         domain (str): The domain to enumerate subdomains for.
@@ -56,13 +57,9 @@ def passive_enumerator(domain):
     with open(os.devnull, 'w') as nullfile:
         subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
 
-        amass_output = subprocess.check_output(['amass', 'enum', '-d', domain], stderr=nullfile)
-
     subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
-    subdomains.update(amass_output.decode('utf-8').strip().split('\n'))
 
     return subdomains
-
 
 def active_enumerator(domain):
     """
