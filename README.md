@@ -136,4 +136,4 @@ Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening thei
 
 # 🔖  License
 
-Seckit is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
+Kitsec is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
