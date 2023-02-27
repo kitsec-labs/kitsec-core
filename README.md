@@ -14,7 +14,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
-- **A jupyter Notebook**: A tool to help you run the tools in a jupyter notebook instead of the terminal.
+- **Notebook**: A Jupyter Notebook to help you run the function in a jupyter notebook instead of the terminal.
 
 ### 🛣️ Roadmap
 
