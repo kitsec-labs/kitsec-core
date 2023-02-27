@@ -15,7 +15,7 @@ Kitsec is a powerful toolkit CLI designed to help you streamline your security w
 - **Vulnerability Scanning Tools**: A comprehensive suite of vulnerability scanning tools to help you identify and prioritize potential threats.
 - **Reporting and Documentation Tools**: Built-in reporting and documentation tools to help you quickly and accurately report security issues and maintain audit trails.
 
-## Installation
+## Installation 
 
 
 To install the dependencies, run the following commands:
