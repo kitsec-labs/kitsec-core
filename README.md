@@ -19,9 +19,8 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### 🛣️ Roadmap
 
 - **UI**: A UI to help you run the functions in a GUI instead of the terminal.
-- **VPS**: A tool to help you log into any VPS.
 - **Scanner**: A tool to help you scan for vulnerabilities.
-
+- **VPS**: A tool to help you log into any VPS.
 
 ### 🚀 Installation 
 
