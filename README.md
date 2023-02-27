@@ -11,16 +11,16 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **Linode**: Login to your linode VPS with a single command.
 - **Enumerator**: A powerful subdomain enumeration tool to help you identify potential subdomains and the technology used by them [Includes subfinder, soon AMASS].
+- **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
-- **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 - **Notebook**: A Jupyter Notebook to help you run the function in a jupyter notebook instead of the terminal.
 
 ### 🛣️ Roadmap
 
-- **Vulnerability Scanner**: A tool to help you scan for vulnerabilities.
-- **Report Generator**: A tool to help you generate reports.
-- **Slack Bot**: A tool to help you integrate Kitsec with Slack.
+-**UI**: A UI to help you run the functions in a GUI instead of the terminal.
+-**Scanner**: A tool to help you scan for vulnerabilities.
+-**VPS**: A tool to help you log into any VPS.
 
 ### 🚀 Installation 
 
