@@ -17,6 +17,15 @@ Kitsec is a powerful toolkit CLI designed to help you streamline your security w
 
 ## Installation
 
+
+To install the dependencies, run the following commands:
+
+```
+brew install python3
+brew install go
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+```
+
 To install Kitsec, simply clone the repository and run the following command to install the required dependencies:
 
 ```
