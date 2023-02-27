@@ -2,14 +2,14 @@
   <img src="assets/logo.png" alt="seckit logo" width='50%' height='50%'/>
 </p>
 
-# Ethical hacking, made easy. 🪄
+# Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you smplify & centralize your security workflow. 
 Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
 
 Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Security Audits. The author is not responsible for any misuse of this tool.
 
-### Features
+### ✨ Features
 
 - **Linode**: Login to your linode VPS with a single command.
 - **Enumerator**: A powerful subdomain enumeration tool to help you identify potential subdomains and the technology used by them [Includes subfinder, soon AMASS].
@@ -17,13 +17,13 @@ Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Secur
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 
-### Soon
+### 🛣️ Roadmap
 
 - **Vulnerability Scanner**: A tool to help you scan for vulnerabilities.
 - **Report Generator**: A tool to help you generate reports.
 - **Slack Bot**: A tool to help you integrate Kitsec with Slack.
 
-### Installation 
+### 🚀 Installation 
 
 To install the dependencies, run the following commands:
 
@@ -48,7 +48,7 @@ kitsec linode
 
 # Usage
 
-### Enumerator 🧮
+### 🧮 Enumerator 
 
 Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
 
@@ -64,14 +64,14 @@ Test subdomains for example.com and print http response and technology
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
-### Port Scanner 📡
+### 📡 Port Scanner 
 
 Scan ports for example.com:
 
 `kitsec portscanner example.com`
 
 
-### Raider 🥷
+### 🥷 Raider 
 
 Tests a base url against a bruteforce threat:
 
@@ -81,7 +81,7 @@ Tests a base url against a DDOS threat with 10 parallel threats, 100 requests pe
 
 `kitsec raider example.com -t 10 -r 100 -n 8 -p 5000`
 
-### Injector 💉
+### 💉 Injector 
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
@@ -93,7 +93,7 @@ To test a base URL with a list of paths in a file:
 
 You can update the list you want to inject in the directory lists/injector/.
 
-# Guidelines
+# 🚨 Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
 Here are some guidelines for using open source tools for ethical hacking:
@@ -127,14 +127,15 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
   <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical.</li>
 </ol>
 
-# Reporting Bugs and Contributing
+
+# 💡 Reporting Bugs and Contributing
 
 If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
-# Acknowledgements
+# 🙏🏽 Acknowledgements
 
 Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
 
-# License
+# 🔖  License
 
 Seckit is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
