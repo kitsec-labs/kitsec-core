@@ -123,8 +123,8 @@ def enumerator(domain, request, technology):
     subdomains = passive_enumerator(domain)
 
     # Perform active enumeration and add to subdomains
-    active_subdomains = active_enumerator(domain)
-    subdomains.update(active_subdomains)
+#    active_subdomains = active_enumerator(domain)
+#    subdomains.update(active_subdomains)
 
     if request:
         # Test subdomains and print http response for active ones
