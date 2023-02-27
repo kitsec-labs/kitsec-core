@@ -15,16 +15,10 @@ from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
-#replace subfinder
-#todo: add web fuzzing: https://github.com/ffuf/ffuf
-#check: https://github.com/six2dez/reconftw
-
-
 #ignore JAVA warnings on wappalyzer
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
 warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
-
 
 @click.group()
 def cli():
