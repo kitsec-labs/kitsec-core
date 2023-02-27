@@ -11,7 +11,7 @@ Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Secur
 ### Features
 
 - **Linode**: Login to your linode VPS with a single command.
-- **Enumerator**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
+- **Enumerator**: A powerful subdomain enumeration tool to help you identify potential subdomains and the technology used by them [Includes subfinder, soon AMASS].
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
