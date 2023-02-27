@@ -6,18 +6,23 @@
 
 Kitsec is a powerful toolkit CLI designed to help you streamline your security workflow and take your cybersecurity skills to the next level. Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
 
+Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Security Audits. The author is not responsible for any misuse of this tool.
+
 ## Features
 
-- **VPS login**: Login to your linode VPS with a single command.
-- **Subdomain Enumeration**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
-- **Threat Testing**: A tool to help you test your web applications against intruding.
+- **Linode**: Login to your linode VPS with a single command.
+- **Enumerator**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
+- **Intruder**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
-- **SQL Injection Testing**: A tool to help you test your web applications against SQL injection attacks
-- **Vulnerability Scanning Tools**: A comprehensive suite of vulnerability scanning tools to help you identify and prioritize potential threats.
-- **Reporting and Documentation Tools**: Built-in reporting and documentation tools to help you quickly and accurately report security issues and maintain audit trails.
+- **Injector**: A modular tool to help you test your web applications against SQL injection attacks
+
+## Soon
+
+- **Vulnerability Scanner**: A tool to help you scan for vulnerabilities.
+- **Report Generator**: A tool to help you generate reports.
+- **Slack Bot**: A tool to help you integrate Kitsec with Slack.
 
 ## Installation 
-
 
 To install the dependencies, run the following commands:
 
