@@ -187,7 +187,7 @@ def enumerator(domain, request, technology):
 @click.option('--num-requests', '-r', default=200, help='Number of requests to send from each threat')
 @click.option('--num-retries', '-n', default=4, help='Number of times to retry failed requests')
 @click.option('--pause-before-retry', '-p', default=3000, help='Number of milliseconds to wait before retrying a failed request')
-def intruder(url, num_threats, num_requests, num_retries, pause_before_retry):
+def raider(url, num_threats, num_requests, num_retries, pause_before_retry):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -302,7 +302,7 @@ def injector(base_url, path):
 
 cli.add_command(linode)
 cli.add_command(injector)
-cli.add_command(intruder)
+cli.add_command(raider)
 cli.add_command(enumerator)
 cli.add_command(portscanner)
 
