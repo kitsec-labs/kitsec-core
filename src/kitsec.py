@@ -92,15 +92,44 @@ def active_enumerator(domain):
     else:
         return set()
 
+def fetch_response(subdomains, technology):
+    response_table = []
+    for subdomain in tqdm(subdomains, desc='Testing subdomains', unit='subdomain', leave=False):
+        try:
+            response = requests.get(f'http://{subdomain}')
+            response_table.append([subdomain, response.status_code, response.reason, ''])
+            if technology:
+                tech = fetch_tech(subdomain)
+                response_table[-1][-1] = tech
+            time.sleep(0.5)  # Add a delay to avoid overloading the target website
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while trying to connect to '{subdomain}': {str(e)}")
+            continue
+        except (socket.gaierror, socket.error) as e:
+            print(f"An error occurred while trying to connect to '{subdomain}': {str(e)}")
+            continue
+    return response_table
+
 def fetch_tech(url):
     if not url.startswith('http'):
         url = 'https://' + url
     webpage = WebPage.new_from_url(url)
     wappalyzer = Wappalyzer.latest()
     technologies = []
-    for tech in wappalyzer.analyze(webpage):
-        technologies.append(tech)
-    return technologies
+    
+    max_retries = 3
+    retry_count = 0
+    while retry_count < max_retries:
+        try:
+            for tech in wappalyzer.analyze(webpage):
+                technologies.append(tech)
+            return technologies
+        except Exception as e:
+            retry_count += 1
+            print(f"Error fetching technologies for {url}: {e}")
+            time.sleep(5)
+    print(f"Max retries reached for {url}")
+    return None
 
 
 @click.command()
@@ -122,29 +151,13 @@ def enumerator(domain, request, technology):
     # Get subdomains using Subfinder
     subdomains = passive_enumerator(domain)
 
-    # Perform active enumeration and add to subdomains
-#    active_subdomains = active_enumerator(domain)
-#    subdomains.update(active_subdomains)
-
     if request:
         # Test subdomains and print http response for active ones
-        response_table = []
-        for subdomain in tqdm(subdomains, desc='Testing subdomains', unit='subdomain', leave=False):
-            try:
-                response = requests.get(f'http://{subdomain}')
-                response_table.append([subdomain, response.status_code, response.reason])
-            except requests.exceptions.RequestException:
-                pass
-
+        response_table = fetch_response(subdomains, technology)
         if technology:
-            # Analyze technology used by subdomains
-            tech_table = []
-            for subdomain, status, reason in tqdm(response_table, desc='Analyzing technology', unit='subdomain', leave=False):
-                tech = fetch_tech(subdomain)
-                tech_table.append([subdomain, status, reason, tech])
-            # sort tech_table by status in ascending order
-            tech_table = sorted(tech_table, key=lambda x: -x[1])
-            click.echo(tabulate(tech_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+            # sort response_table by status in ascending order
+            response_table = sorted(response_table, key=lambda x: -x[1])
+            click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
         else:
             # sort response_table by status in ascending order
             response_table = sorted(response_table, key=lambda x: x[1])
