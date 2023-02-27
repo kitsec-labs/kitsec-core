@@ -19,10 +19,11 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 🛣️ Roadmap
 
+- **AMASS**: Add amass to the passive enumeration function.
+- **VPS**: A tool to help you log into any VPS.
 - **UI**: A UI to help you run the functions in a GUI instead of the terminal.
 - **Scanner**: A tool to help you scan for vulnerabilities.
 - **Fuzzer**: A tool to help you fuzz for vulnerabilities.
-- **VPS**: A tool to help you log into any VPS.
 
 ### 🚀 Installation 
 
