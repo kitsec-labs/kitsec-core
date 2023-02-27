@@ -47,6 +47,12 @@ kitsec linode
 
 # Usage
 
+### 📡 Port Scanner 
+
+Scan ports for example.com:
+
+`kitsec portscanner example.com`
+
 ### 🧮 Enumerator 
 
 Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
@@ -63,23 +69,6 @@ Test subdomains for example.com and print http response and technology
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
-### 📡 Port Scanner 
-
-Scan ports for example.com:
-
-`kitsec portscanner example.com`
-
-
-### 🥷 Raider 
-
-Tests a base url against a bruteforce threat:
-
-`kitsec raider example.com`
-
-Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
-
-`kitsec raider example.com -t 10 -r 100 -n 8 -p 5000`
-
 ### 💉 Injector 
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
@@ -91,6 +80,16 @@ To test a base URL with a list of paths in a file:
 `kitsec injector https://example.com /path/to/lists`
 
 You can update the list you want to inject in the directory lists/injector/.
+
+### 🥷 Raider 
+
+Tests a base url against a bruteforce threat:
+
+`kitsec raider example.com`
+
+Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
+
+`kitsec raider example.com -t 10 -r 100 -n 8 -p 5000`
 
 # 🚨 Guidelines
 
