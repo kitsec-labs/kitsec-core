@@ -117,7 +117,7 @@ def fetch_tech(url):
     wappalyzer = Wappalyzer.latest()
     technologies = []
     
-    max_retries = 3
+    max_retries = 5
     retry_count = 0
     while retry_count < max_retries:
         try:

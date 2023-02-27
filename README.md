@@ -24,6 +24,7 @@ To install the dependencies, run the following commands:
 brew install python3
 brew install go
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+brew install amass
 ```
 
 To install Kitsec, simply clone the repository and run the following command to install the required dependencies:
@@ -81,6 +82,11 @@ You can update the list you want to inject in the directory `lists/injector/`
 ## Reporting Bugs and Contributing
 
 If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Seckit, please create a pull request on the GitHub repository.
+
+## Guidelines
+
+Keep it ethical and legal. Do not use this tool for illegal purposes.
+This tool was created for educational purposes only. The author is not responsible for any misuse of this tool.
 
 ## Acknowledgements
 
