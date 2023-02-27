@@ -11,7 +11,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **Linode**: Login to your linode VPS with a single command.
 - **Notebook**: A Jupyter Notebook to help you run the function in a jupyter notebook instead of the terminal.
-- **Enumerator**: A powerful subdomain enumeration that scrapes the technology used. [Includes subfinder].
+- **Enumerator**: A powerful subdomain enumeration that scrapes the technology used [Includes subfinder].
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
