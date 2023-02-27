@@ -12,7 +12,7 @@ Disclaimer: Use this tool ethically and legally as part of Bug Bounties or Secur
 
 - **Linode**: Login to your linode VPS with a single command.
 - **Enumerator**: A powerful subdomain enumeration tool to help you identify potential targets [Includes subfinder, soon AMASS].
-- **Intruder**: A modular tool to help you test your web applications against intruding.
+- **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks
 
@@ -70,15 +70,15 @@ Scan ports for example.com:
 `kitsec portscanner example.com`
 
 
-### Intruder 🥷
+### Raider 🥷
 
 Tests a base url against a bruteforce threat:
 
-`kitsec intruder example.com`
+`kitsec raider example.com`
 
 Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
 
-`kitsec intruder example.com -t 10 -r 100 -n 8 -p 5000`
+`kitsec raider example.com -t 10 -r 100 -n 8 -p 5000`
 
 ### Injector 💉
 
