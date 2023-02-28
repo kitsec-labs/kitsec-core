@@ -20,9 +20,17 @@ warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
 warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
+#add user agent rotation
+#add proxy rotation
+
+
 @click.group()
 def cli():
+    """
+    KitSec - A CLI tool for security testing and reconnaissance.
+    """
     pass
+
 
 @click.command()
 def linode():
@@ -37,6 +45,27 @@ def linode():
     stdin, stdout, stderr = client.exec_command(command)
     print(stdout.read().decode())
     client.close()
+
+#@click.command()
+#def flush_dns():
+#    """
+#    Flushes the DNS resolver cache.
+#    """
+#    system = platform.system()
+#    if system == 'Windows':
+#        command = ['ipconfig', '/flushdns']
+#    elif system == 'Darwin':
+#        command = ['sudo', 'killall', '-HUP', 'mDNSResponder']
+#    elif system == 'Linux':
+#        command = ['sudo', 'systemd-resolve', '--flush-caches']
+#    else:
+#        click.echo(f"Unsupported operating system: {system}")
+#        return
+#
+#    if subprocess.call(command) == 0:
+#        click.echo("DNS resolver cache flushed successfully.")
+#    else:
+#        click.echo("Failed to flush DNS resolver cache.")
 
 def passive_enumerator(domain):
     """
@@ -88,21 +117,26 @@ def active_enumerator(domain):
 
 def fetch_response(subdomains, technology):
     response_table = []
-    for subdomain in tqdm(subdomains, desc='Testing subdomains', unit='subdomain', leave=False):
+    session = requests.Session()  # create a session object to reuse the TCP connection
+    for subdomain in tqdm(subdomains, desc='Fetching reponse', unit='subdomain', leave=False):
         try:
-            response = requests.get(f'http://{subdomain}')
+            response = session.get(f'http://{subdomain}', timeout=5)  # set a timeout for the request
             response_table.append([subdomain, response.status_code, response.reason, ''])
             if technology:
                 tech = fetch_tech(subdomain)
                 response_table[-1][-1] = tech
             time.sleep(0.5)  # Add a delay to avoid overloading the target website
-        except requests.exceptions.RequestException as e:
-            print(f"An error occurred while trying to connect to '{subdomain}': {str(e)}")
+        except requests.exceptions.Timeout:
+            print(f"Skipped '{subdomain}'")
             continue
-        except (socket.gaierror, socket.error) as e:
-            print(f"An error occurred while trying to connect to '{subdomain}': {str(e)}")
+        except requests.exceptions.ConnectionError:
+            print(f"Skipped '{subdomain}'")
+            continue
+        except Exception as e:
+            print(f"Skipped '{subdomain}': {str(e)}")
             continue
     return response_table
+
 
 def fetch_tech(url):
     if not url.startswith('http'):
