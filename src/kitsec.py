@@ -46,27 +46,6 @@ def linode():
     print(stdout.read().decode())
     client.close()
 
-#@click.command()
-#def flush_dns():
-#    """
-#    Flushes the DNS resolver cache.
-#    """
-#    system = platform.system()
-#    if system == 'Windows':
-#        command = ['ipconfig', '/flushdns']
-#    elif system == 'Darwin':
-#        command = ['sudo', 'killall', '-HUP', 'mDNSResponder']
-#    elif system == 'Linux':
-#        command = ['sudo', 'systemd-resolve', '--flush-caches']
-#    else:
-#        click.echo(f"Unsupported operating system: {system}")
-#        return
-#
-#    if subprocess.call(command) == 0:
-#        click.echo("DNS resolver cache flushed successfully.")
-#    else:
-#        click.echo("Failed to flush DNS resolver cache.")
-
 def passive_enumerator(domain):
     """
     Uses Subfinder to enumerate subdomains for a given domain.
