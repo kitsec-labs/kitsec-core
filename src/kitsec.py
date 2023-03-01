@@ -26,7 +26,6 @@ warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at p
 #add user agent rotation
 #add proxy rotation
 
-
 @click.group()
 def cli():
     """
