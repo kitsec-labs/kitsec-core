@@ -56,13 +56,58 @@ Enumerate subdomains for example.com using [subfinder](https://github.com/projec
 
 `kitsec enumerator example.com`
 
+```
+Output:
+
+Subdomain                    
+----------------------------   
+tracking.webapp.domain1.com 
+legal.domain1.com            
+help.domain1.com             
+staging-api.domain1.com       
+api.domain1.com                
+staging-app.domain1.com        
+staging-website.domain1.com        
+sales.domain1.com   
+```            
+
 Test subdomains for example.com and print http response:
 
 `kitsec enumerator -r example.com`
 
+Output:
+
+```
+Subdomain                       Status  
+----------------------------  --------  
+tracking.webapp.domain1.com        503 
+legal.domain1.com                  404 
+help.domain1.com                   403  
+staging-api.domain1.com            401  
+api.domain1.com                    401 
+staging-app.domain1.com            200  
+staging-website.domain1.com        200  
+sales.domain1.com                  200  
+```
+
 Test subdomains for example.com and print http response and technology
 
 `kitsec enumerator -t -r example.com`
+
+Output:
+
+```
+Subdomain                       Status  Reason               Technology
+----------------------------  --------  -------------------  ----------------------------------------------------------------
+tracking.webapp.domain1.com        503  Service Unavailable  []
+legal.domain1.com                  404  Not Found            ['Strikingly', 'Lua', 'jQuery', 'Nginx', 'OpenResty']
+help.domain1.com                   403  Forbidden            ['Cloudflare']
+staging-api.domain1.com            401  Unauthorized         []
+api.domain1.com                    401  Unauthorized         []
+staging-app.domain1.com            200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+```
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
