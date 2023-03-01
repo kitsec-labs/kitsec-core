@@ -15,6 +15,9 @@ from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
+
+#shuffle proxy / port > user agent / headers 
+
 #ignore JAVA warnings on wappalyzer
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
