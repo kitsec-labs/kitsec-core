@@ -25,7 +25,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Scanner**: A tool to help you scan for vulnerabilities.
 - **Fuzzer**: A tool to help you fuzz for vulnerabilities.
 
-### 🚀 Installation 
+### 📦 Installation 
 
 To install the dependencies, run the following commands:
 
