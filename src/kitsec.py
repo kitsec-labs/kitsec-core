@@ -33,8 +33,19 @@ def cli():
     """
     pass
 
+@click.command()
+def linode():
+    host = click.prompt("Enter the IP address of the Linode server to connect to")
+    username = click.prompt("Enter the limited user account to use for connecting to the Linode server")
+    password = click.prompt("Enter the password for the user account", hide_input=True)
+    command = "df"
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(host, username=username, password=password)
+    stdin, stdout, stderr = client.exec_command(command)
+    print(stdout.read().decode())
+    client.close()
 
-q
 def passive_enumerator(domain):
     """
     Uses Subfinder to enumerate subdomains for a given domain.
