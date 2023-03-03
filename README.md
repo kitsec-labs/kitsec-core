@@ -110,8 +110,6 @@ Test subdomains for example.com and print http response and technology with acti
 
 `kitsec enumerator -t -r -a example.com`
 
-This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
-
 ### 🥷 Raider 
 
 Tests a base url against a bruteforce threat:
