@@ -10,7 +10,6 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Notebook**: A Jupyter Notebook to help you run the function in a jupyter notebook instead of the terminal.
 - **Enumerator**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Raider**: A modular tool to help you test your web applications against intruding.
