@@ -108,7 +108,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Test subdomains for example.com and print http response and technology with active enumeration:
 
-`kitsec enumerator -t -r -a  example.com`
+`kitsec enumerator -t -r -a example.com`
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
