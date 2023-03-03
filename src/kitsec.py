@@ -17,6 +17,7 @@ from Wappalyzer import Wappalyzer, WebPage
 
 
 #shuffle proxy / port > user agent / headers 
+#add top 10 ports
 
 #ignore JAVA warnings on wappalyzer
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
@@ -231,12 +232,15 @@ def raider(url, num_threats, num_requests, num_retries, pause_before_retry):
 
 @click.command()
 @click.argument('url')
-def portscanner(url):
+@click.option('-l', '--common-ports', is_flag=True, default=False,
+              help='Scan only the most common HTTP ports (80, 8080, and 443)')
+def portscanner(url, common_ports):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
 
     Args:
     - url (str): the hostname or URL of the target host
+    - common_ports (bool): whether to scan only the most common HTTP ports (80, 8080, and 443)
     """
 
     # Add a scheme to the URL if it is not present
@@ -263,9 +267,15 @@ def portscanner(url):
         finally:
             sock.close()
 
+    # Scan only the most common HTTP ports if the --common-ports flag is set
+    if common_ports:
+        ports = [80, 8080, 443]
+    else:
+        ports = range(1, 65536)
+
     # Use multi-threading to scan ports in parallel
     with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-        futures = [executor.submit(scan_port, port) for port in range(1, 65536)]
+        futures = [executor.submit(scan_port, port) for port in ports]
         with tqdm(total=len(futures), desc="Scanning Ports", unit="ports") as progress:
             for future in concurrent.futures.as_completed(futures):
                 progress.update(1)
