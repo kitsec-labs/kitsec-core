@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
-#shuffle proxy / port > user agent / headers 
+#Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #ignore JAVA warnings on wappalyzer
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
