@@ -19,8 +19,8 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### 🛣️ Roadmap
 
 - **XSS Scanner**: Add XSS scanner.
-- **UI**: A UI to help you run the functions in a GUI instead of the terminal.
 - **Fuzzer**: A tool to help you fuzz for vulnerabilities.
+- **UI**: A UI to help you run the functions in a GUI instead of the terminal.
 
 ### 📦 Installation 
 
