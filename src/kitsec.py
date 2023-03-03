@@ -34,17 +34,21 @@ def cli():
     pass
 
 @click.command()
-def linode():
-    host = click.prompt("Enter the IP address of the Linode server to connect to")
-    username = click.prompt("Enter the limited user account to use for connecting to the Linode server")
-    password = click.prompt("Enter the password for the user account", hide_input=True)
-    command = "df"
-    client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(host, username=username, password=password)
-    stdin, stdout, stderr = client.exec_command(command)
-    print(stdout.read().decode())
-    client.close()
+@click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
+@click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
+@click.option('--password', prompt='Enter the password for the user account', hide_input=True)
+def ssh_logger(host, username, password):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, username=username, password=password)
+    
+    channel = ssh.invoke_shell()
+    channel.send('sudo tail -f /var/log/auth.log\n')
+    
+    while True:
+        if channel.recv_ready():
+            output = channel.recv(1024).decode('utf-8')
+            click.echo(output, nl=False)
 
 def passive_enumerator(domain):
     """
@@ -316,7 +320,7 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
-cli.add_command(linode)
+cli.add_command(ssh_logger)
 cli.add_command(injector)
 cli.add_command(raider)
 cli.add_command(enumerator)
