@@ -262,7 +262,7 @@ def raider(url, num_threats, num_requests, num_retries, pause_before_retry):
 
 @click.command()
 @click.argument('url')
-@click.option('-l', '--common-ports', is_flag=True, default=False,
+@click.option('-c', '--common-ports', is_flag=True, default=False,
               help='Scan only the most common HTTP ports (80, 8080, and 443)')
 def portscanner(url, common_ports):
     """

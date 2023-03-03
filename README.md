@@ -137,6 +137,10 @@ Scan ports for example.com:
 
 `kitsec portscanner example.com`
 
+Scan top 3 ports for example.com:
+
+`kitsec portscanner -c example.com`
+
 # 🚨 Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
