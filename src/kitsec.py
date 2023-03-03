@@ -19,6 +19,7 @@ from Wappalyzer import Wappalyzer, WebPage
 #shuffle proxy / port > user agent / headers 
 
 #ignore JAVA warnings on wappalyzer
+
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
 warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
@@ -49,6 +50,33 @@ def ssh_logger(host, username, password):
         if channel.recv_ready():
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
+
+def shuffle_params(url):
+    proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
+    ports = ['80', '8080', '3128']
+    user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+                   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0']
+    headers = {'Accept-Language': 'en-US,en;q=0.5', 'Connection': 'keep-alive'}
+
+    random.shuffle(proxies)
+    random.shuffle(ports)
+    random.shuffle(user_agents)
+    random.shuffle(headers)
+    
+    proxy = proxies[0]
+    port = ports[0]
+    user_agent = user_agents[0]
+    header = headers[0]
+    
+    proxies_dict = {'http': f'http://{proxy}:{port}', 'https': f'https://{proxy}:{port}'}
+    headers_dict = {'User-Agent': user_agent, **header}
+    
+    try:
+        response = requests.get(url, proxies=proxies_dict, headers=headers_dict)
+        response.raise_for_status()
+        return response.text
+    except (requests.exceptions.RequestException, ValueError):
+        return None
 
 def passive_enumerator(domain):
     """
