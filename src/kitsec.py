@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
+#add UI using streamlit
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #ignore JAVA warnings on wappalyzer
