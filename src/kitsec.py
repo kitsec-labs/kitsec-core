@@ -37,7 +37,7 @@ def cli():
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
-def ssh_logger(host, username, password):
+def vps_logger(host, username, password):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(host, username=username, password=password)
@@ -347,7 +347,7 @@ def injector(base_url, path):
     else:
         click.echo(f"{path} does not exist")
 
-cli.add_command(ssh_logger)
+cli.add_command(vps_logger)
 cli.add_command(injector)
 cli.add_command(raider)
 cli.add_command(enumerator)
