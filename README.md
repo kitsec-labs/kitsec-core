@@ -89,7 +89,7 @@ sales.domain1.com                  200
 
 Test subdomains for example.com and print http response and technology
 
-`kitsec enumerator -t -r example.com`
+`kitsec enumerator -t -r  example.com`
 
 Output:
 
@@ -105,6 +105,10 @@ staging-app.domain1.com            200  OK                   ['Nginx', 'Google F
 staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 ```
+
+Test subdomains for example.com and print http response and technology with active enumeration:
+
+`kitsec enumerator -t -r -a  example.com`
 
 This function tests against [leaky paths](https://github.com/ayoubfathi/leaky-paths) that are located in  lists/active_enumerator/.
 
@@ -124,10 +128,6 @@ Tests a base url against a DDOS threat with 10 parallel threats, 100 requests pe
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
 `kitsec injector example.com`
-
-To test a base URL with a list of paths in a file:
-
-`kitsec injector https://example.com /path/to/lists`
 
 You can update the list you want to inject in the directory lists/injector/.
 
