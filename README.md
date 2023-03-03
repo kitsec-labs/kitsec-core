@@ -89,7 +89,7 @@ sales.domain1.com                  200
 
 Test subdomains for example.com and print http response and technology
 
-`kitsec enumerator -t -r  example.com`
+`kitsec enumerator -t -r example.com`
 
 Output:
 
