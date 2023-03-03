@@ -17,7 +17,6 @@ from Wappalyzer import Wappalyzer, WebPage
 
 
 #shuffle proxy / port > user agent / headers 
-#add top 10 ports
 
 #ignore JAVA warnings on wappalyzer
 warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
@@ -144,7 +143,8 @@ def fetch_tech(url):
 @click.argument('domain')
 @click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
 @click.option('-t', '--technology', is_flag=True, help='Analyze technology used by subdomains')
-def enumerator(domain, request, technology):
+@click.option('-a', '--active', is_flag=True, help='Use active subdomain enumeration')
+def enumerator(domain, request, technology, active):
     """
     Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -152,6 +152,7 @@ def enumerator(domain, request, technology):
         domain (str): The domain to enumerate subdomains for.
         request (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
         technology (bool): Flag to indicate if technology used by subdomains should be analyzed.
+        active (bool): Flag to indicate if active subdomain enumeration should be used.
 
     Returns:
         pandas.DataFrame: A DataFrame containing the enumerated subdomains.
@@ -159,8 +160,14 @@ def enumerator(domain, request, technology):
     # Get subdomains using Subfinder
     subdomains = passive_enumerator(domain)
 
-    if request:
-        # Test subdomains and print http response for active ones
+    if active:
+        # Enumerate subdomains using active enumeration
+        active_subdomains = active_enumerator(domain)
+        # Add the active subdomains to the set of subdomains
+        subdomains.update(active_subdomains)
+
+    if request or technology:
+        # Test subdomains and/or analyze technology used by subdomains
         response_table = fetch_response(subdomains, technology)
         if technology:
             # sort response_table by status in ascending order
@@ -171,22 +178,14 @@ def enumerator(domain, request, technology):
             response_table = sorted(response_table, key=lambda x: x[1])
             click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
 
-    elif technology:
-        # Analyze technology used by subdomains
-        technologies = []
-        for subdomain in tqdm(subdomains, desc='Analyzing technology', unit='subdomain', leave=False):
-            tech = fetch_tech(subdomain)
-            technologies.append([subdomain, tech])
-        click.echo(tabulate(technologies, headers=['Subdomain', 'Technology']))
-        click.echo('Analyzing technology Done!')
-
     else:
         # Just print the subdomains
-        subdomains_list = df['Subdomain'].tolist()
+        subdomains_list = list(subdomains)
         with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
 
 
 @click.command()
