@@ -1,7 +1,9 @@
 import os
 import time
+import black
 import click
 import socket
+import urllib.parse
 import platform
 import requests
 import paramiko
@@ -50,6 +52,26 @@ def vps_logger(host, username, password):
         if channel.recv_ready():
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
+
+@click.command()
+@click.argument('url')
+def interceptor(url):
+    # Make a request to the given URL and capture the request headers
+    response = requests.get(url)
+    headers = response.request.headers
+
+    # Parse the URL to get the hostname and path
+    parsed_url = urllib.parse.urlparse(url)
+    hostname = parsed_url.hostname
+    path = parsed_url.path
+
+    # Construct the request info string
+    request_info = f"{response.request.method} {path} HTTP/1.1\n"
+    request_info += f"Host: {hostname}\n"
+    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent"]])
+    request_info += "\n"
+    
+    print(request_info)
 
 def shuffle_params(url):
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
@@ -349,6 +371,7 @@ def injector(base_url, path):
         click.echo(f"{path} does not exist")
 
 cli.add_command(vps_logger)
+cli.add_command(interceptor)
 cli.add_command(injector)
 cli.add_command(raider)
 cli.add_command(enumerator)
