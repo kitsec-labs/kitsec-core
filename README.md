@@ -140,6 +140,26 @@ Scan top 3 ports for example.com:
 
 `kitsec portscanner -c example.com`
 
+### 🧢 Interceptor
+
+Intercept requests to example.com and modify the response:
+
+`kitsec interceptor example.com`
+
+```
+GET /mynetwork/ HTTP/1.1
+Host: www.website.com
+Accept-Encoding: gzip, deflate, br
+Accept: */*
+Connection: keep-alive
+Cookie: bcookie="v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; 
+lang=v=2&lang=en-us; 
+li_gc=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx; 
+lidc="b=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; 
+JSESSIONID=ajax:xxxxxxxxxxxxxxxxxx; 
+bscookie="v=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
 # 🚨 Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
