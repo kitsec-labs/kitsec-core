@@ -68,10 +68,17 @@ def interceptor(url):
     # Construct the request info string
     request_info = f"{response.request.method} {path} HTTP/1.1\n"
     request_info += f"Host: {hostname}\n"
-    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent"]])
-    request_info += "\n"
+    
+    cookie_lines = headers.get("Cookie", "").split("; ")
+    cookies = "\n".join(cookie_lines)
+    request_info += f"Cookie: {cookies}\n"
+    
+    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent", "Cookie"]])
+    request_info += "\n\n"
     
     print(request_info)
+
+
 
 def shuffle_params(url):
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
