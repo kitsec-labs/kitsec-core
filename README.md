@@ -11,7 +11,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Enumerator**: A powerful subdomain active and passive enumeration tool that scrapes.
-- **Interceptor**: A tool to help you intercept to modify HTTP requests.
+- **Interceptor**: A tool to help you intercept HTTP requests.
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Raider**: A modular tool to help you test your web applications against intruding.
 - **Port Scanner**: A tool to help you scan ports.
