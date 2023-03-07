@@ -115,20 +115,16 @@ def capture(url):
     
     print(request_info)
 
-def ship(url, method='GET', payload=None, headers=None, cookies=None, count=1):
+@click.command()
+@click.option('--url', required=True, help='The URL to send the request to.')
+@click.option('--method', default='GET', help='The HTTP method to use.')
+@click.option('--payload', help='The payload to include in the request body.')
+@click.option('--headers', help='The headers to include in the request.')
+@click.option('--cookies', help='The cookies to include in the request.')
+@click.option('--count', default=1, help='The number of times to repeat the request.')
+def send(url, method, payload, headers, cookies, count):
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
-
-    Args:
-        url (str): The URL to send the request to.
-        method (str): The HTTP method to use (default is 'GET').
-        payload (dict): The payload to include in the request body (default is None).
-        headers (dict): The headers to include in the request (default is None).
-        cookies (dict): The cookies to include in the request (default is None).
-        count (int): The number of times to repeat the request (default is 1).
-
-    Returns:
-        A list of responses (requests.Response objects).
     """
     responses = []
     for i in range(count):
