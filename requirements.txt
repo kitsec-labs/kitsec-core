@@ -1,6 +1,7 @@
 #python packages
 python_wappalyzer==0.3.1
 beautifulsoup4==4.11.2
+python-magic==0.4.27
 requests==2.28.1
 paramiko==3.0.0
 tabulate==0.9.0
@@ -10,3 +11,6 @@ pandas==1.2.5
 click==8.0.0
 tqdm==4.64.1
 os==0.1.1
+
+#brew
+#brew install libmagic
