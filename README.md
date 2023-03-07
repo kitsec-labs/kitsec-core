@@ -31,6 +31,7 @@ To install the dependencies, run the following commands:
 ```
 brew install python3
 brew install go
+brew install tmux
 brew install amass
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 ```
