@@ -96,7 +96,7 @@ Response headers:
 
 ### 🪄 convert:
 
-Transforms your data from one format to another:
+Convert your data from one format to another:
 
 `kitsec convert  S2l0c2VjIFJvY2tzIQ== --type Base64`
 
