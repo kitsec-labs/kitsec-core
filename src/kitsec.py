@@ -51,13 +51,18 @@ def cli():
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
 def vps_logger(host, username, password):
+    # Create an SSH client object and set the missing host key policy to auto add
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    
+    # Connect to the VPS server using the provided host, username, and password
     ssh.connect(host, username=username, password=password)
     
+    # Invoke a shell and send the command to tail the auth.log file using sudo
     channel = ssh.invoke_shell()
     channel.send('sudo tail -f /var/log/auth.log\n')
     
+    # Continuously check for new output from the auth.log file and print it to the console
     while True:
         if channel.recv_ready():
             output = channel.recv(1024).decode('utf-8')
@@ -92,8 +97,6 @@ def interceptor(url):
     request_info += "\n"
     
     print(request_info)
-
-
 
 
 @click.command()
@@ -152,28 +155,31 @@ def transformer(data, type):
 
     click.echo(result)
 
-
-
 def shuffle_params(url):
+    # Define proxies, ports, user agents, and headers to shuffle
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
     ports = ['80', '8080', '3128']
     user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0']
     headers = {'Accept-Language': 'en-US,en;q=0.5', 'Connection': 'keep-alive'}
 
+    # Shuffle the proxies, ports, user agents, and headers
     random.shuffle(proxies)
     random.shuffle(ports)
     random.shuffle(user_agents)
     random.shuffle(headers)
     
+    # Select the first shuffled item for each parameter
     proxy = proxies[0]
     port = ports[0]
     user_agent = user_agents[0]
     header = headers[0]
     
+    # Create dictionary of shuffled proxy and header parameters
     proxies_dict = {'http': f'http://{proxy}:{port}', 'https': f'https://{proxy}:{port}'}
     headers_dict = {'User-Agent': user_agent, **header}
     
+    # Send GET request with shuffled parameters and handle exceptions
     try:
         response = requests.get(url, proxies=proxies_dict, headers=headers_dict)
         response.raise_for_status()
@@ -191,12 +197,16 @@ def passive_enumerator(domain):
     Returns:
         set: A set of subdomains.
     """
+    # Run Subfinder and capture output
     with open(os.devnull, 'w') as nullfile:
         subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
 
+    # Convert output to set of subdomains
     subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
 
+    # Return set of subdomains
     return subdomains
+
 
 def active_enumerator(domain):
     """
@@ -207,11 +217,17 @@ def active_enumerator(domain):
         set or None: A set of subdomains, or None if no subdomains were found.
     """
     subdomains = set()
+    
+    # Check if subdomains directory exists
     dir_path = "../lists/active_enumerator"
     if not os.path.isdir(dir_path):
         raise FileNotFoundError(f"Subdomains directory '{dir_path}' not found")
+    
+    # Get list of subdomain files in directory
     file_names = [file_name for file_name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, file_name)) and file_name.endswith(".txt")]
     total_files = len(file_names)
+    
+    # Enumerate subdomains from each file and check if active
     for i, file_name in enumerate(file_names):
         file_path = os.path.join(dir_path, file_name)
         with open(file_path, "r") as subdomain_file:
@@ -219,46 +235,70 @@ def active_enumerator(domain):
                 subdomain = line.strip()
                 full_domain = subdomain + "." + domain
                 try:
+                    # Send a HEAD request to check if the subdomain is active
                     response = requests.head("https://" + full_domain, timeout=3)
                     if response.status_code < 400:
                         subdomains.add(subdomain)
+                
+                # Ignore exceptions and continue to the next subdomain
                 except:
                     pass
+    
+    # Return set of active subdomains or empty set if none were found
     if subdomains:
         return subdomains
     else:
         return set()
 
+
 def fetch_response(subdomains, technology):
+    # Initialize empty response table and create a session object for TCP connection reuse
     response_table = []
-    session = requests.Session()  # create a session object to reuse the TCP connection
-    for subdomain in tqdm(subdomains, desc='Fetching reponse', unit='subdomain', leave=False):
+    session = requests.Session()
+    
+    # Fetch response for each subdomain in the list
+    for subdomain in tqdm(subdomains, desc='Fetching response', unit='subdomain', leave=False):
         try:
-            response = session.get(f'http://{subdomain}', timeout=5)  # set a timeout for the request
+            # Make HTTP GET request with timeout of 5 seconds
+            response = session.get(f'http://{subdomain}', timeout=5)
             response_table.append([subdomain, response.status_code, response.reason, ''])
+            
+            # Fetch technology if specified
             if technology:
                 tech = fetch_tech(subdomain)
                 response_table[-1][-1] = tech
-            time.sleep(0.5)  # Add a delay to avoid overloading the target website
+            
+            # Add a delay of 0.5 seconds to avoid overloading the target website
+            time.sleep(0.5)
+        
+        # Handle timeout and connection errors
         except requests.exceptions.Timeout:
             print(f"Skipped '{subdomain}'")
             continue
         except requests.exceptions.ConnectionError:
             print(f"Skipped '{subdomain}'")
             continue
+        
+        # Handle other exceptions
         except Exception as e:
             print(f"Skipped '{subdomain}': {str(e)}")
             continue
+    
+    # Return response table
     return response_table
 
 
 def fetch_tech(url):
+    # Ensure URL starts with http(s)
     if not url.startswith('http'):
         url = 'https://' + url
+    
+    # Fetch web page and analyze with Wappalyzer
     webpage = WebPage.new_from_url(url)
     wappalyzer = Wappalyzer.latest()
     technologies = []
     
+    # Retry fetching up to 5 times in case of error
     max_retries = 5
     retry_count = 0
     while retry_count < max_retries:
@@ -267,9 +307,12 @@ def fetch_tech(url):
                 technologies.append(tech)
             return technologies
         except Exception as e:
+            # Print error message and wait 5 seconds before retrying
             retry_count += 1
             print(f"Error fetching technologies for {url}: {e}")
             time.sleep(5)
+    
+    # Max retries reached, return None
     print(f"Max retries reached for {url}")
     return None
 
@@ -427,28 +470,35 @@ def injector(base_url, path):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
+    # Check if the path is a directory or a file
     if os.path.isdir(path):
+        # If the path is a directory, iterate through each file in the directory
         for filename in os.listdir(path):
             filepath = os.path.join(path, filename)
             if os.path.isfile(filepath):
+                # If the file is a regular file, read each line in the file and send a request to the URL
                 with open(filepath) as f:
                     paths = f.read().splitlines()
                     progress_bar = tqdm(paths, desc=filename, position=0, leave=True)
                     for p in progress_bar:
                         url = f"{base_url}/{p}"
                         response = requests.get(url)
+                        # If the response code is 200, print the URL and response code to the console
                         if response.status_code == 200:
                             click.echo(f"{url} - {response.status_code}")
     elif os.path.isfile(path):
+        # If the path is a regular file, read each line in the file and send a request to the URL
         with open(path) as f:
             paths = f.read().splitlines()
             progress_bar = tqdm(paths, desc=os.path.basename(path), position=0, leave=True)
             for p in progress_bar:
                 url = f"{base_url}/{p}"
                 response = requests.get(url)
+                # If the response code is 200, print the URL and response code to the console
                 if response.status_code == 200:
                     click.echo(f"{url} - {response.status_code}")
     else:
+        # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
 cli.add_command(vps_logger)
