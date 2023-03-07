@@ -12,13 +12,14 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Collab**: A collaborative terminal that allows you to share your terminal with your team-mate using a VPS.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
-- **Compare**: A tool to compare two differents string inputs using colours to highlights addition, modification or deletion.
+- **Convert**: A tool that automatically detects various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Disturb**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
-- **Decode**: A tool that automatically detects various formats and transforms (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
-- **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
-- **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
+- **Enumerator**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Raid**: A modular tool to help you test your web applications.
 - **Portscan**: A tool to help you scan ports.
+- **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+
+
 
 ### 🛣️ Roadmap
 
@@ -93,74 +94,6 @@ Response headers:
     Date: Tue, 07 Mar 2023 10:04:11 GMT
 ```
 
-### 📡 Port Scan
-
-Scan ports for example.com:
-
-`kitsec portscan example.com`
-
-Scan top 3 ports for example.com:
-
-`kitsec portscan -c example.com`
-
-### 🥷 Raid 
-
-Tests a base url against a bruteforce threat:
-
-`kitsec raid example.com`
-
-Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
-
-`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
-
-### 💉 Inject
-
-Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
-
-`kitsec inject example.com`
-
-You can update the list you want to inject in the directory lists/injector/.
-
-### 🪞 Compare:
-
-Compare two different texts:
-
-```
-original = """
-GET /foo HTTP/1.1
-Host: example.com
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-US,en;q=0.5
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-"""
-
-modified = """
-GET /bar HTTP/1.1
-Host: example.com
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-US,en;q=0.5
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-"""
-```
-
-`kitsec compare original modified'
-
-output
-
-```
-  1 | GET /[34mfoo[0m HTTP/1.1                  | GET /[33mbar[0m HTTP/1.1                 |
-  2 | Host: example.com                            | Host: example.com                            |
-  3 | User-Agent: Mozilla/5.0 (Windows NT 10.0; W~ | User-Agent: Mozilla/5.0 (Windows NT 10.0; W~ |
-  4 | Accept: text/html,application/xhtml+xml,a~   | Accept: text/html,application/xhtml+xml,a~   |
-  5 | Accept-Language: en-US,en;q=0.5              | Accept-Language: en-US,en;q=0.5              |
-  6 | Connection: keep-alive                       | Connection: keep-alive                       |
-  7 | Upgrade-Insecure-Requests: 1                 | Upgrade-Insecure
-```
-
 ### 🪄 convert:
 
 Transforms your data from one format to another:
@@ -170,8 +103,8 @@ Transforms your data from one format to another:
 ```
 Kitsec Rocks!
  ```
- 
-### 🧮 Enumerate
+
+ ### 🧮 Enumerate
 
 Enumerate subdomains for example.com (requires [subfinder](https://github.com/projectdiscovery/subfinder)):
 
@@ -233,6 +166,36 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 Test subdomains for example.com and print http response and technology with active enumeration:
 
 `kitsec enumerate -t -r -a example.com`
+
+### 🥷 Raid 
+
+Tests a base url against a bruteforce threat:
+
+`kitsec raid example.com`
+
+Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
+
+`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
+
+### 📡 Port Scan
+
+Scan ports for example.com:
+
+`kitsec portscan example.com`
+
+Scan top 3 ports for example.com:
+
+`kitsec portscan -c example.com`
+
+
+### 💉 Inject
+
+Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
+
+`kitsec inject example.com`
+
+You can update the list you want to inject in the directory lists/injector/.
+
 
 # 🚨 Guidelines
 
