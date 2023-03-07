@@ -654,13 +654,13 @@ def inject(base_url, path):
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
-cli.add_command(disturb)
 cli.add_command(capture)
 cli.add_command(convert)
-cli.add_command(inject)
-cli.add_command(raid)
 cli.add_command(enumerator)
+cli.add_command(disturb)
+cli.add_command(raid)
 cli.add_command(portscan)
+cli.add_command(inject)
 
 if __name__ == '__main__':
     cli()
