@@ -132,7 +132,7 @@ Kitsec Rocks!
  
 ### 🧮 Enumerate
 
-Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
+Enumerate subdomains for example.com (requires [subfinder](https://github.com/projectdiscovery/subfinder)):
 
 `kitsec enumerate example.com`
 
