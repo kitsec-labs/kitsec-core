@@ -13,7 +13,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Collab**: A collaborative terminal that allows you to share your terminal with your team-mate using a VPS.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Compare**: A tool to compare two differents string inputs using colours to highlights addition, modification or deletion.
-- **Send**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
+- **Disturb**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
 - **Decode**: A tool that automatically detects various formats and transforms (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
