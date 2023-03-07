@@ -143,7 +143,7 @@ Scan top 3 ports for example.com:
 
 Intercept requests to example.com and modify the response by right clicking on the button, and saving link as. then pasting it in the CLI.:
 
-`kitsec interceptor example.com`
+`kitsec interceptor example.com/path`
 
 ```
 GET /mynetwork/ HTTP/1.1
