@@ -14,3 +14,4 @@ os==0.1.1
 
 #brew
 #brew install libmagic
+#brew install tmux
