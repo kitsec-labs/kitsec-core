@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
-#add UI using streamlit
+#add history
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #ignore JAVA warnings on wappalyzer
@@ -54,7 +54,6 @@ def vps_logger(host, username, password):
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
 
-
 @click.command()
 @click.argument('url')
 def interceptor(url):
@@ -84,7 +83,6 @@ def interceptor(url):
     request_info += "\n"
     
     print(request_info)
-
 
 
 def shuffle_params(url):
