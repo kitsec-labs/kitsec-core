@@ -10,7 +10,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Collab**: A collaborative terminal that allows you to share your terminal with your team-mate.
+- **Collab**: A collaborative terminal that allows you to share your terminal with your team-mate using a VPS.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Decode**: A tool that automatically detects various formats and transforms (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
