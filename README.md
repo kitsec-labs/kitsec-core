@@ -16,6 +16,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Raid**: A modular tool to help you test your web applications against intruding.
 - **Portscan**: A tool to help you scan ports.
+- **Snake**: A tool to inspire your while something compiles in parallel. As of now, we have Snake!
 
 ### 🛣️ Roadmap
 
