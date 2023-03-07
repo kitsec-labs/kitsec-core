@@ -146,7 +146,7 @@ sales.domain1.com                  200
 
 Test subdomains for example.com and print http response and technology
 
-`kitsec enumerate -t -r example.com`
+`kitsec enumerate -r -t example.com`
 
 Output:
 
@@ -162,10 +162,6 @@ staging-app.domain1.com            200  OK                   ['Nginx', 'Google F
 staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 ```
-
-Test subdomains for example.com and print http response and technology with active enumeration:
-
-`kitsec enumerate -t -r -a example.com`
 
 ### 🥷 Raid 
 
