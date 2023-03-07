@@ -85,6 +85,53 @@ def collab(host, port):
     except socket.error as e:
         click.echo(f'Error connecting to {host}:{port}: {e}')
 
+from typing import List, Tuple
+import difflib
+import termcolor
+
+@click.command()
+def compare():
+    """
+    Compares two texts and returns a side-by-side comparison with color highlighting.
+    """
+    # Get the input texts from the user
+    original = click.prompt('Enter the original text', type=str, default='')
+    modified = click.prompt('Enter the modified text', type=str, default='')
+
+    # Split the texts into lines
+    original_lines = original.splitlines()
+    modified_lines = modified.splitlines()
+
+    # Calculate the differences between the texts
+    diff = difflib.Differ().compare(original_lines, modified_lines)
+
+    # Create a list of colored lines
+    colored_lines = []
+    for line in diff:
+        if line.startswith('-'):
+            colored_lines.append(termcolor.colored(line[2:], 'blue'))
+        elif line.startswith('+'):
+            colored_lines.append(termcolor.colored(line[2:], 'yellow'))
+        elif line.startswith('^'):
+            colored_lines.append(termcolor.colored(line[2:], 'orange'))
+        else:
+            colored_lines.append(line[2:])
+
+    # Output the colored lines side by side
+    for i, (orig_line, mod_line) in enumerate(zip(original_lines, modified_lines)):
+        click.echo(f"{termcolor.colored(f'{i+1:>3}', 'grey')} | {orig_line:<40}  |  {colored_lines[i]:<40}  | {mod_line}")
+
+    # Format the colored lines as a side-by-side comparison
+    comparison = []
+    for i, (orig_line, mod_line) in enumerate(zip(original_lines, modified_lines)):
+        orig_line = colored_lines.pop(0)
+        mod_line = colored_lines.pop(0)
+        comparison.append(f"{i+1:>3} | {orig_line:<40} | {mod_line:<40}")
+
+    # Join the comparison lines and return the result
+    return '\n'.join(comparison)
+
+
 @click.command()
 @click.argument('url')
 def capture(url):
@@ -398,7 +445,6 @@ def enumerate(domain, request, technology, active):
             pbar.update(len(subdomains_list))
 
 
-
 @click.command()
 @click.argument('url')
 @click.option('--num-threats', '-t', default=6, help='Number of parallel threats to send requests from')
@@ -555,6 +601,7 @@ cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(send)
 cli.add_command(capture)
+cli.add_command(compare)
 cli.add_command(convert)
 cli.add_command(inject)
 cli.add_command(raid)

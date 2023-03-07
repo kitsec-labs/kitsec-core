@@ -1,5 +1,6 @@
 #python packages
 python_wappalyzer==0.3.1
+termcolor==2.2.0
 beautifulsoup4==4.11.2
 python-magic==0.4.27
 requests==2.28.1
