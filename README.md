@@ -50,35 +50,6 @@ kitsec vps_logger
 
 # Usage
 
-### 🥷 Raid 
-
-Tests a base url against a bruteforce threat:
-
-`kitsec raid example.com`
-
-Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
-
-`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
-
-
-### 💉 Inject
-
-Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
-
-`kitsec inject example.com`
-
-You can update the list you want to inject in the directory lists/injector/.
-
-### 📡 Port Scan
-
-Scan ports for example.com:
-
-`kitsec portscan example.com`
-
-Scan top 3 ports for example.com:
-
-`kitsec portscan -c example.com`
-
 ### 🧢 Capture
 
 Intercept requests to example.com and modify the response by right clicking on the button, and saving link as. then pasting it in the CLI.:
@@ -120,11 +91,40 @@ Response headers:
     Date: Tue, 07 Mar 2023 10:04:11 GMT
 ```
 
-### 🪄 Transformer:
+### 📡 Port Scan
+
+Scan ports for example.com:
+
+`kitsec portscan example.com`
+
+Scan top 3 ports for example.com:
+
+`kitsec portscan -c example.com`
+
+### 🥷 Raid 
+
+Tests a base url against a bruteforce threat:
+
+`kitsec raid example.com`
+
+Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
+
+`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
+
+### 💉 Inject
+
+Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
+
+`kitsec inject example.com`
+
+You can update the list you want to inject in the directory lists/injector/.
+
+
+### 🪄 convert:
 
 Transforms your data from one format to another:
 
-`kitsec decode  S2l0c2VjIFJvY2tzIQ== --type Base64`
+`kitsec convert  S2l0c2VjIFJvY2tzIQ== --type Base64`
 
 ```
 Kitsec Rocks!
