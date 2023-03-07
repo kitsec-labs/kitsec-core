@@ -51,6 +51,22 @@ def cli():
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
 def vps_logger(host, username, password):
+    """
+    Connects to a remote VPS server and tails the auth.log file.
+
+    Args:
+    - host (str): The IP address of the remote VPS server to connect to.
+    - username (str): The limited user account to use for connecting to the VPS server.
+    - password (str): The password for the user account.
+
+    Returns:
+    - Prints a continuous stream of output from the auth.log file to the console.
+
+    The program attempts to connect to the specified VPS server using SSH, with the provided
+    username and password. Once connected, it invokes a shell and sends the command to tail
+    the auth.log file using sudo. It then continuously checks for new output from the file and
+    prints it to the console as it is received.
+    """
     # Create an SSH client object and set the missing host key policy to auto add
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -68,11 +84,25 @@ def vps_logger(host, username, password):
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
 
+
 @click.command()
 @click.argument('host')
 @click.argument('port')
 def collab(host, port):
-    """Connect to a remote machine and start a collaborative terminal."""
+    """
+    Connects to a remote machine and starts a collaborative terminal.
+
+    Args:
+    - host (str): The IP address or hostname of the remote machine.
+    - port (int): The port to connect to on the remote machine.
+
+    Returns:
+    - None. Starts a collaborative terminal session with the remote machine.
+
+    The program attempts to connect to the specified remote machine on the specified port.
+    If the connection is successful, it starts a new terminal session that is shared between
+    the local machine and the remote machine. All input and output is echoed to both machines.
+    """
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, int(port)))
@@ -84,9 +114,19 @@ def collab(host, port):
     except socket.error as e:
         click.echo(f'Error connecting to {host}:{port}: {e}')
 
+
 @click.command()
 @click.argument('url')
 def capture(url):
+    """
+    Captures the request headers for a given URL.
+
+    Args:
+    - url (str): The URL to capture request headers for.
+
+    Returns:
+    - Prints a string containing the captured request headers, including method, hostname, path, cookies, and all other headers sent with the request.
+    """
     # Make a request to the given URL and capture the request headers
     response = requests.get(url)
     headers = response.request.headers
@@ -115,27 +155,23 @@ def capture(url):
     print(request_info)
 
 @click.command()
-@click.option('--url', required=True, help='The URL to send the request to.')
-@click.option('--method', default='GET', help='The HTTP method to use.')
-@click.option('--payload', help='The payload to include in the request body.')
-@click.option('--headers', help='The headers to include in the request.')
-@click.option('--cookies', help='The cookies to include in the request.')
-@click.option('--count', default=1, help='The number of times to repeat the request.')
-def disturb(url, method, payload, headers, cookies, count):
-    """
-    Sends multiple HTTP requests to the specified URL with the same payload.
-    """
-    responses = []
-    for i in range(count):
-        response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
-        responses.append(response)
-    return responses
-
-@click.command()
 @click.argument('data')
 @click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
 def convert(data, type):
-    """Transform data using common encoding, decoding, and hashing functions."""
+    """
+    Applies a specified decoding or hashing function to input data.
+
+    Args:
+    - data (str): The data to transform.
+    - type (str): The type of transformation to apply. Options include: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Defaults to Base64 if not specified.
+
+    Returns:
+    - The transformed input data as a string.
+
+    If the input data is text, the program will apply the specified transformation type and return the result.
+    If the input data is binary, the program will apply the specified hashing function and return the resulting hash.
+    If an invalid transformation type is specified, the program will return an error message.
+    """
     detected_type = magic.from_buffer(data, mime=True)
     if detected_type.startswith('text'):
         if type == "URL":
@@ -188,6 +224,22 @@ def convert(data, type):
     click.echo(result)
 
 def shuffle(url):
+    """
+    Sends a GET request to the provided URL with shuffled proxies, ports, user agents,
+    and headers.
+
+    Args:
+    - url (str): The URL to send the GET request to.
+
+    Returns:
+    - If the GET request is successful, returns the response text. Otherwise, returns None.
+
+    The function shuffles a list of proxies, ports, user agents, and headers, and selects
+    the first shuffled item for each parameter. It then creates a dictionary of shuffled proxy
+    and header parameters and sends a GET request to the provided URL with these parameters.
+    If the GET request is successful, the function returns the response text. Otherwise,
+    it returns None.
+    """
     # Define proxies, ports, user agents, and headers to shuffle
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
     ports = ['80', '8080', '3128']
@@ -218,6 +270,7 @@ def shuffle(url):
         return response.text
     except (requests.exceptions.RequestException, ValueError):
         return None
+
 
 def passive_enumerator(domain):
     """
@@ -283,7 +336,21 @@ def active_enumerator(domain):
         return set()
 
 
-def fetch_response(subdomains, technology):
+def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
+    """
+    Fetches the HTTP response codes and reasons for a list of subdomains.
+
+    Args:
+    - subdomains (List[str]): A list of subdomains to fetch responses for.
+    - technology (bool): Whether to also fetch the technologies used by each subdomain.
+
+    Returns:
+    - A list of lists, where each sub-list contains the following fields for a subdomain:
+      - Subdomain name (str)
+      - HTTP status code (int)
+      - HTTP status reason (str)
+      - List of technologies used by the subdomain (if technology is True), or an empty string (if technology is False).
+    """
     # Initialize empty response table and create a session object for TCP connection reuse
     response_table = []
     session = requests.Session()
@@ -321,6 +388,16 @@ def fetch_response(subdomains, technology):
 
 
 def fetch_tech(url):
+    """
+    Fetches the technologies used by a website using Wappalyzer.
+
+    Args:
+    - url (str): The URL of the website to analyze.
+
+    Returns:
+    - A list of strings representing the technologies used by the website.
+    - If an error occurs while fetching the technologies, returns None.
+    """
     # Ensure URL starts with http(s)
     if not url.startswith('http'):
         url = 'https://' + url
@@ -347,7 +424,6 @@ def fetch_tech(url):
     # Max retries reached, return None
     print(f"Max retries reached for {url}")
     return None
-
 
 @click.command()
 @click.argument('domain')
@@ -395,6 +471,31 @@ def enumerator(domain, request, technology, active):
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
+@click.command()
+@click.option('--url', required=True, help='The URL to send the request to.')
+@click.option('--method', default='GET', help='The HTTP method to use.')
+@click.option('--payload', help='The payload to include in the request body.')
+@click.option('--headers', help='The headers to include in the request.')
+@click.option('--cookies', help='The cookies to include in the request.')
+@click.option('--count', default=1, help='The number of times to repeat the request.')
+def disturb(url, method, payload, headers, cookies, count):
+    """
+    Sends multiple HTTP requests to the specified URL with the same payload.
+
+    Args:
+    - url (str): The URL to send the request to.
+    - method (str): The HTTP method to use. Default: 'GET'
+    - payload (str): The payload to include in the request body. Default: None
+    - headers (dict): The headers to include in the request. Default: None
+    - cookies (dict): The cookies to include in the request. Default: None
+    - count (int): The number of times to repeat the request. Default: 1
+    """
+    responses = []
+    for i in range(count):
+        response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
+        responses.append(response)
+    return responses
 
 
 @click.command()
@@ -449,6 +550,9 @@ def portscan(url, common_ports):
     Args:
     - url (str): the hostname or URL of the target host
     - common_ports (bool): whether to scan only the most common HTTP ports (80, 8080, and 443)
+
+    Returns:
+    - None. Prints the open ports found on the target host.
     """
 
     # Add a scheme to the URL if it is not present
@@ -493,10 +597,26 @@ def portscan(url, common_ports):
     for port in open_ports:
         click.echo(port)
 
+
+
 @click.command()
 @click.argument('base_url')
 @click.argument('path', default='../lists/injector')
 def inject(base_url, path):
+    """
+    Sends HTTP GET requests to a specified base URL with a given list of paths.
+
+    Usage: python filename.py <base_url> <path>
+
+    Arguments:
+    - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
+    - path (str): The path to a file or directory containing a list of paths to send requests to.
+
+    If the path is a directory, the program will iterate through each file in the directory and send a request for each path in the file.
+    If the path is a regular file, the program will send a request for each path in the file.
+    For each request sent, the program will print the URL and response code to the console if the response code is 200.
+    If the path does not exist, the program will print an error message to the console.
+    """
     # Add http or https prefix if missing
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
@@ -532,28 +652,10 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
-
-@click.command()
-def game():
-    """
-    My CLI tool
-    """
-    # Add your existing commands here
-    ...
-
-    # Add the snake game command
-    @click.command()
-    def snake():
-        curses.wrapper(snake_game)
-
-    # Add the snake game command to the main CLI
-    cli.add_command(snake)
-
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(disturb)
 cli.add_command(capture)
-cli.add_command(compare)
 cli.add_command(convert)
 cli.add_command(inject)
 cli.add_command(raid)
