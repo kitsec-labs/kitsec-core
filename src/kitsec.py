@@ -102,7 +102,7 @@ def capture(url):
 @click.command()
 @click.argument('data')
 @click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
-def transform(data, type):
+def decode(data, type):
     """Transform data using common encoding, decoding, and hashing functions."""
     detected_type = magic.from_buffer(data, mime=True)
     if detected_type.startswith('text'):
@@ -503,7 +503,7 @@ def inject(base_url, path):
 
 cli.add_command(vps_logger)
 cli.add_command(capture)
-cli.add_command(transform)
+cli.add_command(decode)
 cli.add_command(inject)
 cli.add_command(raid)
 cli.add_command(enumerate)

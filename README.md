@@ -10,13 +10,12 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Transform**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
+- **Decode**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Raid**: A modular tool to help you test your web applications against intruding.
 - **Portscan**: A tool to help you scan ports.
-
 
 ### 🛣️ Roadmap
 
@@ -48,7 +47,7 @@ kitsec vps_logger
 
 # Usage
 
-### 🧮 Enumerator 
+### 🧮 Enumerate
 
 Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
 
@@ -111,7 +110,7 @@ Test subdomains for example.com and print http response and technology with acti
 
 `kitsec enumerate -t -r -a example.com`
 
-### 🥷 Raider 
+### 🥷 Raid 
 
 Tests a base url against a bruteforce threat:
 
@@ -122,7 +121,7 @@ Tests a base url against a DDOS threat with 10 parallel threats, 100 requests pe
 `kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
 
 
-### 💉 Injector 
+### 💉 Inject
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
@@ -130,7 +129,7 @@ Tests a base URL against a curated list of [path](https://github.com/milo2012/pa
 
 You can update the list you want to inject in the directory lists/injector/.
 
-### 📡 Port Scanner 
+### 📡 Port Scan
 
 Scan ports for example.com:
 
@@ -140,7 +139,7 @@ Scan top 3 ports for example.com:
 
 `kitsec portscan -c example.com`
 
-### 🧢 Interceptor
+### 🧢 Capture
 
 Intercept requests to example.com and modify the response by right clicking on the button, and saving link as. then pasting it in the CLI.:
 
@@ -185,7 +184,7 @@ Response headers:
 
 Transforms your data from one format to another:
 
-`kitsec transform  S2l0c2VjIFJvY2tzIQ== --type Base64`
+`kitsec decode  S2l0c2VjIFJvY2tzIQ== --type Base64`
 
 ```
 Kitsec Rocks!
