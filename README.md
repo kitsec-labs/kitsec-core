@@ -10,11 +10,11 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
+- **Transform**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+- **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Raid**: A modular tool to help you test your web applications against intruding.
-- **Transform**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
 - **Portscan**: A tool to help you scan ports.
 
 
