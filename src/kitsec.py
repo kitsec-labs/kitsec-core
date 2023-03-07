@@ -1,26 +1,31 @@
 import os
 import time
-import textwrap
-import black
-import click
-import html
-import base64
-import binascii
 import gzip
 import socket
-import platform
-import requests
-import paramiko
 import warnings
-import concurrent
 import subprocess
 import urllib.parse
+import hashlib
+
+import requests
+import paramiko
+import concurrent
 import pandas as pd
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
+
+import click
+import base64
+import binascii
+import html
+import magic
+import platform
+import textwrap
+import black
+
 
 
 #add history
@@ -88,13 +93,7 @@ def interceptor(url):
     
     print(request_info)
 
-import click
-import base64
-import gzip
-import html
-import urllib.parse
-import hashlib
-import magic
+
 
 
 @click.command()
