@@ -11,13 +11,12 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Collab**: A collaborative terminal that allows you to share your terminal with your team.
-- **Decode**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
+- **Decode**: A tool that automatically detects various formats and transforms (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP).
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
 - **Raid**: A modular tool to help you test your web applications against intruding.
 - **Portscan**: A tool to help you scan ports.
-- **Snake**: A tool to inspire your while something compiles in parallel. As of now, we have Snake!
 
 ### 🛣️ Roadmap
 
