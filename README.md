@@ -14,7 +14,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Interceptor**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Injector**: A modular tool to help you test your web applications against SQL injection attacks.
 - **Raider**: A modular tool to help you test your web applications against intruding.
-- **Decoder**: A powerful subdomain active and passive enumeration tool that scrapes.
+- **Transformer**: A tool to decode  that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
 - **Port Scanner**: A tool to help you scan ports.
 
 
