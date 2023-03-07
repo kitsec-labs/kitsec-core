@@ -84,7 +84,6 @@ def collab(host, port):
     except socket.error as e:
         click.echo(f'Error connecting to {host}:{port}: {e}')
 
-
 @click.command()
 @click.argument('url')
 def capture(url):
