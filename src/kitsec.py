@@ -27,7 +27,6 @@ import textwrap
 import black
 
 
-
 #add history http
 #add tmux
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
