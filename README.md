@@ -10,18 +10,18 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Enumerator**: A powerful subdomain active and passive enumeration tool that scrapes.
-- **Interceptor**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
-- **Injector**: A modular tool to help you test your web applications against SQL injection attacks.
-- **Raider**: A modular tool to help you test your web applications against intruding.
-- **Transformer**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
-- **Port Scanner**: A tool to help you scan ports.
+- **Enumerate**: A powerful subdomain active and passive enumeration tool that scrapes.
+- **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
+- **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+- **Raid**: A modular tool to help you test your web applications against intruding.
+- **Transform**: A tool that automatically detects various formats and transforms them including URL, HTML, Base64, ASCII, Hex, Octal, Binary, and GZIP.
+- **Portscan**: A tool to help you scan ports.
 
 
 ### 🛣️ Roadmap
 
-- **Fuzzer**: A tool to help you fuzz for vulnerabilities.
-- **XSS Scanner**: Add XSS scanner.
+- **Fuzz**: A tool to help you fuzz for vulnerabilities.
+- **XSS Scan**: Add XSS scanner.
 
 ### 📦 Installation 
 
@@ -52,7 +52,7 @@ kitsec vps_logger
 
 Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
 
-`kitsec enumerator example.com`
+`kitsec enumerate example.com`
 
 Output:
 
@@ -71,7 +71,7 @@ sales.domain1.com
 
 Test subdomains for example.com and print http response:
 
-`kitsec enumerator -r example.com`
+`kitsec enumerate -r example.com`
 
 Output:
 
@@ -90,7 +90,7 @@ sales.domain1.com                  200
 
 Test subdomains for example.com and print http response and technology
 
-`kitsec enumerator -t -r example.com`
+`kitsec enumerate -t -r example.com`
 
 Output:
 
@@ -109,24 +109,24 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Test subdomains for example.com and print http response and technology with active enumeration:
 
-`kitsec enumerator -t -r -a example.com`
+`kitsec enumerate -t -r -a example.com`
 
 ### 🥷 Raider 
 
 Tests a base url against a bruteforce threat:
 
-`kitsec raider example.com`
+`kitsec raid example.com`
 
 Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
 
-`kitsec raider example.com -t 10 -r 100 -n 8 -p 5000`
+`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
 
 
 ### 💉 Injector 
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
-`kitsec injector example.com`
+`kitsec inject example.com`
 
 You can update the list you want to inject in the directory lists/injector/.
 
@@ -134,17 +134,17 @@ You can update the list you want to inject in the directory lists/injector/.
 
 Scan ports for example.com:
 
-`kitsec portscanner example.com`
+`kitsec portscan example.com`
 
 Scan top 3 ports for example.com:
 
-`kitsec portscanner -c example.com`
+`kitsec portscan -c example.com`
 
 ### 🧢 Interceptor
 
 Intercept requests to example.com and modify the response by right clicking on the button, and saving link as. then pasting it in the CLI.:
 
-`kitsec interceptor example.com/path`
+`kitsec capture example.com/path`
 
 ```
 GET /mynetwork/ HTTP/1.1
@@ -185,7 +185,7 @@ Response headers:
 
 Transforms your data from one format to another:
 
-`kitsec transformer  S2l0c2VjIFJvY2tzIQ== --type Base64`
+`kitsec transform  S2l0c2VjIFJvY2tzIQ== --type Base64`
 
 ```
 Kitsec Rocks!

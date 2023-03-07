@@ -70,7 +70,7 @@ def vps_logger(host, username, password):
 
 @click.command()
 @click.argument('url')
-def interceptor(url):
+def capture(url):
     # Make a request to the given URL and capture the request headers
     response = requests.get(url)
     headers = response.request.headers
@@ -102,7 +102,7 @@ def interceptor(url):
 @click.command()
 @click.argument('data')
 @click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
-def transformer(data, type):
+def transform(data, type):
     """Transform data using common encoding, decoding, and hashing functions."""
     detected_type = magic.from_buffer(data, mime=True)
     if detected_type.startswith('text'):
@@ -155,7 +155,7 @@ def transformer(data, type):
 
     click.echo(result)
 
-def shuffle_params(url):
+def shuffle(url):
     # Define proxies, ports, user agents, and headers to shuffle
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
     ports = ['80', '8080', '3128']
@@ -322,7 +322,7 @@ def fetch_tech(url):
 @click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
 @click.option('-t', '--technology', is_flag=True, help='Analyze technology used by subdomains')
 @click.option('-a', '--active', is_flag=True, help='Use active subdomain enumeration')
-def enumerator(domain, request, technology, active):
+def enumerate(domain, request, technology, active):
     """
     Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -372,7 +372,7 @@ def enumerator(domain, request, technology, active):
 @click.option('--num-requests', '-r', default=200, help='Number of requests to send from each threat')
 @click.option('--num-retries', '-n', default=4, help='Number of times to retry failed requests')
 @click.option('--pause-before-retry', '-p', default=3000, help='Number of milliseconds to wait before retrying a failed request')
-def raider(url, num_threats, num_requests, num_retries, pause_before_retry):
+def raid(url, num_threats, num_requests, num_retries, pause_before_retry):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -411,7 +411,7 @@ def raider(url, num_threats, num_requests, num_retries, pause_before_retry):
 @click.argument('url')
 @click.option('-c', '--common-ports', is_flag=True, default=False,
               help='Scan only the most common HTTP ports (80, 8080, and 443)')
-def portscanner(url, common_ports):
+def portscan(url, common_ports):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
 
@@ -465,7 +465,7 @@ def portscanner(url, common_ports):
 @click.command()
 @click.argument('base_url')
 @click.argument('path', default='../lists/injector')
-def injector(base_url, path):
+def inject(base_url, path):
     # Add http or https prefix if missing
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
@@ -502,12 +502,12 @@ def injector(base_url, path):
         click.echo(f"{path} does not exist")
 
 cli.add_command(vps_logger)
-cli.add_command(interceptor)
-cli.add_command(transformer)
-cli.add_command(injector)
-cli.add_command(raider)
-cli.add_command(enumerator)
-cli.add_command(portscanner)
+cli.add_command(capture)
+cli.add_command(transform)
+cli.add_command(inject)
+cli.add_command(raid)
+cli.add_command(enumerate)
+cli.add_command(portscan)
 
 if __name__ == '__main__':
     cli()
