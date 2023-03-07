@@ -50,69 +50,6 @@ kitsec vps_logger
 
 # Usage
 
-### 🧮 Enumerate
-
-Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
-
-`kitsec enumerate example.com`
-
-Output:
-
-```
-Subdomain                    
-----------------------------   
-tracking.webapp.domain1.com 
-legal.domain1.com            
-help.domain1.com             
-staging-api.domain1.com       
-api.domain1.com                
-staging-app.domain1.com        
-staging-website.domain1.com        
-sales.domain1.com   
-```            
-
-Test subdomains for example.com and print http response:
-
-`kitsec enumerate -r example.com`
-
-Output:
-
-```
-Subdomain                       Status  
-----------------------------  --------  
-tracking.webapp.domain1.com        503 
-legal.domain1.com                  404 
-help.domain1.com                   403  
-staging-api.domain1.com            401  
-api.domain1.com                    401 
-staging-app.domain1.com            200  
-staging-website.domain1.com        200  
-sales.domain1.com                  200  
-```
-
-Test subdomains for example.com and print http response and technology
-
-`kitsec enumerate -t -r example.com`
-
-Output:
-
-```
-Subdomain                       Status  Reason               Technology
-----------------------------  --------  -------------------  ----------------------------------------------------------------
-tracking.webapp.domain1.com        503  Service Unavailable  []
-legal.domain1.com                  404  Not Found            ['Strikingly', 'Lua', 'jQuery', 'Nginx', 'OpenResty']
-help.domain1.com                   403  Forbidden            ['Cloudflare']
-staging-api.domain1.com            401  Unauthorized         []
-api.domain1.com                    401  Unauthorized         []
-staging-app.domain1.com            200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
-staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
-sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
-```
-
-Test subdomains for example.com and print http response and technology with active enumeration:
-
-`kitsec enumerate -t -r -a example.com`
-
 ### 🥷 Raid 
 
 Tests a base url against a bruteforce threat:
@@ -193,6 +130,69 @@ Transforms your data from one format to another:
 Kitsec Rocks!
  ```
  
+### 🧮 Enumerate
+
+Enumerate subdomains for example.com using [subfinder](https://github.com/projectdiscovery/subfinder):
+
+`kitsec enumerate example.com`
+
+Output:
+
+```
+Subdomain                    
+----------------------------   
+tracking.webapp.domain1.com 
+legal.domain1.com            
+help.domain1.com             
+staging-api.domain1.com       
+api.domain1.com                
+staging-app.domain1.com        
+staging-website.domain1.com        
+sales.domain1.com   
+```            
+
+Test subdomains for example.com and print http response:
+
+`kitsec enumerate -r example.com`
+
+Output:
+
+```
+Subdomain                       Status  
+----------------------------  --------  
+tracking.webapp.domain1.com        503 
+legal.domain1.com                  404 
+help.domain1.com                   403  
+staging-api.domain1.com            401  
+api.domain1.com                    401 
+staging-app.domain1.com            200  
+staging-website.domain1.com        200  
+sales.domain1.com                  200  
+```
+
+Test subdomains for example.com and print http response and technology
+
+`kitsec enumerate -t -r example.com`
+
+Output:
+
+```
+Subdomain                       Status  Reason               Technology
+----------------------------  --------  -------------------  ----------------------------------------------------------------
+tracking.webapp.domain1.com        503  Service Unavailable  []
+legal.domain1.com                  404  Not Found            ['Strikingly', 'Lua', 'jQuery', 'Nginx', 'OpenResty']
+help.domain1.com                   403  Forbidden            ['Cloudflare']
+staging-api.domain1.com            401  Unauthorized         []
+api.domain1.com                    401  Unauthorized         []
+staging-app.domain1.com            200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
+```
+
+Test subdomains for example.com and print http response and technology with active enumeration:
+
+`kitsec enumerate -t -r -a example.com`
+
 # 🚨 Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
