@@ -1,5 +1,6 @@
 import os
 import time
+import textwrap
 import black
 import click
 import socket
@@ -53,6 +54,7 @@ def vps_logger(host, username, password):
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
 
+
 @click.command()
 @click.argument('url')
 def interceptor(url):
@@ -75,6 +77,11 @@ def interceptor(url):
     
     request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent", "Cookie"]])
     request_info += "\n\n"
+    
+    # Add response headers
+    request_info += "Response headers:\n"
+    request_info += textwrap.indent("\n".join([f"  {header}: {value}" for header, value in response.headers.items()]), "  ")
+    request_info += "\n"
     
     print(request_info)
 
