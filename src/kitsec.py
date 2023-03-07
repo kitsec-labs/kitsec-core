@@ -3,6 +3,10 @@ import time
 import textwrap
 import black
 import click
+import html
+import base64
+import binascii
+import gzip
 import socket
 import platform
 import requests
@@ -83,6 +87,48 @@ def interceptor(url):
     request_info += "\n"
     
     print(request_info)
+
+@click.command()
+@click.argument('data')
+@click.option('--type', '-t', default='Base64', help='Type of decoding to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, GZIP. Default: Base64')
+def transformer(data, type):
+    """Transform data using common encoding and decoding formats."""
+    if type == "URL":
+        result = urllib.parse.unquote(data)
+    elif type == "HTML":
+        result = html.unescape(data)
+    elif type == "Base64":
+        decoded_bytes = base64.b64decode(data)
+        result = decoded_bytes.decode('utf-8')
+    elif type == "ASCII":
+        try:
+            result = bytearray.fromhex(data).decode()
+        except ValueError:
+            result = "Invalid ASCII input"
+    elif type == "Hex":
+        try:
+            result = bytes.fromhex(data).decode('utf-8')
+        except ValueError:
+            result = "Invalid hex input"
+    elif type == "Octal":
+        try:
+            result = ''.join([chr(int(octet, 8)) for octet in data.split()])
+        except ValueError:
+            result = "Invalid octal input"
+    elif type == "Binary":
+        try:
+            result = ''.join([chr(int(octet, 2)) for octet in data.split()])
+        except ValueError:
+            result = "Invalid binary input"
+    elif type == "GZIP":
+        try:
+            decoded = gzip.decompress(data)
+            result = decoded.decode('utf-8')
+        except Exception:
+            result = "Invalid GZIP input"
+    else:
+        result = "Invalid decoding type"
+    click.echo(result)
 
 
 def shuffle_params(url):
@@ -384,6 +430,7 @@ def injector(base_url, path):
 
 cli.add_command(vps_logger)
 cli.add_command(interceptor)
+cli.add_command(transformer)
 cli.add_command(injector)
 cli.add_command(raider)
 cli.add_command(enumerator)
