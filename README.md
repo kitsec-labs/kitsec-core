@@ -54,9 +54,9 @@ Enumerate subdomains for example.com using [subfinder](https://github.com/projec
 
 `kitsec enumerator example.com`
 
-```
 Output:
 
+```
 Subdomain                    
 ----------------------------   
 tracking.webapp.domain1.com 
