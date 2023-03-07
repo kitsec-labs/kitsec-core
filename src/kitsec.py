@@ -6,6 +6,7 @@ import click
 import html
 import base64
 import binascii
+import hashlib
 import gzip
 import socket
 import platform
@@ -90,9 +91,9 @@ def interceptor(url):
 
 @click.command()
 @click.argument('data')
-@click.option('--type', '-t', default='Base64', help='Type of decoding to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, GZIP. Default: Base64')
+@click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
 def transformer(data, type):
-    """Transform data using common encoding and decoding formats."""
+    """Transform data using common encoding, decoding, and hashing functions."""
     if type == "URL":
         result = urllib.parse.unquote(data)
     elif type == "HTML":
@@ -120,6 +121,14 @@ def transformer(data, type):
             result = ''.join([chr(int(octet, 2)) for octet in data.split()])
         except ValueError:
             result = "Invalid binary input"
+    elif type == "MD5":
+        result = hashlib.md5(data.encode()).hexdigest()
+    elif type == "SHA1":
+        result = hashlib.sha1(data.encode()).hexdigest()
+    elif type == "SHA256":
+        result = hashlib.sha256(data.encode()).hexdigest()
+    elif type == "BLAKE2B-160":
+        result = hashlib.blake2b(data.encode(), digest_size=20).hexdigest()
     elif type == "GZIP":
         try:
             decoded = gzip.decompress(data)
@@ -127,7 +136,7 @@ def transformer(data, type):
         except Exception:
             result = "Invalid GZIP input"
     else:
-        result = "Invalid decoding type"
+        result = "Invalid decoding or hashing type"
     click.echo(result)
 
 

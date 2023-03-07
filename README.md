@@ -181,6 +181,16 @@ Response headers:
     Date: Tue, 07 Mar 2023 10:04:11 GMT
 ```
 
+### 🪄 Transformer:
+
+Transforms your data from one format to another:
+
+`python kitsec.py transformer  SGVsbG8gV29ybGQ= --type Base64 `
+
+```
+ Hello World
+ ```
+ 
 # 🚨 Guidelines
 
 Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
