@@ -39,12 +39,14 @@ warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at p
 #add user agent rotation
 #add proxy rotation
 
+
 @click.group()
 def cli():
     """
     KitSec - A CLI tool for security testing and reconnaissance.
     """
     pass
+
 
 @click.command()
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
@@ -154,6 +156,7 @@ def capture(url):
     
     print(request_info)
 
+
 @click.command()
 @click.argument('data')
 @click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
@@ -222,6 +225,7 @@ def convert(data, type):
             result = "Invalid decoding or hashing type"
 
     click.echo(result)
+
 
 def shuffle(url):
     """
@@ -425,6 +429,7 @@ def fetch_tech(url):
     print(f"Max retries reached for {url}")
     return None
 
+
 @click.command()
 @click.argument('domain')
 @click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
@@ -471,6 +476,7 @@ def enumerator(domain, request, technology, active):
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
 
 @click.command()
 @click.option('--url', required=True, help='The URL to send the request to.')
@@ -598,7 +604,6 @@ def portscan(url, common_ports):
         click.echo(port)
 
 
-
 @click.command()
 @click.argument('base_url')
 @click.argument('path', default='../lists/injector')
@@ -652,6 +657,7 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
+
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(capture)
@@ -661,6 +667,7 @@ cli.add_command(disturb)
 cli.add_command(raid)
 cli.add_command(portscan)
 cli.add_command(inject)
+
 
 if __name__ == '__main__':
     cli()
