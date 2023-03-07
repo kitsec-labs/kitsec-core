@@ -4,13 +4,13 @@ import textwrap
 import black
 import click
 import socket
-import urllib.parse
 import platform
 import requests
 import paramiko
 import warnings
 import concurrent
 import subprocess
+import urllib.parse
 import pandas as pd
 from tqdm import tqdm
 from bs4 import BeautifulSoup
