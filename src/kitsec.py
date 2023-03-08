@@ -16,12 +16,14 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 from urllib.parse import urlparse
+from cve_search import CveSearchAPI
 from Wappalyzer import Wappalyzer, WebPage
 
 import click
 import base64
 import binascii
 import html
+import json
 import magic
 import platform
 import textwrap
@@ -658,47 +660,41 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
-def get_vulnerabilities(product, vulnerability_type):
-    url = f'https://www.cvedetails.com/vulnerability-search.php?f=1&vendor=&product={product}&version=&cweid={vulnerability_type}&msid=&bidno=&cveid=&orderby=3&cvssscoremin=0'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    table = soup.find_all('table', {'id': 'vulnslisttable'})[0]
-    rows = table.find_all('tr')
-    vulnerabilities_by_year = {}
-    for row in rows[1:]:
-        cols = row.find_all('td')
-        if len(cols) < 11:
-            continue
-        year = cols[9].text.strip()[:4]
-        if year not in vulnerabilities_by_year:
-            vulnerabilities_by_year[year] = []
-        cve_id = cols[1].text.strip()
-        cvss_score = cols[5].text.strip()
-        description = cols[2].text.strip()
-        more_info_url = f'https://www.cvedetails.com/cve/{cve_id}/'
-        more_info_response = requests.get(more_info_url)
-        more_info_soup = BeautifulSoup(more_info_response.text, 'html.parser')
-        try:
-            vulnerability_summary = more_info_soup.find_all('div', {'class': 'cvesummarylong'})[0].text.strip()
-        except IndexError:
-            vulnerability_summary = 'N/A'
-        vulnerability = {
-            'CVE ID': cve_id,
-            'CVSS Score': cvss_score,
-            'Description': description,
-            'Vulnerability Summary': vulnerability_summary
-        }
-        vulnerabilities_by_year[year].append(vulnerability)
-    return vulnerabilities_by_year
 
-@cli.command()
+@click.command()
 @click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
 @click.option('--vuln-type', prompt='Vulnerability type', help='Type of vulnerability (CWE ID) to search for in CVE Details')
 def query(product, vuln_type):
-    vulnerabilities_by_year = get_vulnerabilities(product, vuln_type)
-    if not vulnerabilities_by_year:
+    api = CveSearchAPI()
+
+    # Perform search
+    results = api.search(f"product:{product} AND cwe:{vuln_type}")
+
+    if not results:
         print(f'No vulnerabilities found for {product} with CWE ID {vuln_type}')
         return
+
+    vulnerabilities_by_year = {}
+    for result in results:
+        cve_id = result["id"]
+        year = cve_id.split("-")[1]
+        if year not in vulnerabilities_by_year:
+            vulnerabilities_by_year[year] = []
+
+        # Get vulnerability details
+        details = api.get_details(cve_id)
+        cvss = details["cvss"]
+        summary = details["summary"]
+        description = details["vulnerable_configuration_cpe_2_2"][0]["title"]
+
+        # Append vulnerability to list
+        vulnerabilities_by_year[year].append({
+            "CVE ID": cve_id,
+            "CVSS Score": cvss,
+            "Vulnerability Summary": summary,
+            "Description": description
+        })
+
     for year, vulnerabilities in vulnerabilities_by_year.items():
         print(f'\n{year} vulnerabilities for {product} with CWE ID {vuln_type}:')
         for vulnerability in vulnerabilities:
