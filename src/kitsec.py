@@ -658,6 +658,42 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
+def get_vulnerabilities(product, vulnerability_type):
+    url = f'https://www.cvedetails.com/vulnerability-search.php?f=1&vendor=&product={product}&version=&cweid={vulnerability_type}&msid=&bidno=&cveid=&orderby=3&cvssscoremin=0'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    table = soup.find_all('table', {'id': 'vulnslisttable'})[0]
+    rows = table.find_all('tr')
+    vulnerabilities_by_year = {}
+    for row in rows[1:]:
+        cols = row.find_all('td')
+        if len(cols) < 11:
+            continue
+        year = cols[9].text.strip()[:4]
+        if year not in vulnerabilities_by_year:
+            vulnerabilities_by_year[year] = []
+        vulnerability = {
+            'CVE ID': cols[1].text.strip(),
+            'CVSS Score': cols[5].text.strip(),
+            'Description': cols[2].text.strip()
+        }
+        vulnerabilities_by_year[year].append(vulnerability)
+    return vulnerabilities_by_year
+
+
+@cli.command()
+@click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
+@click.option('--vuln-type', prompt='Vulnerability type', help='Type of vulnerability (CWE ID) to search for in CVE Details')
+def query(product, vuln_type):
+    vulnerabilities_by_year = get_vulnerabilities(product, vuln_type)
+    if not vulnerabilities_by_year:
+        print(f'No vulnerabilities found for {product} with CWE ID {vuln_type}')
+        return
+    for year, vulnerabilities in vulnerabilities_by_year.items():
+        print(f'\n{year} vulnerabilities for {product} with CWE ID {vuln_type}:')
+        for vulnerability in vulnerabilities:
+            print(f'CVE ID: {vulnerability["CVE ID"]} - CVSS Score: {vulnerability["CVSS Score"]} - Description: {vulnerability["Description"]}')
+
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
@@ -668,6 +704,7 @@ cli.add_command(disturb)
 cli.add_command(raid)
 cli.add_command(portscan)
 cli.add_command(inject)
+cli.add_command(query)
 
 
 if __name__ == '__main__':

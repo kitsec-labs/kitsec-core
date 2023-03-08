@@ -18,6 +18,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Raid**: A modular tool to help you test your web applications.
 - **Portscan**: A tool to help you scan ports.
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+- **Query**: A tool to help you query against CVE details for historical vulnerabilities.
 
 
 
