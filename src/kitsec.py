@@ -16,7 +16,6 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 from urllib.parse import urlparse
-from cve_search import CveSearchAPI
 from Wappalyzer import Wappalyzer, WebPage
 
 import click
@@ -661,33 +660,25 @@ def inject(base_url, path):
         click.echo(f"{path} does not exist")
 
 
-@click.command()
-@click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
-@click.option('--vuln-type', prompt='Vulnerability type', help='Type of vulnerability (CWE ID) to search for in CVE Details')
-def query(product, vuln_type):
-    api = CveSearchAPI()
+from cve_search import CveSearch
 
-    # Perform search
-    results = api.search(f"product:{product} AND cwe:{vuln_type}")
+search = CveSearch()
 
-    if not results:
-        print(f'No vulnerabilities found for {product} with CWE ID {vuln_type}')
-        return
+def get_vulnerabilities(product, vuln_type):
+    cve_ids = search.search(f"product:{product} AND cwe:{vuln_type}")
 
     vulnerabilities_by_year = {}
-    for result in results:
-        cve_id = result["id"]
+    for cve_id in cve_ids:
         year = cve_id.split("-")[1]
-        if year not in vulnerabilities_by_year:
-            vulnerabilities_by_year[year] = []
 
-        # Get vulnerability details
-        details = api.get_details(cve_id)
+        details = search.cve(cve_id)
         cvss = details["cvss"]
         summary = details["summary"]
         description = details["vulnerable_configuration_cpe_2_2"][0]["title"]
 
-        # Append vulnerability to list
+        if year not in vulnerabilities_by_year:
+            vulnerabilities_by_year[year] = []
+
         vulnerabilities_by_year[year].append({
             "CVE ID": cve_id,
             "CVSS Score": cvss,
@@ -695,6 +686,16 @@ def query(product, vuln_type):
             "Description": description
         })
 
+    return vulnerabilities_by_year
+
+@cli.command()
+@click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
+@click.option('--vuln-type', prompt='Vulnerability type', help='Type of vulnerability (CWE ID) to search for in CVE Details')
+def query(product, vuln_type):
+    vulnerabilities_by_year = get_vulnerabilities(product, vuln_type)
+    if not vulnerabilities_by_year:
+        print(f'No vulnerabilities found for {product} with CWE ID {vuln_type}')
+        return
     for year, vulnerabilities in vulnerabilities_by_year.items():
         print(f'\n{year} vulnerabilities for {product} with CWE ID {vuln_type}:')
         for vulnerability in vulnerabilities:
