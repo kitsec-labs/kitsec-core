@@ -30,7 +30,7 @@ import black
 
 
 #add history http
-#add tmux
+#refine query for cve search
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #ignore JAVA warnings on wappalyzer
@@ -659,28 +659,24 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
-
-from cve_search import CveSearch
-
-search = CveSearch()
-
-def get_vulnerabilities(product, vuln_type):
-    cve_ids = search.search(f"product:{product} AND cwe:{vuln_type}")
+def get_vulnerabilities(product):
+    url = f"https://cve.circl.lu/api/search/product:{product}"
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception("Error fetching data from API")
 
     vulnerabilities_by_year = {}
-    for cve_id in cve_ids:
-        year = cve_id.split("-")[1]
-
-        details = search.cve(cve_id)
-        cvss = details["cvss"]
-        summary = details["summary"]
-        description = details["vulnerable_configuration_cpe_2_2"][0]["title"]
+    for cve in response.json():
+        year = cve["Published"].split("-")[0]
+        cvss = cve["cvss"]
+        summary = cve["summary"]
+        description = cve["vulnerable_configuration"][0]
 
         if year not in vulnerabilities_by_year:
             vulnerabilities_by_year[year] = []
 
         vulnerabilities_by_year[year].append({
-            "CVE ID": cve_id,
+            "CVE ID": cve["id"],
             "CVSS Score": cvss,
             "Vulnerability Summary": summary,
             "Description": description
@@ -688,21 +684,22 @@ def get_vulnerabilities(product, vuln_type):
 
     return vulnerabilities_by_year
 
-@cli.command()
+
+@click.command()
 @click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
-@click.option('--vuln-type', prompt='Vulnerability type', help='Type of vulnerability (CWE ID) to search for in CVE Details')
-def query(product, vuln_type):
-    vulnerabilities_by_year = get_vulnerabilities(product, vuln_type)
+def query(product):
+    vulnerabilities_by_year = get_vulnerabilities(product)
     if not vulnerabilities_by_year:
-        print(f'No vulnerabilities found for {product} with CWE ID {vuln_type}')
+        print(f'No vulnerabilities found for {product}')
         return
     for year, vulnerabilities in vulnerabilities_by_year.items():
-        print(f'\n{year} vulnerabilities for {product} with CWE ID {vuln_type}:')
+        print(f'\n{year} vulnerabilities for {product}:')
         for vulnerability in vulnerabilities:
             print(f'CVE ID: {vulnerability["CVE ID"]} - CVSS Score: {vulnerability["CVSS Score"]}')
             print(f'Description: {vulnerability["Description"]}')
             print(f'Vulnerability Summary: {vulnerability["Vulnerability Summary"]}')
             print()
+
 
 
 cli.add_command(vps_logger)
