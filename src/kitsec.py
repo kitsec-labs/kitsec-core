@@ -659,46 +659,42 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
-def get_vulnerabilities(product):
-    url = f"https://cve.circl.lu/api/search/product:{product}"
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception("Error fetching data from API")
-
-    vulnerabilities_by_year = {}
-    for cve in response.json():
-        year = cve["Published"].split("-")[0]
-        cvss = cve["cvss"]
-        summary = cve["summary"]
-        description = cve["vulnerable_configuration"][0]
-
-        if year not in vulnerabilities_by_year:
-            vulnerabilities_by_year[year] = []
-
-        vulnerabilities_by_year[year].append({
-            "CVE ID": cve["id"],
-            "CVSS Score": cvss,
-            "Vulnerability Summary": summary,
-            "Description": description
-        })
-
-    return vulnerabilities_by_year
-
-
 @click.command()
-@click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
-def query(product):
-    vulnerabilities_by_year = get_vulnerabilities(product)
-    if not vulnerabilities_by_year:
-        print(f'No vulnerabilities found for {product}')
-        return
-    for year, vulnerabilities in vulnerabilities_by_year.items():
-        print(f'\n{year} vulnerabilities for {product}:')
-        for vulnerability in vulnerabilities:
-            print(f'CVE ID: {vulnerability["CVE ID"]} - CVSS Score: {vulnerability["CVSS Score"]}')
-            print(f'Description: {vulnerability["Description"]}')
-            print(f'Vulnerability Summary: {vulnerability["Vulnerability Summary"]}')
-            print()
+@click.argument("product_name")
+@click.option("--limit", "-l", default=10, help="Number of results to display.")
+def cve(product_name, limit):
+    """
+    Retrieve CVE data for a specific product name (company name) and display it in a tabulated format.
+
+    \b
+    Args:
+        product_name (str): The product name (company name) to search for.
+        limit (int): Number of results to display. Default is 10.
+    """
+    url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
+    response = requests.get(url)
+    data = response.json()
+
+    # Extract the relevant fields from the JSON data
+    cve_items = data.get("result", {}).get("CVE_Items", [])
+
+    # Extract relevant information from each CVE
+    cve_info = []
+    for item in cve_items:
+        cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
+        published = item.get("publishedDate")
+        modified = item.get("lastModifiedDate")
+        summary = item.get("cve", {}).get("description", {}).get("description_data", [])
+        summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
+        access_vector = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("accessVector")
+        access_complexity = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("accessComplexity")
+        access_authentication = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("authentication")
+        cve_info.append([cve_id, published, modified, summary, access_vector, access_complexity, access_authentication])
+
+    # Format and print the tabulated data
+    headers = ["ID", "Published", "Modified", "Summary", "Access Vector", "Access Complexity", "Access Authentication"]
+    table = tabulate(cve_info, headers=headers, tablefmt="fancy_grid")
+    click.echo(table)
 
 
 
