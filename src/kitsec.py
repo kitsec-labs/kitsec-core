@@ -672,14 +672,24 @@ def get_vulnerabilities(product, vulnerability_type):
         year = cols[9].text.strip()[:4]
         if year not in vulnerabilities_by_year:
             vulnerabilities_by_year[year] = []
+        cve_id = cols[1].text.strip()
+        cvss_score = cols[5].text.strip()
+        description = cols[2].text.strip()
+        more_info_url = f'https://www.cvedetails.com/cve/{cve_id}/'
+        more_info_response = requests.get(more_info_url)
+        more_info_soup = BeautifulSoup(more_info_response.text, 'html.parser')
+        try:
+            vulnerability_summary = more_info_soup.find_all('div', {'class': 'cvesummarylong'})[0].text.strip()
+        except IndexError:
+            vulnerability_summary = 'N/A'
         vulnerability = {
-            'CVE ID': cols[1].text.strip(),
-            'CVSS Score': cols[5].text.strip(),
-            'Description': cols[2].text.strip()
+            'CVE ID': cve_id,
+            'CVSS Score': cvss_score,
+            'Description': description,
+            'Vulnerability Summary': vulnerability_summary
         }
         vulnerabilities_by_year[year].append(vulnerability)
     return vulnerabilities_by_year
-
 
 @cli.command()
 @click.option('--product', prompt='Product name', help='Product name to search for in CVE Details')
@@ -692,7 +702,10 @@ def query(product, vuln_type):
     for year, vulnerabilities in vulnerabilities_by_year.items():
         print(f'\n{year} vulnerabilities for {product} with CWE ID {vuln_type}:')
         for vulnerability in vulnerabilities:
-            print(f'CVE ID: {vulnerability["CVE ID"]} - CVSS Score: {vulnerability["CVSS Score"]} - Description: {vulnerability["Description"]}')
+            print(f'CVE ID: {vulnerability["CVE ID"]} - CVSS Score: {vulnerability["CVSS Score"]}')
+            print(f'Description: {vulnerability["Description"]}')
+            print(f'Vulnerability Summary: {vulnerability["Vulnerability Summary"]}')
+            print()
 
 
 cli.add_command(vps_logger)
