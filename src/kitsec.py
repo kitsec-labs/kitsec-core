@@ -661,37 +661,53 @@ def inject(base_url, path):
 
 
 def fetch_cwe(cwe_code):
+    """Fetches the CWE name given a CWE code.
+
+    :param cwe_code: The CWE code to fetch the name for.
+    :type cwe_code: str
+    :return: The name of the CWE.
+    :rtype: str
+    """
+    # Construct the URL for the CWE code
     cwe_url = f"https://cwe.mitre.org/data/definitions/{cwe_code[4:].lower()}.html"
+
+    # Send a GET request to the URL and parse the HTML response with BeautifulSoup
     response = requests.get(cwe_url)
     soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Extract the CWE name from the page title
     cwe_title = soup.find('title').text.strip()
     cwe_name = cwe_title.split(':')[1].strip()
+
+    # Return the CWE code and name as a formatted string
     return f"{cwe_code}: {cwe_name}"
+
 
 @click.command()
 def cve():
     """
     Retrieve CVE data for a specific product name (company name) and display it in a clean format.
     """
+    # Prompt user for product name and number of results to display
     product_name = click.prompt("Enter the product name")
     limit = click.prompt("Enter the number of results to display", default=10, type=int)
 
+    # Make request to the NVD API and extract relevant fields
     url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
     response = requests.get(url)
     data = response.json()
-
-    # Extract the relevant fields from the JSON data
     cve_items = data.get("result", {}).get("CVE_Items", [])
 
     # Prepare the data to be displayed in a table format
     table_data = []
     for item in cve_items:
+        # Extract CVE ID, severity, and summary fields
         cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
         severity = item.get("impact", {}).get("baseSeverity", "Unknown")
         summary = item.get("cve", {}).get("description", {}).get("description_data", [])
         summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
 
-        # Extract the CWE information and append it to the data
+        # Extract CWE information and append it to the data
         cwe_nodes = item.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
         cwe_codes = [n.get("description", [{}])[0].get("value", "") for n in cwe_nodes if n.get("description")]
         for cwe_code in cwe_codes:
@@ -699,14 +715,12 @@ def cve():
             table_data.append(["CVE ID", cve_id])
             table_data.append(["CWE", cwe_name])
             table_data.append(["Severity", severity])
-            table_data.append(["", ""])  # Add an empty row for spacing
             table_data.append(["Summary", summary])
             table_data.append(["", ""])  # Add an empty row for spacing
-
-    # Display the data
-    for row in table_data:
-        click.echo(row[0] + ": " + row[1])
-        click.echo()  # Add an empty line between rows for readability
+    
+    # Display the data in a table format
+    headers = ["", ""]
+    click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
 
     
 cli.add_command(vps_logger)
