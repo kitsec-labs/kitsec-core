@@ -668,7 +668,6 @@ def fetch_cwe(cwe_code):
     cwe_name = cwe_title.split(':')[1].strip()
     return f"{cwe_code}: {cwe_name}"
 
-
 @click.command()
 def cve():
     """
@@ -694,19 +693,16 @@ def cve():
         summary = item.get("cve", {}).get("description", {}).get("description_data", [])
         summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
 
-        # Append the data to the table
-        table_data.append(["CVE ID", cve_id])
-        table_data.append(["Severity", severity])
-        table_data.append(["", ""])  # Add an empty row for spacing
-        for v_type in vulnerability_types:
-            table_data.append(["Vulnerability Type", v_type])
-        table_data.append(["Summary", summary])
-        table_data.append(["", ""])  # Add an empty row for spacing
-
+        # Extract the CWE information and append it to the data
+        cwe_nodes = item.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
+        cwe_codes = [n.get("description", [{}])[0].get("value", "") for n in cwe_nodes if n.get("description")]
+        for cwe_code in cwe_codes:
+            cwe_name = fetch_cwe(cwe_code)
+            table_data.append([cve_id, cwe_name, severity, summary])
+    
     # Display the data in a table format
-    headers = ["", ""]
+    headers = ["CVE ID", "CWE", "Severity", "Summary"]
     click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
-
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
