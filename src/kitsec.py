@@ -50,17 +50,9 @@ def cli():
 
 
 @click.command()
-@click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
-@click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
-@click.option('--password', prompt='Enter the password for the user account', hide_input=True)
-def vps_logger(host, username, password):
+def vps_logger():
     """
     Connects to a remote VPS server and tails the auth.log file.
-
-    Args:
-    - host (str): The IP address of the remote VPS server to connect to.
-    - username (str): The limited user account to use for connecting to the VPS server.
-    - password (str): The password for the user account.
 
     Returns:
     - Prints a continuous stream of output from the auth.log file to the console.
@@ -70,6 +62,11 @@ def vps_logger(host, username, password):
     the auth.log file using sudo. It then continuously checks for new output from the file and
     prints it to the console as it is received.
     """
+    # Prompt the user for the VPS server IP address, limited user account, and password
+    host = click.prompt('Enter the IP address of the VPS server to connect to')
+    username = click.prompt('Enter the limited user account to use for connecting to the VPS server')
+    password = click.prompt('Enter the password for the user account', hide_input=True)
+
     # Create an SSH client object and set the missing host key policy to auto add
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -119,17 +116,16 @@ def collab(host, port):
 
 
 @click.command()
-@click.argument('url')
-def capture(url):
+def capture():
     """
     Captures the request headers for a given URL.
-
-    Args:
-    - url (str): The URL to capture request headers for.
 
     Returns:
     - Prints a string containing the captured request headers, including method, hostname, path, cookies, and all other headers sent with the request.
     """
+    # Prompt the user for the URL
+    url = click.prompt('Enter the URL to capture request headers for')
+
     # Make a request to the given URL and capture the request headers
     response = requests.get(url)
     headers = response.request.headers
@@ -159,53 +155,55 @@ def capture(url):
 
 
 @click.command()
-@click.argument('data')
-@click.option('--type', '-t', default='Base64', help='Type of decoding or hashing to apply. Options: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Default: Base64')
-def convert(data, type):
+def convert():
     """
     Applies a specified decoding or hashing function to input data.
-
-    Args:
-    - data (str): The data to transform.
-    - type (str): The type of transformation to apply. Options include: URL, HTML, Base64, ASCII, Hex, Octal, Binary, MD5, SHA1, SHA256, BLAKE2B-160, GZIP. Defaults to Base64 if not specified.
 
     Returns:
     - The transformed input data as a string.
 
-    If the input data is text, the program will apply the specified transformation type and return the result.
+    If the input data is text, the program will prompt for input and apply the specified transformation type, then return the result.
     If the input data is binary, the program will apply the specified hashing function and return the resulting hash.
     If an invalid transformation type is specified, the program will return an error message.
     """
+    # Prompt for input data
+    data = click.prompt('Enter the input data')
+
+    # Prompt for transformation type using arrow keys
+    transformation_types = ['URL', 'HTML', 'Base64', 'ASCII', 'Hex', 'Octal', 'Binary', 'MD5', 'SHA1', 'SHA256', 'BLAKE2B-160', 'GZIP']
+    prompt_message = f'Enter the type of transformation to apply:'
+    transformation_type = click.prompt(prompt_message, type=click.Choice(transformation_types), default='Base64', show_choices=True)
+
     detected_type = magic.from_buffer(data, mime=True)
     if detected_type.startswith('text'):
-        if type == "URL":
+        if transformation_type == "URL":
             result = urllib.parse.unquote(data)
-        elif type == "HTML":
+        elif transformation_type == "HTML":
             result = html.unescape(data)
-        elif type == "Base64":
+        elif transformation_type == "Base64":
             decoded_bytes = base64.b64decode(data)
             result = decoded_bytes.decode('utf-8')
-        elif type == "ASCII":
+        elif transformation_type == "ASCII":
             try:
                 result = bytearray.fromhex(data).decode()
             except ValueError:
                 result = "Invalid ASCII input"
-        elif type == "Hex":
+        elif transformation_type == "Hex":
             try:
                 result = bytes.fromhex(data).decode('utf-8')
             except ValueError:
                 result = "Invalid hex input"
-        elif type == "Octal":
+        elif transformation_type == "Octal":
             try:
                 result = ''.join([chr(int(octet, 8)) for octet in data.split()])
             except ValueError:
                 result = "Invalid octal input"
-        elif type == "Binary":
+        elif transformation_type == "Binary":
             try:
                 result = ''.join([chr(int(octet, 2)) for octet in data.split()])
             except ValueError:
                 result = "Invalid binary input"
-        elif type == "GZIP":
+        elif transformation_type == "GZIP":
             try:
                 decoded = gzip.decompress(data)
                 result = decoded.decode('utf-8')
@@ -214,13 +212,13 @@ def convert(data, type):
         else:
             result = "Invalid decoding or hashing type"
     else:
-        if type == "MD5":
+        if transformation_type == "MD5":
             result = hashlib.md5(data).hexdigest()
-        elif type == "SHA1":
+        elif transformation_type == "SHA1":
             result = hashlib.sha1(data).hexdigest()
-        elif type == "SHA256":
+        elif transformation_type == "SHA256":
             result = hashlib.sha256(data).hexdigest()
-        elif type == "BLAKE2B-160":
+        elif transformation_type == "BLAKE2B-160":
             result = hashlib.blake2b(data, digest_size=20).hexdigest()
         else:
             result = "Invalid decoding or hashing type"
@@ -480,24 +478,35 @@ def enumerator(domain, request, technology, active):
 
 
 @click.command()
-@click.option('--url', required=True, help='The URL to send the request to.')
-@click.option('--method', default='GET', help='The HTTP method to use.')
-@click.option('--payload', help='The payload to include in the request body.')
-@click.option('--headers', help='The headers to include in the request.')
-@click.option('--cookies', help='The cookies to include in the request.')
-@click.option('--count', default=1, help='The number of times to repeat the request.')
-def disturb(url, method, payload, headers, cookies, count):
+def disturb():
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
 
-    Args:
-    - url (str): The URL to send the request to.
-    - method (str): The HTTP method to use. Default: 'GET'
-    - payload (str): The payload to include in the request body. Default: None
-    - headers (dict): The headers to include in the request. Default: None
-    - cookies (dict): The cookies to include in the request. Default: None
-    - count (int): The number of times to repeat the request. Default: 1
+    Returns:
+    - A list of HTTP responses for each request sent.
+
+    The program sends multiple HTTP requests to the specified URL using the provided HTTP method, payload,
+    headers, and cookies. The user can also specify the number of times to repeat the request. The program
+    returns a list of HTTP responses for each request sent.
     """
+    # Prompt the user for the URL to send the request to
+    url = click.prompt('Enter the URL to send the request to', required=True)
+
+    # Prompt the user for the HTTP method to use
+    method = click.prompt('Enter the HTTP method to use', default='GET')
+
+    # Prompt the user for the payload to include in the request body
+    payload = click.prompt('Enter the payload to include in the request body (leave blank for none)', default='')
+
+    # Prompt the user for the headers to include in the request
+    headers = click.prompt('Enter the headers to include in the request (leave blank for none)', default='')
+
+    # Prompt the user for the cookies to include in the request
+    cookies = click.prompt('Enter the cookies to include in the request (leave blank for none)', default='')
+
+    # Prompt the user for the number of times to repeat the request
+    count = click.prompt('Enter the number of times to repeat the request', default=1)
+
     responses = []
     for i in range(count):
         response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
@@ -505,24 +514,27 @@ def disturb(url, method, payload, headers, cookies, count):
     return responses
 
 
+
 @click.command()
-@click.argument('url')
-@click.option('--num-threats', '-t', default=6, help='Number of parallel threats to send requests from')
-@click.option('--num-requests', '-r', default=200, help='Number of requests to send from each threat')
-@click.option('--num-retries', '-n', default=4, help='Number of times to retry failed requests')
-@click.option('--pause-before-retry', '-p', default=3000, help='Number of milliseconds to wait before retrying a failed request')
-def raid(url, num_threats, num_requests, num_retries, pause_before_retry):
+def raid():
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
-
-    Args:
-        url (str): The URL to send the requests to (i.e. subdomain.domain.com).
-        num_threats (int, optional): The number of parallel threats to send requests from. Defaults to 6.
-        num_requests (int, optional): The number of requests to send from each threat. Defaults to 200.
-        num_retries (int, optional): The number of times to retry failed requests. Defaults to 4.
-        pause_before_retry (int, optional): The number of milliseconds to wait before retrying a failed request. 
-            Defaults to 3000.
     """
+    # Prompt the user for the URL to send the requests to
+    url = click.prompt('Enter the URL to send the requests to (i.e. subdomain.domain.com)', type=str)
+
+    # Prompt the user for the number of parallel threats to send requests from
+    num_threats = click.prompt('Enter the number of parallel threats to send requests from', type=int, default=6)
+
+    # Prompt the user for the number of requests to send from each threat
+    num_requests = click.prompt('Enter the number of requests to send from each threat', type=int, default=200)
+
+    # Prompt the user for the number of times to retry failed requests
+    num_retries = click.prompt('Enter the number of times to retry failed requests', type=int, default=4)
+
+    # Prompt the user for the number of milliseconds to wait before retrying a failed request
+    pause_before_retry = click.prompt('Enter the number of milliseconds to wait before retrying a failed request', type=int, default=3000)
+
     if not url.startswith('http://') and not url.startswith('https://'):
         url = 'https://' + url
     prepared_request = requests.Request('GET', url).prepare()
@@ -547,20 +559,20 @@ def raid(url, num_threats, num_requests, num_retries, pause_before_retry):
 
 
 @click.command()
-@click.argument('url')
-@click.option('-c', '--common-ports', is_flag=True, default=False,
-              help='Scan only the most common HTTP ports (80, 8080, and 443)')
-def portscan(url, common_ports):
+def portscan():
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
 
-    Args:
-    - url (str): the hostname or URL of the target host
-    - common_ports (bool): whether to scan only the most common HTTP ports (80, 8080, and 443)
+    Prompts:
+    - URL: the hostname or URL of the target host.
+    - Common ports: whether to scan only the most common HTTP ports (80, 8080, and 443).
 
     Returns:
     - None. Prints the open ports found on the target host.
     """
+
+    # Prompt for the URL
+    url = click.prompt('Enter the URL of the target host')
 
     # Add a scheme to the URL if it is not present
     if not url.startswith('http://') and not url.startswith('https://'):
@@ -586,6 +598,12 @@ def portscan(url, common_ports):
         finally:
             sock.close()
 
+    # Prompt for whether to scan only common ports
+    if not url.startswith('http://') and not url.startswith('https://'):
+        common_ports = click.confirm('Scan only the most common HTTP ports (80, 8080, and 443)?', default=True)
+    else:
+        common_ports = click.confirm('Scan only the most common HTTP ports (80, 8080, and 443) for ' + hostname + '?', default=True)
+
     # Scan only the most common HTTP ports if the --common-ports flag is set
     if common_ports:
         ports = [80, 8080, 443]
@@ -606,26 +624,32 @@ def portscan(url, common_ports):
 
 
 @click.command()
-@click.argument('base_url')
-@click.argument('path', default='../lists/injector')
-def inject(base_url, path):
+def inject():
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
-    Usage: python filename.py <base_url> <path>
+    Prompts:
+    - Base URL: The base URL to send requests to. The URL must include the protocol (http or https).
+    - Path: Whether to use the default path '../lists/injector' or a custom path to a file or directory containing a list of paths to send requests to.
 
-    Arguments:
-    - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
-    - path (str): The path to a file or directory containing a list of paths to send requests to.
-
-    If the path is a directory, the program will iterate through each file in the directory and send a request for each path in the file.
-    If the path is a regular file, the program will send a request for each path in the file.
-    For each request sent, the program will print the URL and response code to the console if the response code is 200.
-    If the path does not exist, the program will print an error message to the console.
+    Returns:
+    - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
     """
+
+    # Prompt for the base URL
+    base_url = click.prompt('Enter the base URL to send requests to. The URL must include the protocol (http or https)')
+
     # Add http or https prefix if missing
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
+
+    # Prompt for custom path or use default path
+    path_choice = click.prompt('Would you like to use the default path or a custom path? (Default: ../lists/injector)', type=click.Choice(['default', 'custom'], case_sensitive=False), default='default', show_choices=True)
+
+    if path_choice == 'default':
+        path = '../lists/injector'
+    else:
+        path = click.prompt('Enter the path to a file or directory containing a list of paths to send requests to')
 
     # Check if the path is a directory or a file
     if os.path.isdir(path):
@@ -657,6 +681,7 @@ def inject(base_url, path):
     else:
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
+
 
 
 def fetch_cwe(cwe_code):
@@ -726,7 +751,6 @@ def cve():
     click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
 
 
-    
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(capture)

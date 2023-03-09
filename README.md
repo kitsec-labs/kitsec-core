@@ -56,9 +56,9 @@ kitsec vps_logger
 
 ### 🧢 Capture
 
-Intercept requests to example.com and modify the response by right clicking on the button, and saving link as. then pasting it in the CLI.:
+Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-`kitsec capture example.com/path`
+`kitsec capture`
 
 ```
 GET /mynetwork/ HTTP/1.1
@@ -99,11 +99,7 @@ Response headers:
 
 Convert your data from one format to another:
 
-`kitsec convert  S2l0c2VjIFJvY2tzIQ== --type Base64`
-
-```
-Kitsec Rocks!
- ```
+`kitsec convert`
 
  ### 🧮 Enumerate
 
@@ -176,20 +172,17 @@ Tests a base url against a DDOS threat with 10 parallel threats, 100 requests pe
 
 ### 📡 Port Scan
 
-Scan ports for example.com:
+Scan ports :
 
-`kitsec portscan example.com`
+`kitsec portscan`
 
-Scan top 3 ports for example.com:
-
-`kitsec portscan -c example.com`
 
 
 ### 💉 Inject
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
-`kitsec inject example.com`
+`kitsec inject`
 
 You can update the list you want to inject in the directory lists/injector/.
 
