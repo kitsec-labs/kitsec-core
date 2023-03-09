@@ -21,7 +21,6 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **cve**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns it in a table format with columns for CVE ID, CWE, severity, and summary.
 
 
-
 ### 🛣️ Roadmap
 
 - **Add raid types**: Add flood, hybrid and single shot
@@ -175,8 +174,6 @@ Tests a base url against a DDOS threat with 10 parallel threats, 100 requests pe
 Scan ports :
 
 `kitsec portscan`
-
-
 
 ### 💉 Inject
 
