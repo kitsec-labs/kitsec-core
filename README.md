@@ -104,47 +104,9 @@ Convert your data from one format to another:
 
 Enumerate subdomains for example.com (requires [subfinder](https://github.com/projectdiscovery/subfinder)):
 
-`kitsec enumerate example.com`
+`kitsec enumerate`
 
-Output:
-
-```
-Subdomain                    
-----------------------------   
-tracking.webapp.domain1.com 
-legal.domain1.com            
-help.domain1.com             
-staging-api.domain1.com       
-api.domain1.com                
-staging-app.domain1.com        
-staging-website.domain1.com        
-sales.domain1.com   
-```            
-
-Test subdomains for example.com and print http response:
-
-`kitsec enumerate -r example.com`
-
-Output:
-
-```
-Subdomain                       Status  
-----------------------------  --------  
-tracking.webapp.domain1.com        503 
-legal.domain1.com                  404 
-help.domain1.com                   403  
-staging-api.domain1.com            401  
-api.domain1.com                    401 
-staging-app.domain1.com            200  
-staging-website.domain1.com        200  
-sales.domain1.com                  200  
-```
-
-Test subdomains for example.com and print http response and technology
-
-`kitsec enumerate -r -t example.com`
-
-Output:
+Output when querying for status & technology:
 
 ```
 Subdomain                       Status  Reason               Technology
