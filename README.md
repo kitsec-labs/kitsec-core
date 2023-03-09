@@ -18,7 +18,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Raid**: A modular tool to help you test your web applications.
 - **Portscan**: A tool to help you scan ports.
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
-- **Query**: A tool to help you query against CVE details for historical vulnerabilities.
+- **cve**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns it in a table format with columns for CVE ID, CWE, severity, and summary.
 
 
 
