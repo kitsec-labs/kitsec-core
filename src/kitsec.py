@@ -406,11 +406,10 @@ def fetch_tech(url):
     - A list of strings representing the technologies used by the website.
     - If an error occurs while fetching the technologies, returns None.
     """
-    #ignore JAVA warnings on wappalyzer
+    #ignore JAVA warnings on wappalyzer & skip
     warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
     warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
     warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
-
 
     print(f"Fetching technologies for {url}")
     # Ensure URL starts with http(s)
