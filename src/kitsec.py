@@ -660,6 +660,47 @@ def inject(base_url, path):
         click.echo(f"{path} does not exist")
 
 
+def fetch_cve(product_name, limit):
+    """
+    Fetches CVE data for a specific product name (company name) and returns it as a list of dictionaries.
+    """
+    url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
+    response = requests.get(url)
+    data = response.json()
+
+    # Extract the relevant fields from the JSON data
+    cve_items = data.get("result", {}).get("CVE_Items", [])
+
+    # Prepare the data to be returned as a list of dictionaries
+    cve_data = []
+    for item in cve_items:
+        cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
+        severity = item.get("impact", {}).get("baseSeverity", "Unknown")
+        cwe_codes = item.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
+        cwe_codes = [x.get("description", [{}])[0].get("value", "Unknown") for x in cwe_codes]
+        vulnerability_types = [get_cwe_name(code) for code in cwe_codes]
+        summary = item.get("cve", {}).get("description", {}).get("description_data", [])
+        summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
+
+        # Add the data to the list of dictionaries
+        cve_data.append({
+            "CVE ID": cve_id,
+            "Severity": severity,
+            "Vulnerability Type": vulnerability_types,
+            "Summary": summary,
+        })
+
+    return cve_data
+
+def get_cwe_name(cwe_code):
+    """
+    Retrieves the name of a CWE vulnerability given its code.
+    """
+    url = f"https://services.nvd.nist.gov/rest/json/cwe/1.0/{cwe_code}"
+    response = requests.get(url)
+    data = response.json()
+    return data.get("result", {}).get("description", "")
+
 @click.command()
 def cve():
     """
@@ -668,27 +709,22 @@ def cve():
     product_name = click.prompt("Enter the product name")
     limit = click.prompt("Enter the number of results to display", default=10, type=int)
 
-    url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
-    response = requests.get(url)
-    data = response.json()
-
-    # Extract the relevant fields from the JSON data
-    cve_items = data.get("result", {}).get("CVE_Items", [])
+    cve_data = fetch_cve(product_name, limit)
 
     # Prepare the data to be displayed in a table format
     table_data = []
-    for item in cve_items:
-        cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
-        severity = item.get("impact", {}).get("baseSeverity", "Unknown")
-        vulnerability_type = item.get("cve", {}).get("description", {}).get("description_data", [])
-        vulnerability_type = ", ".join([x.get("value") for x in vulnerability_type if "CWE" in x.get("value", "")]) if vulnerability_type else "Unknown"
-        summary = item.get("cve", {}).get("description", {}).get("description_data", [])
-        summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
+    for item in cve_data:
+        cve_id = item["CVE ID"]
+        severity = item["Severity"]
+        vulnerability_types = item["Vulnerability Type"]
+        summary = item["Summary"]
 
         # Append the data to the table
         table_data.append(["CVE ID", cve_id])
         table_data.append(["Severity", severity])
-        table_data.append(["Vulnerability Type", vulnerability_type])
+        table_data.append(["", ""])  # Add an empty row for spacing
+        for v_type in vulnerability_types:
+            table_data.append(["Vulnerability Type", v_type])
         table_data.append(["Summary", summary])
         table_data.append(["", ""])  # Add an empty row for spacing
 
