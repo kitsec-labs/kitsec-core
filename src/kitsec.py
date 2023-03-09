@@ -688,8 +688,6 @@ def cve():
     for item in cve_items:
         cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
         severity = item.get("impact", {}).get("baseSeverity", "Unknown")
-        vulnerability_types = item.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
-        vulnerability_types = [x.get("description", [{}])[0].get("value", "Unknown") for x in vulnerability_types]
         summary = item.get("cve", {}).get("description", {}).get("description_data", [])
         summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
 
@@ -698,12 +696,19 @@ def cve():
         cwe_codes = [n.get("description", [{}])[0].get("value", "") for n in cwe_nodes if n.get("description")]
         for cwe_code in cwe_codes:
             cwe_name = fetch_cwe(cwe_code)
-            table_data.append([cve_id, cwe_name, severity, summary])
-    
-    # Display the data in a table format
-    headers = ["CVE ID", "CWE", "Severity", "Summary"]
-    click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
+            table_data.append(["CVE ID", cve_id])
+            table_data.append(["CWE", cwe_name])
+            table_data.append(["Severity", severity])
+            table_data.append(["", ""])  # Add an empty row for spacing
+            table_data.append(["Summary", summary])
+            table_data.append(["", ""])  # Add an empty row for spacing
 
+    # Display the data
+    for row in table_data:
+        click.echo(row[0] + ": " + row[1])
+        click.echo()  # Add an empty line between rows for readability
+
+    
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(capture)
