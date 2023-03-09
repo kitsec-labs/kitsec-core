@@ -30,7 +30,6 @@ import black
 
 
 #add history http
-#refine query for cve search
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #ignore JAVA warnings on wappalyzer
@@ -690,7 +689,7 @@ def cve():
     """
     # Prompt user for product name and number of results to display
     product_name = click.prompt("Enter the product name")
-    limit = click.prompt("Enter the number of results to display", default=10, type=int)
+    limit = click.prompt("Enter the number of results to display", type=int)
 
     # Make request to the NVD API and extract relevant fields
     url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
