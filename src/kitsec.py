@@ -410,14 +410,14 @@ def fetch_tech(url):
     warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
     warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
     warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
-    
+
+
+    print(f"Fetching technologies for {url}")
     # Ensure URL starts with http(s)
     if not url.startswith('http'):
         url = 'https://' + url
     
     # Fetch web page and analyze with Wappalyzer
-    webpage = WebPage.new_from_url(url)
-    wappalyzer = Wappalyzer.latest()
     technologies = []
     
     # Retry fetching up to 5 times in case of error
@@ -425,14 +425,28 @@ def fetch_tech(url):
     retry_count = 0
     while retry_count < max_retries:
         try:
+            # Create WebPage object and analyze with Wappalyzer
+            webpage = WebPage.new_from_url(url)
+            wappalyzer = Wappalyzer.latest()
             for tech in wappalyzer.analyze(webpage):
                 technologies.append(tech)
             return technologies
+        
+        # Handle timeout and connection errors
+        except requests.exceptions.Timeout:
+            print(f"Timeout fetching technologies for {url}")
+            return None
+        except requests.exceptions.ConnectionError:
+            print(f"Connection error fetching technologies for {url}")
+            return None
+        
+        # Handle other exceptions
         except Exception as e:
-            # Print error message and wait 5 seconds before retrying
             retry_count += 1
-            print(f"Error fetching technologies for {url}: {e}")
-            time.sleep(5)
+            print(f"Error fetching technologies for {url} ({str(e)})")
+            if retry_count < max_retries:
+                print(f"Retrying ({retry_count}/{max_retries})")
+                time.sleep(5)
     
     # Max retries reached, return None
     print(f"Max retries reached for {url}")
@@ -441,23 +455,21 @@ def fetch_tech(url):
 
 
 @click.command()
-@click.argument('domain')
-@click.option('-r', '--request', is_flag=True, help='Test subdomains and print http response for active ones')
-@click.option('-t', '--technology', is_flag=True, help='Analyze technology used by subdomains')
-@click.option('-a', '--active', is_flag=True, help='Use active subdomain enumeration')
-def enumerator(domain, request, technology, active):
+def enumerator():
     """
     Enumerates subdomains for a given domain using Subfinder and active enumeration.
-
-    Args:
-        domain (str): The domain to enumerate subdomains for.
-        request (bool): Flag to indicate if subdomains should be tested and http response printed for active ones.
-        technology (bool): Flag to indicate if technology used by subdomains should be analyzed.
-        active (bool): Flag to indicate if active subdomain enumeration should be used.
-
-    Returns:
-        pandas.DataFrame: A DataFrame containing the enumerated subdomains.
     """
+    # Prompt user for domain
+    domain = click.prompt('Enter the domain to enumerate subdomains for')
+
+    # Prompt user for options
+    request = click.prompt('Test subdomains and print http response for active ones [Y/n]')
+    request = request.lower() == 'y'
+    technology = click.prompt('Analyze technology used by subdomains [Y/n]')
+    technology = technology.lower() == 'y'
+    active = click.prompt('Use active subdomain enumeration [Y/n]')
+    active = active.lower() == 'y'
+
     # Get subdomains using Subfinder
     subdomains = passive_enumerator(domain)
 
@@ -467,19 +479,22 @@ def enumerator(domain, request, technology, active):
         # Add the active subdomains to the set of subdomains
         subdomains.update(active_subdomains)
 
-    if request or technology:
-        # Test subdomains and/or analyze technology used by subdomains
-        response_table = fetch_response(subdomains, technology)
-        if technology:
-            # sort response_table by status in ascending order
-            response_table = sorted(response_table, key=lambda x: -x[1])
-            click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
-        else:
-            # sort response_table by status in ascending order
-            response_table = sorted(response_table, key=lambda x: x[1])
-            click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+    if request:
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, False)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
+        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
 
-    else:
+    if technology:
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
+        click.echo(tabulate(tech_table, headers=['Subdomain', 'Technology']))
+
+    if not request and not technology:
         # Just print the subdomains
         subdomains_list = list(subdomains)
         with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
