@@ -32,11 +32,6 @@ import black
 #add history http
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
-#ignore JAVA warnings on wappalyzer
-warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
-warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
-
 #add user agent rotation
 #add proxy rotation
 
@@ -85,6 +80,7 @@ def vps_logger():
             click.echo(output, nl=False)
 
 
+
 @click.command()
 @click.argument('host')
 @click.argument('port')
@@ -113,6 +109,7 @@ def collab(host, port):
         click.echo('Terminal closed.')
     except socket.error as e:
         click.echo(f'Error connecting to {host}:{port}: {e}')
+
 
 
 @click.command()
@@ -152,6 +149,7 @@ def capture():
     request_info += "\n"
     
     print(request_info)
+
 
 
 @click.command()
@@ -226,6 +224,7 @@ def convert():
     click.echo(result)
 
 
+
 def shuffle(url):
     """
     Sends a GET request to the provided URL with shuffled proxies, ports, user agents,
@@ -275,6 +274,7 @@ def shuffle(url):
         return None
 
 
+
 def passive_enumerator(domain):
     """
     Uses Subfinder to enumerate subdomains for a given domain.
@@ -294,6 +294,7 @@ def passive_enumerator(domain):
 
     # Return set of subdomains
     return subdomains
+
 
 
 def active_enumerator(domain):
@@ -390,6 +391,7 @@ def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
     return response_table
 
 
+
 def fetch_tech(url):
     """
     Fetches the technologies used by a website using Wappalyzer.
@@ -401,6 +403,11 @@ def fetch_tech(url):
     - A list of strings representing the technologies used by the website.
     - If an error occurs while fetching the technologies, returns None.
     """
+    #ignore JAVA warnings on wappalyzer
+    warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
+    warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
+    warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
+    
     # Ensure URL starts with http(s)
     if not url.startswith('http'):
         url = 'https://' + url
@@ -427,6 +434,7 @@ def fetch_tech(url):
     # Max retries reached, return None
     print(f"Max retries reached for {url}")
     return None
+
 
 
 @click.command()
@@ -475,6 +483,7 @@ def enumerator(domain, request, technology, active):
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
 
 
 @click.command()
@@ -558,6 +567,7 @@ def raid():
     click.echo(results)
 
 
+
 @click.command()
 def portscan():
     """
@@ -621,6 +631,7 @@ def portscan():
     click.echo('\nOpen Ports:')
     for port in open_ports:
         click.echo(port)
+
 
 
 @click.command()
@@ -707,6 +718,7 @@ def fetch_cwe(cwe_code):
     return f"{cwe_code}: {cwe_name}"
 
 
+
 @click.command()
 def cve():
     """
@@ -751,6 +763,7 @@ def cve():
     click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
 
 
+
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(capture)
@@ -761,6 +774,7 @@ cli.add_command(raid)
 cli.add_command(portscan)
 cli.add_command(inject)
 cli.add_command(cve)
+
 
 
 if __name__ == '__main__':
