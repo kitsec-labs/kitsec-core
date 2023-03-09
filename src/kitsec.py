@@ -340,6 +340,7 @@ def active_enumerator(domain):
         return set()
 
 
+
 def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
     """
     Fetches the HTTP response codes and reasons for a list of subdomains.
