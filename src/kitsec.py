@@ -659,18 +659,15 @@ def inject(base_url, path):
         # If the path does not exist, print an error message to the console
         click.echo(f"{path} does not exist")
 
-@click.command()
-@click.argument("product_name")
-@click.option("--limit", "-l", default=10, help="Number of results to display.")
-def cve(product_name, limit):
-    """
-    Retrieve CVE data for a specific product name (company name) and display it in a tabulated format.
 
-    \b
-    Args:
-        product_name (str): The product name (company name) to search for.
-        limit (int): Number of results to display. Default is 10.
+@click.command()
+def cve():
     """
+    Retrieve CVE data for a specific product name (company name) and display it in a clean format.
+    """
+    product_name = click.prompt("Enter the product name")
+    limit = click.prompt("Enter the number of results to display", default=10, type=int)
+
     url = f"https://services.nvd.nist.gov/rest/json/cves/1.0?keyword={product_name}&resultsPerPage={limit}"
     response = requests.get(url)
     data = response.json()
@@ -678,25 +675,26 @@ def cve(product_name, limit):
     # Extract the relevant fields from the JSON data
     cve_items = data.get("result", {}).get("CVE_Items", [])
 
-    # Extract relevant information from each CVE
-    cve_info = []
+    # Prepare the data to be displayed in a table format
+    table_data = []
     for item in cve_items:
         cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
-        published = item.get("publishedDate")
-        modified = item.get("lastModifiedDate")
+        severity = item.get("impact", {}).get("baseSeverity", "Unknown")
+        vulnerability_type = item.get("cve", {}).get("description", {}).get("description_data", [])
+        vulnerability_type = ", ".join([x.get("value") for x in vulnerability_type if "CWE" in x.get("value", "")]) if vulnerability_type else "Unknown"
         summary = item.get("cve", {}).get("description", {}).get("description_data", [])
         summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
-        access_vector = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("accessVector")
-        access_complexity = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("accessComplexity")
-        access_authentication = item.get("impact", {}).get("baseMetricV2", {}).get("cvssV2", {}).get("authentication")
-        cve_info.append([cve_id, published, modified, summary, access_vector, access_complexity, access_authentication])
 
-    # Format and print the tabulated data
-    headers = ["ID", "Published", "Modified", "Summary", "Access Vector", "Access Complexity", "Access Authentication"]
-    table = tabulate(cve_info, headers=headers, tablefmt="fancy_grid")
-    click.echo(table)
+        # Append the data to the table
+        table_data.append(["CVE ID", cve_id])
+        table_data.append(["Severity", severity])
+        table_data.append(["Vulnerability Type", vulnerability_type])
+        table_data.append(["Summary", summary])
+        table_data.append(["", ""])  # Add an empty row for spacing
 
-
+    # Display the data in a table format
+    headers = ["", ""]
+    click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
@@ -707,7 +705,7 @@ cli.add_command(disturb)
 cli.add_command(raid)
 cli.add_command(portscan)
 cli.add_command(inject)
-cli.add_command(query)
+cli.add_command(cve)
 
 
 if __name__ == '__main__':
