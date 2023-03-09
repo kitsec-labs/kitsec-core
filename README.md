@@ -125,11 +125,8 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Tests a base url against a bruteforce threat:
 
-`kitsec raid example.com`
+`kitsec raid`
 
-Tests a base url against a DDOS threat with 10 parallel threats, 100 requests per threat, 8 retries, and 5 second pause before retry:
-
-`kitsec raid example.com -t 10 -r 100 -n 8 -p 5000`
 
 ### 📡 Port Scan
 
