@@ -18,15 +18,17 @@ from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
-import click
-import base64
-import binascii
+
 import html
 import json
+import black
 import magic
+import click
+import base64
 import platform
 import textwrap
-import black
+import binascii
+
 
 
 #add history http
