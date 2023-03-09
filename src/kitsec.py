@@ -704,6 +704,10 @@ def cve():
         # Extract CVE ID, severity, and summary fields
         cve_id = item.get("cve", {}).get("CVE_data_meta", {}).get("ID")
         severity = item.get("impact", {}).get("baseSeverity", "Unknown")
+        if severity == "Unknown":
+            severity_msg = "Severity information not available"
+        else:
+            severity_msg = severity
         summary = item.get("cve", {}).get("description", {}).get("description_data", [])
         summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
 
@@ -714,13 +718,14 @@ def cve():
             cwe_name = fetch_cwe(cwe_code)
             table_data.append(["CVE ID", cve_id])
             table_data.append(["CWE", cwe_name])
-            table_data.append(["Severity", severity])
+            table_data.append(["Severity", severity_msg])
             table_data.append(["Summary", summary])
             table_data.append(["", ""])  # Add an empty row for spacing
     
     # Display the data in a table format
     headers = ["", ""]
     click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
+
 
     
 cli.add_command(vps_logger)
