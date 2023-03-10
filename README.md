@@ -142,6 +142,13 @@ Tests a base URL against a curated list of [path](https://github.com/milo2012/pa
 
 You can update the list you want to inject in the directory lists/injector/.
 
+### 📜 CVE
+
+Search for vulnerabilities in the NVD database:
+
+`kitsec cve`
+
+Write 0 if you want no limit on the number of results.
 
 # 🚨 Guidelines
 
