@@ -33,13 +33,31 @@ To install the dependencies, run the following commands for:
 
 <details>
   <summary>Apple</summary>
-  
-  ``````
-  brew install python3
-  brew install go
-  go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-  pip install kitsec
-  ``````
+
+### To install Python 3 using Homebrew:
+
+Run the following command in your terminal:
+
+`brew install python3`
+
+
+### To install Go using Homebrew:
+
+Run the following command in your terminal:
+
+`brew install go`
+
+
+### To install subfinder using go install:
+
+Make sure you have Go installed and properly configured.
+
+Run the following command in your terminal:
+
+`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
+
 </details>
 
 <details>
@@ -47,23 +65,27 @@ To install the dependencies, run the following commands for:
   
 ### To install Python 3:
 
-Debian/Ubuntu: `sudo apt-get install python3`
-Fedora/RHEL: `sudo dnf install python3`
-CentOS: `sudo yum install python3`
+Debian/Ubuntu: `sudo apt-get install python3`  
+Fedora/RHEL: `sudo dnf install python3`  
+CentOS: `sudo yum install python3`  
 
 ### To install Go:
 
-Debian/Ubuntu: `sudo apt-get install golang`
-Fedora/RHEL/CentOS: `sudo dnf install golang`
-To install the package github.com/<username>/<repository> using go install:
+Debian/Ubuntu: `sudo apt-get install golang`  
+Fedora/RHEL/CentOS: `sudo dnf install golang`  
 
-### Make sure you have Go installed and properly configured.
+### To install subfinder using go install:
 
-Run `go get github.com/<username>/<repository>` to download the package and its dependencies.
-Navigate to the package directory using `cd $GOPATH/src/github.com/<username>/<repository>`.
-Run `go install` to build and install the package.
+Make sure you have Go installed and properly configured.
+
+Run the following command in your terminal:
+
+`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
 
 </details>
+
 
 <details>
   <summary>Microsoft</summary>
@@ -78,13 +100,15 @@ Run the installer and follow the instructions to complete the installation.
 Download the latest Go installer from the official website: https://golang.org/dl/  
 Run the installer and follow the instructions to complete the installation.  
 
-### To install the package github.com/<username>/<repository> using go install:  
+### To install subfinder using go install:
 
-Make sure you have Go installed and properly configured.  
-Open a command prompt or PowerShell window.  
-Run `go get github.com/<username>/<repository>` to download the package and its dependencies.  
-Navigate to the package directory using `cd %GOPATH%\src\github.com\<username>\<repository>`.  
-Run `go install` to build and install the package.  
+Make sure you have Go installed and properly configured.
+
+Run the following command in your terminal:
+
+`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
 
 </details>
 
