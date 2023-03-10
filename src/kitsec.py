@@ -831,7 +831,7 @@ def fuzz():
             elif http_method == 'POST':
                 # Replace the FUZZ keyword in the POST data with the value from the wordlist
                 postdata = 'username=admin&password=' + value if 'FUZZ' in postdata_contents[0] else postdata_contents[0].replace('FUZZ', value)
-                response = requests.post(url, data=postdata
+                response = requests.post(url, data=postdata)
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
