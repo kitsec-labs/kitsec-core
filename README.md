@@ -151,13 +151,13 @@ Open source tools for ethical hacking are a great way for security professionals
 Here are some guidelines for using open source tools for ethical hacking:
 
 <ol>
-  <li>Don't go beyond the scope of the agreement.</li>
+  <li>Be professional in your approach.</li>
 
-  <li>Always obtain written permission from the owner of the target system before performing any security testing or vulnerability scanning.</li>
+  <li>Don't go beyond the scope of the agreement.</li>
 
   <li>Ensure you have a strong understanding of the open source tools being used and their impact.</li>
 
-  <li>Be professional in your approach.</li>
+  <li>Always obtain written permission from the owner of the target system before performing any security testing or vulnerability scanning.</li>
 </ol>
 
 Here are some examples of websites that offer bug bounty programs for ethical hackers to test their skills:
