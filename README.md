@@ -150,8 +150,9 @@ Enumerate subdomains for example.com (requires [subfinder](https://github.com/pr
 
 `kitsec enumerate`
 
-Output when querying for status & technology:
-
+<details>
+  <summary>Output</summary>
+  
 ```
 Subdomain                       Status  Reason               Technology
 ----------------------------  --------  -------------------  ----------------------------------------------------------------
@@ -164,6 +165,11 @@ staging-app.domain1.com            200  OK                   ['Nginx', 'Google F
 staging-website.domain1.com        200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 sales.domain1.com                  200  OK                   ['Nginx', 'Google Font API', 'React', 'Stripe']
 ```
+
+</details>
+
+
+
 
 ### 🥷 Raid 
 
