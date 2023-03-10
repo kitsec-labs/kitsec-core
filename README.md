@@ -29,25 +29,43 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 📦 Installation 
 
-To install the dependencies, run the following commands:
+To install the dependencies, run the following commands for:
 
-```
-brew install python3
-brew install go
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-```
+<details>
+  <summary>Apple</summary>
+  
+  ``````
+  brew install python3
+  brew install go
+  go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+  pip install kitsec
+  ``````
+</details>
 
-To install Kitsec, simply clone the repository and run the following command to install the required dependencies:
+<details>
+  <summary>Linux</summary>
+  
+### To install Python 3:
 
-```
-pip install kitsec
-```
+Debian/Ubuntu: `sudo apt-get install python3`
+Fedora/RHEL: `sudo dnf install python3`
+CentOS: `sudo yum install python3`
 
-To log into your vps  (optional):
+### To install Go:
 
-```
-kitsec vps_logger
-```
+Debian/Ubuntu: `sudo apt-get install golang`
+Fedora/RHEL/CentOS: `sudo dnf install golang`
+To install the package github.com/<username>/<repository> using go install:
+
+### Make sure you have Go installed and properly configured.
+
+Run go get github.com/<username>/<repository> to download the package and its dependencies.
+Navigate to the package directory using cd $GOPATH/src/github.com/<username>/<repository>.
+Run go install to build and install the package.
+
+</details>
+
+
 
 # Usage
 
