@@ -32,7 +32,6 @@ import binascii
 
 
 #add history http
-#enumerator: check all options.
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #add user agent rotation
@@ -280,7 +279,7 @@ def shuffle(url):
 
 def passive_enumerator(domain):
     """
-    Uses Subfinder to enumerate subdomains for a given domain.
+    Uses multiple tools to passively enumerate subdomains for a given domain.
 
     Args:
         domain (str): The domain to enumerate subdomains for.
@@ -288,12 +287,66 @@ def passive_enumerator(domain):
     Returns:
         set: A set of subdomains.
     """
-    # Run Subfinder and capture output
-    with open(os.devnull, 'w') as nullfile:
-        subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
+    # Initialize set to store subdomains
+    subdomains = set()
 
-    # Convert output to set of subdomains
-    subdomains = set(subfinder_output.decode('utf-8').strip().split('\n'))
+    # Check if Subfinder is installed and run it if it is
+    try:
+        print('Enumerating using Subfinder...')
+        with open(os.devnull, 'w') as nullfile:
+            subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
+
+        # Add Subfinder output to set of subdomains
+        subdomains.update(subfinder_output.decode('utf-8').strip().split('\n'))
+    except:
+        print('Subfinder is not installed, skipping...')
+
+    # Check if Sublist3r is installed and run it if it is
+    try:
+        print('Enumerating using Sublist3r...')
+        with open(os.devnull, 'w') as nullfile:
+            sublist3r_output = subprocess.check_output(['sublist3r', '-d', domain, '-e', 'baidu,yahoo,google,bing,ask,netcraft,threatcrowd,ssl,passivedns'], stderr=nullfile)
+
+        # Add Sublist3r output to set of subdomains
+        subdomains.update(sublist3r_output.decode('utf-8').strip().split('\n'))
+    except:
+        print('Sublist3r is not installed, skipping...')
+
+    # Check if Findomain is installed and run it if it is
+    try:
+        print('Enumerating using Findomain...')
+        with open(os.devnull, 'w') as nullfile:
+            findomain_output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
+
+        # Add Findomain output to set of subdomains
+        subdomains.update(findomain_output.decode('utf-8').strip().split('\n'))
+    except:
+        print('Findomain is not installed, skipping...')
+
+    # Check if Assetfinder is installed and run it if it is
+    try:
+        print('Enumerating using Assetfinder...')
+        with open(os.devnull, 'w') as nullfile:
+            assetfinder_output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
+
+        # Add Assetfinder output to set of subdomains
+        subdomains.update(assetfinder_output.decode('utf-8').strip().split('\n'))
+    except:
+        print('Assetfinder is not installed, skipping...')
+
+    # Check if Amass is installed and run it if it is
+    try:
+        print('Enumerating using Amass...')
+        with open(os.devnull, 'w') as nullfile:
+            amass_output = subprocess.check_output(['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
+
+        # Add Amass output to set of subdomains
+        subdomains.update(amass_output.decode('utf-8').strip().split('\n'))
+    except:
+        print('Amass is not installed, skipping...')
+
+    # Remove duplicates from set of subdomains
+    subdomains = set(subdomains)
 
     # Return set of subdomains
     return subdomains
