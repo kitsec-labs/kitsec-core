@@ -147,7 +147,6 @@ Search for vulnerabilities in the NVD database [0 = No limit]:
 
 # 🚨 Guidelines
 
-Open source tools for ethical hacking are a great way for security professionals and enthusiasts to test the security of their own systems, as well as those of others, in a legal and ethical manner. 
 Here are some guidelines for using open source tools for ethical hacking:
 
 <ol>
