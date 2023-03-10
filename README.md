@@ -65,6 +65,28 @@ Run go install to build and install the package.
 
 </details>
 
+<details>
+  <summary>Microsoft</summary>
+  
+### To install Python 3:
+
+Download the latest Python 3 installer from the official website: https://www.python.org/downloads/windows/
+Run the installer and follow the instructions to complete the installation.
+
+### To install Go:
+
+Download the latest Go installer from the official website: https://golang.org/dl/
+Run the installer and follow the instructions to complete the installation.
+
+### To install the package github.com/<username>/<repository> using go install:
+
+Make sure you have Go installed and properly configured.
+Open a command prompt or PowerShell window.
+Run go get github.com/<username>/<repository> to download the package and its dependencies.
+Navigate to the package directory using cd %GOPATH%\src\github.com\<username>\<repository>.
+Run go install to build and install the package.
+
+</details>
 
 
 # Usage
