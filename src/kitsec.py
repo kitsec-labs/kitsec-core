@@ -32,6 +32,7 @@ import binascii
 
 
 #add history http
+#enumerator: check all options.
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #add user agent rotation
