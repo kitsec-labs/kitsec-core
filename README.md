@@ -14,7 +14,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
 - **Convert**: A tool that automatically detects various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Disturb**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
-- **Enumerator**: A powerful active and passive subdomain enumeration tool that scrapes.
+- **Enumerator**: A powerful active and passive subdomain enumeration tool that scrapes technology using subfinder, amass, assetfinder and findomain.
 - **Raid**: A modular tool to help you test your web applications.
 - **Portscan**: A tool to help you scan ports.
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.

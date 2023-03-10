@@ -277,6 +277,7 @@ def shuffle(url):
 
 
 
+
 def passive_enumerator(domain):
     """
     Uses multiple tools to passively enumerate subdomains for a given domain.
@@ -301,25 +302,15 @@ def passive_enumerator(domain):
     except:
         print('Subfinder is not installed, skipping...')
 
-    # Check if Sublist3r is installed and run it if it is
-    try:
-        print('Enumerating using Sublist3r...')
-        with open(os.devnull, 'w') as nullfile:
-            sublist3r_output = subprocess.check_output(['sublist3r', '-d', domain, '-e', 'baidu,yahoo,google,bing,ask,netcraft,threatcrowd,ssl,passivedns'], stderr=nullfile)
-
-        # Add Sublist3r output to set of subdomains
-        subdomains.update(sublist3r_output.decode('utf-8').strip().split('\n'))
-    except:
-        print('Sublist3r is not installed, skipping...')
-
-    # Check if Findomain is installed and run it if it is
+    # Use Findomain to passively enumerate subdomains
     try:
         print('Enumerating using Findomain...')
         with open(os.devnull, 'w') as nullfile:
             findomain_output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
 
         # Add Findomain output to set of subdomains
-        subdomains.update(findomain_output.decode('utf-8').strip().split('\n'))
+        subdomains.update(findomain_output.decode('utf-8').strip().split('\n')[1:])
+        subdomains = set([x for x in subdomains if domain in x])
     except:
         print('Findomain is not installed, skipping...')
 
@@ -330,7 +321,7 @@ def passive_enumerator(domain):
             assetfinder_output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
 
         # Add Assetfinder output to set of subdomains
-        subdomains.update(assetfinder_output.decode('utf-8').strip().split('\n'))
+        subdomains.update([s.split('.')[0] for s in assetfinder_output.decode('utf-8').strip().split('\n')])
     except:
         print('Assetfinder is not installed, skipping...')
 
@@ -340,8 +331,8 @@ def passive_enumerator(domain):
         with open(os.devnull, 'w') as nullfile:
             amass_output = subprocess.check_output(['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
 
-        # Add Amass output to set of subdomains
-        subdomains.update(amass_output.decode('utf-8').strip().split('\n'))
+        # Add Amass output to set of subdomains with the domain appended
+        subdomains.update([s.split('.')[0] + '.' + domain for s in amass_output.decode('utf-8').strip().split('\n')])
     except:
         print('Amass is not installed, skipping...')
 
@@ -350,6 +341,7 @@ def passive_enumerator(domain):
 
     # Return set of subdomains
     return subdomains
+
 
 
 
