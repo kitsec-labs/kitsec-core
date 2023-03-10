@@ -34,8 +34,6 @@ To install the dependencies, run the following commands:
 ```
 brew install python3
 brew install go
-brew install tmux
-brew install amass
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 ```
 
@@ -140,15 +138,12 @@ Tests a base URL against a curated list of [path](https://github.com/milo2012/pa
 
 `kitsec inject`
 
-You can update the list you want to inject in the directory lists/injector/.
-
 ### 📜 CVE
 
-Search for vulnerabilities in the NVD database:
+Search for vulnerabilities in the NVD database [0 = No limit]:
 
 `kitsec cve`
 
-Write 0 if you want no limit on the number of results.
 
 # 🚨 Guidelines
 
