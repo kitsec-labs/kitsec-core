@@ -101,14 +101,6 @@ Intercept requests to example.com. This will capture the request headers and ext
   <summary>Output</summary>
   
   ``````
-  brew install python3
-  brew install go
-  go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-  pip install kitsec
-  ``````
-</details>
-
-```
 GET /mynetwork/ HTTP/1.1
 Host: www.website.com
 Accept-Encoding: gzip, deflate, br
@@ -141,7 +133,10 @@ Response headers:
     X-Cache: CONFIG_NOCACHE
     X-MSEdge-Ref: Ref A: BB20069DED8C4CF68A735496B4DAFD79 Ref B: PAR02EDGE0721 Ref C: 2023-03-07T10:04:11Z
     Date: Tue, 07 Mar 2023 10:04:11 GMT
-```
+  ``````
+</details>
+
+
 
 ### 🪄 convert:
 
