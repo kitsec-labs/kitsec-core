@@ -59,9 +59,9 @@ To install the package github.com/<username>/<repository> using go install:
 
 ### Make sure you have Go installed and properly configured.
 
-Run go get github.com/<username>/<repository> to download the package and its dependencies.
-Navigate to the package directory using cd $GOPATH/src/github.com/<username>/<repository>.
-Run go install to build and install the package.
+Run `go get github.com/<username>/<repository>` to download the package and its dependencies.
+Navigate to the package directory using `cd $GOPATH/src/github.com/<username>/<repository>`.
+Run `go install` to build and install the package.
 
 </details>
 
@@ -82,9 +82,9 @@ Run the installer and follow the instructions to complete the installation.
 
 Make sure you have Go installed and properly configured.
 Open a command prompt or PowerShell window.
-Run go get github.com/<username>/<repository> to download the package and its dependencies.
-Navigate to the package directory using cd %GOPATH%\src\github.com\<username>\<repository>.
-Run go install to build and install the package.
+Run `go get github.com/<username>/<repository>` to download the package and its dependencies.
+Navigate to the package directory using `cd %GOPATH%\src\github.com\<username>\<repository>`.
+Run `go install` to build and install the package.
 
 </details>
 
