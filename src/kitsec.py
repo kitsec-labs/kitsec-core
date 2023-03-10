@@ -780,7 +780,58 @@ def cve():
     headers = ["", ""]
     click.echo(tabulate(table_data, headers=headers, tablefmt="plain"))
 
+DEFAULT_PARAMNAMES_PATH = os.path.join(os.path.dirname(__file__), 'paramnames.txt')
+DEFAULT_VALUES_PATH = os.path.join(os.path.dirname(__file__), 'values.txt')
+DEFAULT_POSTDATA_PATH = os.path.join(os.path.dirname(__file__), 'postdata.txt')
 
+@click.command()
+def fuzz():
+    """
+    This function performs parameter fuzzing using wordlists.
+    """
+    # Ask the user for the target URL
+    url = click.prompt('Enter the target URL', type=str)
+
+    # Ask the user for the HTTP method
+    http_method = click.prompt('Enter the HTTP method (e.g. POST, GET)', default='GET', type=str)
+
+    # Ask the user for the parameter names wordlist file path, default to the default path
+    paramnames_path = click.prompt('Enter the path to the parameter names wordlist file', default=DEFAULT_PARAMNAMES_PATH, type=str)
+
+    # Ask the user for the values wordlist file path, default to the default path
+    values_path = click.prompt('Enter the path to the values wordlist file', default=DEFAULT_VALUES_PATH, type=str)
+
+    # Ask the user for the expected response size for invalid parameter names, default to 4242
+    invalid_param_size = click.prompt('Enter the expected response size for invalid parameter names', default=4242, type=int)
+
+    # Ask the user for the expected HTTP status code for invalid parameter values, default to 401
+    invalid_value_status = click.prompt('Enter the expected HTTP status code for invalid parameter values', default=401, type=int)
+
+    # Ask the user for the request data file path (for POST requests), default to the default path
+    postdata_path = click.prompt('Enter the path to the POST data wordlist file (for POST requests only)', default=DEFAULT_POSTDATA_PATH, type=str)
+
+    # Read the parameter names wordlist file and store its contents in a list
+    with open(paramnames_path, 'r') as f:
+        paramnames_contents = f.read().splitlines()
+
+    # Read the values wordlist file and store its contents in a list
+    with open(values_path, 'r') as f:
+        values_contents = f.read().splitlines()
+
+    # Read the POST data wordlist file and store its contents in a list
+    with open(postdata_path, 'r') as f:
+        postdata_contents = f.read().splitlines()
+
+    # Loop through each parameter name in the parameter names wordlist and each value in the values wordlist, and send a request to the target URL with that parameter name and value
+    for paramname in paramnames_contents:
+        for value in values_contents:
+            if http_method == 'GET':
+                params = {paramname: value}
+                response = requests.get(url, params=params)
+            elif http_method == 'POST':
+                # Replace the FUZZ keyword in the POST data with the value from the wordlist
+                postdata = 'username=admin&password=' + value if 'FUZZ' in postdata_contents[0] else postdata_contents[0].replace('FUZZ', value)
+                response = requests.post(url, data=postdata
 
 cli.add_command(vps_logger)
 cli.add_command(collab)
@@ -792,6 +843,7 @@ cli.add_command(raid)
 cli.add_command(portscan)
 cli.add_command(inject)
 cli.add_command(cve)
+cli.add_command(fuzz)
 
 
 

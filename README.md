@@ -19,6 +19,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Portscan**: A tool to help you scan ports.
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
 - **cve**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns it in a table format with columns for CVE ID, CWE, severity, and summary.
+- **fuzz**: A tool to help you fuzz for vulnerabilities.
 
 
 ### 🛣️ Roadmap
