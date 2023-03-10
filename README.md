@@ -150,6 +150,8 @@ Search for vulnerabilities in the NVD database [0 = No limit]:
 Here are some guidelines for using open source tools for ethical hacking:
 
 <ol>
+  <li>While bug bounty programs are legal, they are not a license to hack indiscriminately. Stay withing your scope and safe harbour.</li>
+
   <li>Ensure you have a strong understanding of the open source tools being used and their impact.</li>
 
   <li>Always obtain written permission from the owner of the target system before testing.</li>
@@ -172,8 +174,6 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
   <li><a href="https://www.bugcrowd.com/">Bugcrowd</a></li>
 
   <li><a href="https://www.synack.com/">Synack</a></li>
-
-  <li>While bug bounty programs are legal, they are not a license to hack indiscriminately. In other words: Stay withing your scope and safe harbour</li>
 </ol>
 
 
