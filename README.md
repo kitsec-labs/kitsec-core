@@ -176,7 +176,7 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
   <li><a href="https://www.synack.com/">Synack</a></li>
 
-  <li>It's important to note that while bug bounty programs are legal, they are not a license to hack indiscriminately. Always follow ethical hacking guidelines and obtain permission before testing any systems, to ensure that your actions are legal and ethical. In other words: Stay withing your scope and safe harbour</li>
+  <li>While bug bounty programs are legal, they are not a license to hack indiscriminately. In other words: Stay withing your scope and safe harbour</li>
 </ol>
 
 
