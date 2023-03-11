@@ -31,7 +31,7 @@ import binascii
 
 
 
-#add history http
+#fix enumerator's output when yessing both technology and requests.
 #Add XSS scanner (https://github.com/s0md3v/XSStrike)
 
 #add user agent rotation
@@ -303,16 +303,7 @@ def passive_enumerator(domain):
         print('Subfinder is not installed, skipping...')
 
     # Use Findomain to passively enumerate subdomains
-    try:
-        print('Enumerating using Findomain...')
-        with open(os.devnull, 'w') as nullfile:
-            findomain_output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
-
-        # Add Findomain output to set of subdomains
-        subdomains.update(findomain_output.decode('utf-8').strip().split('\n')[1:])
-        subdomains = set([x for x in subdomains if domain in x])
-    except:
-        print('Findomain is not installed, skipping...')
+    subdomains.update(findomain_enumerator(domain))
 
     # Check if Assetfinder is installed and run it if it is
     try:
@@ -342,6 +333,61 @@ def passive_enumerator(domain):
     # Return set of subdomains
     return subdomains
 
+
+
+def passive_enumerator(domain):
+    """
+    Uses multiple tools to passively enumerate subdomains for a given domain.
+
+    Args:
+        domain (str): The domain to enumerate subdomains for.
+
+    Returns:
+        set: A set of subdomains.
+    """
+    # Initialize set to store subdomains
+    subdomains = set()
+
+    # List of enumeration tools
+    tools = [
+        {'name': 'Subfinder', 'cmd': ['subfinder', '-d', domain]},
+        {'name': 'Findomain', 'cmd': ['findomain', '-t', domain]},
+        {'name': 'Assetfinder', 'cmd': ['assetfinder', '--subs-only', domain]},
+        {'name': 'Amass', 'cmd': ['amass', 'enum', '--passive', '-d', domain]}
+    ]
+
+    # Iterate over tools and run them
+    while True:
+        for tool in tools:
+            name = tool['name']
+            cmd = tool['cmd']
+            try:
+                print(f'Enumerating using {name}...')
+                with open(os.devnull, 'w') as nullfile:
+                    output = subprocess.check_output(cmd, stderr=nullfile)
+
+                # Add output to set of subdomains
+                if name == 'Subfinder':
+                    subdomains.update(output.decode('utf-8').strip().split('\n'))
+                elif name == 'Findomain':
+                    subdomains.update(output.decode('utf-8').strip().split('\n')[1:])
+                    subdomains = set([x for x in subdomains if domain in x])
+                elif name == 'Assetfinder':
+                    subdomains.update([s.split('.')[0] for s in output.decode('utf-8').strip().split('\n')])
+                elif name == 'Amass':
+                    subdomains.update([s.split('.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
+            except:
+                print(f'{name} is not installed or encountered an error, skipping...')
+
+        # Remove duplicates from set of subdomains
+        subdomains = set(subdomains)
+
+        # Check if any tools failed or all have been run successfully
+        if all([tool['name'] not in subdomains for tool in tools]):
+            break
+
+    # Return set of subdomains
+    return subdomains
 
 
 
@@ -386,7 +432,6 @@ def active_enumerator(domain):
         return subdomains
     else:
         return set()
-
 
 
 def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
@@ -546,6 +591,7 @@ def enumerator():
             subdomains_list = [[subdomain] for subdomain in subdomains_list]
             click.echo(tabulate(subdomains_list, headers=['Subdomain']))
             pbar.update(len(subdomains_list))
+
 
 
 

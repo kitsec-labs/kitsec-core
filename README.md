@@ -218,16 +218,15 @@ Tests a base URL against a curated list of [path](https://github.com/milo2012/pa
 
 `kitsec inject`
 
+### 🌫️ Fuzz
+
+Fuzz a base URL with a curated list of path
+
 ### 🌐 CVE
 
 Search for vulnerabilities in the NVD database [0 = No limit]:
 
 `kitsec cve`
-
-### 🌫️ Fuzz
-
-Fuzz a base URL with a curated list of path
-
 
 # 🚨 Guidelines
 
