@@ -174,7 +174,7 @@ Convert your data from one format to another:
 
  ### 🧮 Enumerate
 
-Enumerate subdomains for example.com (requires [subfinder](https://github.com/projectdiscovery/subfinder)):
+Enumerate subdomains for example.com:
 
 `kitsec enumerate`
 
