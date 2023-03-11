@@ -11,6 +11,7 @@ import paramiko
 import pty
 
 
+
 def scan_ports(url, common_ports=False):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
@@ -67,7 +68,6 @@ def scan_ports(url, common_ports=False):
         click.echo(port)
 
 
-
 def capture_request(url):
     """
     Captures the request headers for a given URL.
@@ -103,7 +103,6 @@ def capture_request(url):
     print(request_info)
 
 
-
 def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
@@ -124,7 +123,6 @@ def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1
         response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
         responses.append(response)
     return responses
-
 
 
 def raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry=3000):
@@ -152,7 +150,6 @@ def raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry
                     pbar.update(1)
             results.append(threat_results)
     return results
-
 
 
 def shuffle(url):
@@ -231,8 +228,6 @@ def apply_raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before
     return results
 
 
-
-
 def apply_cidr(company_name):
     """
     Look up the CIDR range for a company's domain name.
@@ -251,7 +246,6 @@ def apply_cidr(company_name):
 
     except Exception as e:
         return f"Error: {str(e)}"
-
 
 
 def ssh_logger(host, username, password):

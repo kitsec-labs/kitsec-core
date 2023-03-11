@@ -5,7 +5,6 @@ import requests
 import paramiko
 import ipaddress
 
-
 import pandas as pd
 from tqdm import tqdm
 from bs4 import BeautifulSoup
@@ -20,7 +19,6 @@ import platform
 import binascii
 import concurrent
 
-
 from network import apply_cidr, ssh_logger, collab, capture_request, apply_disturb, apply_raid, scan_ports
 from utils import apply_transformation
 from enumerator import full_enumerator
@@ -29,17 +27,12 @@ from cve import query_cve
 
 
 
-#break the code into multiple files like kitsetc.utils, kitsec.enumerator, kitsec.recon, kitsec.scanner, kitsec.exploiter, kitsec.fuzzer, kitsec.bruter, kitsec.misc
-
-
 @click.group()
 def cli():
     """
     KitSec - A CLI tool for security testing and reconnaissance.
     """
     pass
-
-
 
 
 @click.command()
@@ -105,7 +98,6 @@ def convert(data, transformation_type):
         sys.exit(1)
 
     click.echo(result)
-
 
 
 @click.command()
@@ -175,6 +167,7 @@ def inject(base_url, path):
     - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
     """
     apply_injector(base_url, path)
+
 
 @click.command()
 @click.argument('company_name')

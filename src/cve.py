@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+
+
 def fetch_cwe(cwe_code):
     """Fetches the CWE name given a CWE code.
 
@@ -22,7 +24,6 @@ def fetch_cwe(cwe_code):
 
     # Return the CWE code and name as a formatted string
     return f"{cwe_code}: {cwe_name}"
-
 
 
 def query_cve(product_name, limit=10):

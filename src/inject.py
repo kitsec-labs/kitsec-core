@@ -4,6 +4,7 @@ from tqdm import tqdm
 import click
 
 
+
 def apply_injector(base_url, path='../lists/injector'):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.

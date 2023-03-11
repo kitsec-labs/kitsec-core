@@ -6,6 +6,7 @@ import gzip
 import hashlib
 
 
+
 def apply_transformation(data, transformation_type):
     """
     Applies a specified decoding or hashing function to input data.

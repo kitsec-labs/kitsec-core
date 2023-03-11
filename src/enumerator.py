@@ -12,6 +12,7 @@ import warnings
 from typing import List
 
 
+
 def passive_enumerator(domain):
     """
     Uses multiple tools to passively enumerate subdomains for a given domain.
@@ -76,8 +77,6 @@ def passive_enumerator(domain):
 
     # Return set of subdomains
     return subdomains
-
-
 
 
 def active_enumerator(domain):
@@ -169,7 +168,6 @@ def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
     return response_table
 
 
-
 def fetch_tech(url):
     """
     Fetches the technologies used by a website using Wappalyzer.
@@ -226,7 +224,6 @@ def fetch_tech(url):
     
     # Max retries reached, return None
     return None
-
 
 
 def full_enumerator(request, technology, active, domain):
