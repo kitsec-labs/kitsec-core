@@ -703,7 +703,7 @@ def inject(base_url, path):
                 # If the file is a regular file, read each line in the file and send a request to the URL
                 with open(filepath) as f:
                     paths = f.read().splitlines()
-                    progress_bar = tqdm(paths, desc=filename, position=0, leave=True)
+                    progress_bar = tqdm(paths, desc=os.path.splitext(filename)[0], position=0, leave=True)
                     for p in progress_bar:
                         url = f"{base_url}/{p}"
                         response = requests.get(url)
