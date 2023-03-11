@@ -18,8 +18,8 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Raid**: A modular tool to help you test your web applications.
 - **Portscan**: A tool to help you scan ports.
 - **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+- **cidr**: A tool that prompts you for company name, resolves its IP address and returns the CIDR range from its RDAP record.
 - **cve**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns it in a table format with columns for CVE ID, CWE, severity, and summary.
-- **fuzz**: A tool to help you fuzz for vulnerabilities.
 
 
 ### 🛣️ Roadmap
@@ -57,6 +57,7 @@ Run the following command in your terminal:
 
 `go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
 `go install github.com/tomnomnom/assetfinder@latest`
+`go install github.com/tomnomnom/waybackurls@latest`
 `pip install Sublist3r`
 `brew install findomain`
 
@@ -174,7 +175,7 @@ Convert your data from one format to another:
 
  ### 🧮 Enumerate
 
-Enumerate subdomains for example.com:
+Enumerate subdomains for example.com :
 
 `kitsec enumerate`
 
