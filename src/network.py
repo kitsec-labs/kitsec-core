@@ -1,4 +1,5 @@
 import pty
+import time
 import click
 import socket
 import random
@@ -124,9 +125,9 @@ def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1
     return responses
 
 
-def raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
     """
-    Sends HTTP requests to a given URL with a specified number of threats and requests.
+    Sends HTTP requests to a given URL with a specified number of attacks and requests.
     """
     if not url.startswith('http://') and not url.startswith('https://'):
         url = 'https://' + url
@@ -137,7 +138,7 @@ def raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry
         session.mount('http://', adapter)
         session.mount('https://', adapter)
         pool = session.send
-        for i in range(num_threats):
+        for i in range(num_attacks):
             threat_results = []
             with tqdm(total=num_requests, desc=f'Threat {i+1}') as pbar:
                 for j in range(num_requests):
@@ -200,7 +201,7 @@ def shuffle(url):
         return None
 
 
-def apply_raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def apply_raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
@@ -213,7 +214,7 @@ def apply_raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before
         session.mount('http://', adapter)
         session.mount('https://', adapter)
         pool = session.send
-        for i in range(num_threats):
+        for i in range(num_attacks):
             threat_results = []
             with tqdm(total=num_requests, desc=f'Threat {i+1}') as pbar:
                 for j in range(num_requests):
