@@ -1,14 +1,14 @@
-from urllib.parse import urlparse
-import concurrent.futures
-from tqdm import tqdm
-import requests
-import textwrap
-import paramiko
-import ipwhois
-import random
-import socket
-import click
 import pty
+import click
+import socket
+import random
+import ipwhois
+import paramiko
+import textwrap
+import requests
+from tqdm import tqdm
+import concurrent.futures
+from urllib.parse import urlparse
 
 
 

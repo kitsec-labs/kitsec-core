@@ -1,9 +1,9 @@
-import magic
-import urllib.parse
 import html
-import base64
 import gzip
+import magic
+import base64
 import hashlib
+import urllib.parse
 
 
 

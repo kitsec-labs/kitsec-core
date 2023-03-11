@@ -1,15 +1,14 @@
 import os
-import subprocess
-from urllib.parse import urlparse
 import time
-import requests
 import click
-import pandas as pd
-from tabulate import tabulate
-from tqdm import tqdm
-from Wappalyzer import Wappalyzer, WebPage
+import requests
 import warnings
-from typing import List
+import subprocess
+import pandas as pd
+from tqdm import tqdm
+from tabulate import tabulate
+from urllib.parse import urlparse
+from Wappalyzer import Wappalyzer, WebPage
 
 
 

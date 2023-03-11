@@ -1,7 +1,7 @@
 import os
+import click
 import requests
 from tqdm import tqdm
-import click
 
 
 
