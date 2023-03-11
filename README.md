@@ -228,7 +228,7 @@ example.com:443
 
 Search for CIDR ranges.:
 
-`kitsec cidr`
+`kitsec cidr domain.com`
 
 <details>
   <summary>Output</summary>
