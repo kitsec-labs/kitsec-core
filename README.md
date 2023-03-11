@@ -197,20 +197,17 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 </details>
 
 
+### 📡 Port Scan
 
+Scan ports :
+
+`kitsec portscan`
 
 ### 🥷 Raid 
 
 Tests a base url against a bruteforce threat:
 
 `kitsec raid`
-
-
-### 📡 Port Scan
-
-Scan ports :
-
-`kitsec portscan`
 
 ### 🌫️ Fuzz
 
