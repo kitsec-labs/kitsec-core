@@ -274,30 +274,3 @@ def ssh_logger(host, username, password):
         if channel.recv_ready():
             output = channel.recv(1024).decode('utf-8')
             click.echo(output, nl=False)
-
-
-def collab(host, port):
-    """
-    Connects to a remote machine and starts a collaborative terminal.
-
-    Args:
-    - host (str): The IP address or hostname of the remote machine.
-    - port (int): The port to connect to on the remote machine.
-
-    Returns:
-    - None. Starts a collaborative terminal session with the remote machine.
-
-    The program attempts to connect to the specified remote machine on the specified port.
-    If the connection is successful, it starts a new terminal session that is shared between
-    the local machine and the remote machine. All input and output is echoed to both machines.
-    """
-    try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((host, int(port)))
-        click.echo(f'Connected to {host}:{port}.')
-
-        pty.spawn(['/bin/bash'], stdin=sock, stdout=sock, stderr=sock)
-
-        click.echo('Terminal closed.')
-    except socket.error as e:
-        click.echo(f'Error connecting to {host}:{port}: {e}')
