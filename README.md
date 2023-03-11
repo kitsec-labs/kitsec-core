@@ -328,10 +328,10 @@ If you encounter any bugs or would like to suggest new features, please create a
 
 Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
 
-# 🔖  License
-
-Kitsec is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
-
 # ‼️ Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
+
+# 🔖  License
+
+Kitsec is licensed under the MIT License.
