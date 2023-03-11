@@ -25,7 +25,7 @@ from enumerator import full_enumerator
 from inject import apply_injector
 from cve import query_cve
 
-
+#todo: run kitsec from any directory
 
 @click.group()
 def cli():
@@ -126,7 +126,10 @@ def portscan(url, common_ports):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
     """
-    apply_scan_ports(url, common_ports)
+    open_ports = apply_scan_ports(url, common_ports)
+    click.echo('\nOpen Ports:')
+    for port in open_ports:
+        click.echo(port)
 
 
 @click.command()

@@ -1,14 +1,15 @@
-import socket
+from urllib.parse import urlparse
 import concurrent.futures
 from tqdm import tqdm
-import click
 import requests
-import urllib.parse
 import textwrap
-import random
-import ipwhois
 import paramiko
+import ipwhois
+import random
+import socket
+import click
 import pty
+
 
 
 
@@ -23,7 +24,7 @@ def apply_scan_ports(url, common_ports=False):
     - common-ports (bool): Whether to scan only the most common HTTP ports (80, 8080, and 443).
 
     Returns:
-    - None. Prints the open ports found on the target host.
+    - A list of open ports found on the target host.
     """
     # Add a scheme to the URL if it is not present
     if not url.startswith('http://') and not url.startswith('https://'):
@@ -58,14 +59,11 @@ def apply_scan_ports(url, common_ports=False):
     # Use multi-threading to scan ports in parallel
     with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
         futures = [executor.submit(scan_port, port) for port in ports]
-        with tqdm(total=len(futures), desc="Scanning Ports", unit="ports") as progress:
-            for future in concurrent.futures.as_completed(futures):
-                progress.update(1)
+        for future in concurrent.futures.as_completed(futures):
+            pass
 
-    # Print the open ports
-    click.echo('\nOpen Ports:')
-    for port in open_ports:
-        click.echo(port)
+    # Return the open ports
+    return open_ports
 
 
 def apply_capture(url):

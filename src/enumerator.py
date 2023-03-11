@@ -7,7 +7,7 @@ import click
 import pandas as pd
 from tabulate import tabulate
 from tqdm import tqdm
-from wappalyzer import WebPage, Wappalyzer
+from Wappalyzer import Wappalyzer, WebPage
 import warnings
 from typing import List
 
