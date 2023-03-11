@@ -187,7 +187,7 @@ Response headers:
 
 Convert your data from one format to another:
 
-`python kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64`
+`kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64`
 
 <details>
   <summary>Output</summary>
