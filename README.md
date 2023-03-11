@@ -224,9 +224,9 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 ### 📡 Port Scan
 
-Scan ports :
+Scan for most common ports:
 
-`kitsec portscan domain.com`
+`kitsec portscan -c domain.com`
 
 <details>
   <summary>Output</summary>
