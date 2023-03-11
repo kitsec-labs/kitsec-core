@@ -119,7 +119,7 @@ Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://gi
 
 # Usage
 
-### 🧢 Capture
+### 📸 Capture
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
