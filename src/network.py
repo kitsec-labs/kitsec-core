@@ -2,6 +2,7 @@ import pty
 import click
 import socket
 import random
+import urllib
 import ipwhois
 import paramiko
 import textwrap
