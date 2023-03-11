@@ -107,15 +107,15 @@ def disturb(url, method, payload, headers, cookies, count):
 
 @click.command()
 @click.argument('url', type=str)
-@click.option('--num-threats', '-t', type=int, default=6, help='Number of parallel threats to send requests from.')
+@click.option('--num-attacks', '-a', type=int, default=6, help='Number of parallel threats to send requests from.')
 @click.option('--num-requests', '-r', type=int, default=200, help='Number of requests to send from each threat.')
 @click.option('--num-retries', '-y', type=int, default=4, help='Number of times to retry failed requests.')
 @click.option('--pause-before-retry', '-p', type=int, default=3000, help='Number of milliseconds to wait before retrying a failed request.')
-def raid(url, num_threats, num_requests, num_retries, pause_before_retry):
+def raid(url, num_attacks, num_requests, num_retries, pause_before_retry):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
-    results = apply_raid(url, num_threats, num_requests, num_retries, pause_before_retry)
+    results = apply_raid(url, num_attacks, num_requests, num_retries, pause_before_retry)
     click.echo(results)
 
 
