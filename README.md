@@ -171,7 +171,15 @@ Response headers:
 
 Convert your data from one format to another:
 
-`kitsec convert`
+`python kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64`
+
+<details>
+  <summary>Output</summary>
+  
+  ```
+  Kitsec Rocks!
+  ```
+</details>
 
  ### 🧮 Enumerate
 
@@ -203,6 +211,17 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 Scan ports :
 
 `kitsec portscan domain.com`
+
+<details>
+  <summary>Output</summary>
+  
+```
+Open Ports:
+example.com:80
+example.com:443
+```
+
+</details>
 
 ### 🥷 Raid 
 
