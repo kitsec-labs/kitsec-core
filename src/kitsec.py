@@ -21,7 +21,7 @@ import concurrent
 
 from network import apply_capture, apply_disturb, apply_raid, apply_scan_ports, apply_cidr, ssh_logger
 from utils import apply_transformation
-from enumerator import full_enumerator
+from enumerator import apply_enumerator
 from inject import apply_injector
 from cve import query_cve
 
@@ -86,7 +86,7 @@ def convert(data, transformation_type):
 @click.argument('domain')
 def enumerator(request, technology, active, domain):
     """Enumerate subdomains for a given domain."""
-    full_enumerator(request=request, technology=technology, active=active, domain=domain)
+    apply_enumerator(request=request, technology=technology, active=active, domain=domain)
 
 
 @click.command()

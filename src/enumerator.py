@@ -226,7 +226,7 @@ def fetch_tech(url):
     return None
 
 
-def full_enumerator(request, technology, active, domain):
+def apply_enumerator(request, technology, active, domain):
     """
     Enumerates subdomains for a given domain using Subfinder and active enumeration.
     """
