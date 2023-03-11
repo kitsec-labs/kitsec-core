@@ -12,7 +12,7 @@ import pty
 
 
 
-def scan_ports(url, common_ports=False):
+def apply_scan_ports(url, common_ports=False):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
 
@@ -68,7 +68,7 @@ def scan_ports(url, common_ports=False):
         click.echo(port)
 
 
-def capture_request(url):
+def apply_capture(url):
     """
     Captures the request headers for a given URL.
 

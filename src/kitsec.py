@@ -19,7 +19,7 @@ import platform
 import binascii
 import concurrent
 
-from network import apply_cidr, ssh_logger, collab, capture_request, apply_disturb, apply_raid, scan_ports
+from network import apply_capture, apply_disturb, apply_raid, apply_scan_ports, apply_cidr, ssh_logger
 from utils import apply_transformation
 from enumerator import full_enumerator
 from inject import apply_injector
@@ -51,28 +51,7 @@ def vps_logger(host, username, password):
     the auth.log file using sudo. It then continuously checks for new output from the file and
     prints it to the console as it is received.
     """
-    vps_logger(host, username, password)
-
-
-@click.command()
-@click.argument('host')
-@click.argument('port')
-def collab_cli(host, port):
-    """
-    Connects to a remote machine and starts a collaborative terminal.
-
-    Args:
-    - host (str): The IP address or hostname of the remote machine.
-    - port (int): The port to connect to on the remote machine.
-
-    Returns:
-    - None. Starts a collaborative terminal session with the remote machine.
-
-    The program attempts to connect to the specified remote machine on the specified port.
-    If the connection is successful, it starts a new terminal session that is shared between
-    the local machine and the remote machine. All input and output is echoed to both machines.
-    """
-    collab(host, port)
+    ssh_logger(host, username, password)
 
 
 @click.command()
@@ -81,7 +60,7 @@ def capture(url):
     """
     Captures the request headers for a given URL.
     """
-    capture_request(url)
+    apply_capture(url)
 
 
 @click.command()
@@ -147,7 +126,7 @@ def portscan(url, common_ports):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
     """
-    scan_ports(url, common_ports)
+    apply_scan_ports(url, common_ports)
 
 
 @click.command()
@@ -201,7 +180,6 @@ def cve(product_name, limit):
 
 
 cli.add_command(vps_logger)
-cli.add_command(collab)
 cli.add_command(capture)
 cli.add_command(convert)
 cli.add_command(enumerator)
