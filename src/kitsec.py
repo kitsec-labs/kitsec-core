@@ -574,23 +574,30 @@ def enumerator():
         response_table = fetch_response(subdomains, False)
         # sort response_table by status in ascending order
         response_table = sorted(response_table, key=lambda x: x[1])
-        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+    else:
+        response_table = []
 
     if technology:
         # Analyze technology used by subdomains
         tech_table = []
         for subdomain in subdomains:
             tech = fetch_tech(subdomain)
-            tech_table.append([subdomain, tech])
-        click.echo(tabulate(tech_table, headers=['Subdomain', 'Technology']))
+            tech_table.append([subdomain, "", tech])
+    else:
+        tech_table = []
 
-    if not request and not technology:
-        # Just print the subdomains
-        subdomains_list = list(subdomains)
-        with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
-            subdomains_list = [[subdomain] for subdomain in subdomains_list]
-            click.echo(tabulate(subdomains_list, headers=['Subdomain']))
-            pbar.update(len(subdomains_list))
+    if request and technology:
+        # Merge response_table and tech_table into a single table
+        merged_table = merge_tables([response_table, tech_table], ["Subdomain", "Status", "Technology"])
+    else:
+        # Combine the response_table and tech_table and sort by subdomain
+        merged_table = sorted(response_table + tech_table, key=lambda x: x[0])
+
+    # Print the final table
+    click.echo(tabulate(merged_table, headers=['Subdomain', 'Status', 'Technology']))
+
+    click.echo("Enumeration completed successfully!")
+
 
 
 
