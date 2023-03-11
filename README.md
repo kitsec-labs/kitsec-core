@@ -281,10 +281,6 @@ Tests a base url against a bruteforce threat:
 
 `kitsec raid domain.com`
 
-### 🌫️ Fuzz
-
-Fuzz a base URL with a curated list of path
-
 ### 💉 Inject
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
