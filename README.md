@@ -56,9 +56,17 @@ Make sure you have Go installed and properly configured.
 Run the following command in your terminal:
 
 `go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+
 `go install github.com/tomnomnom/assetfinder@latest`
+
+
 `go install github.com/tomnomnom/waybackurls@latest`
+
+
 `pip install Sublist3r`
+
+
 `brew install findomain`
 
 Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
