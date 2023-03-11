@@ -128,7 +128,7 @@ def capture_request(url):
 
 import requests
 
-def disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
+def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
 
@@ -148,3 +148,108 @@ def disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
         response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
         responses.append(response)
     return responses
+
+
+
+def raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+    """
+    Sends HTTP requests to a given URL with a specified number of threats and requests.
+    """
+    if not url.startswith('http://') and not url.startswith('https://'):
+        url = 'https://' + url
+    prepared_request = requests.Request('GET', url).prepare()
+    results = []
+    with requests.Session() as session:
+        adapter = requests.adapters.HTTPAdapter(max_retries=num_retries)
+        session.mount('http://', adapter)
+        session.mount('https://', adapter)
+        pool = session.send
+        for i in range(num_threats):
+            threat_results = []
+            with tqdm(total=num_requests, desc=f'Threat {i+1}') as pbar:
+                for j in range(num_requests):
+                    response = pool(prepared_request)
+                    threat_results.append(response)
+                    if response.status_code == 200:
+                        break
+                    time.sleep(pause_before_retry/1000)
+                    pbar.update(1)
+            results.append(threat_results)
+    return results
+
+
+
+def shuffle(url):
+    """
+    Sends a GET request to the provided URL with shuffled proxies, ports, user agents,
+    and headers.
+
+    Args:
+    - url (str): The URL to send the GET request to.
+
+    Returns:
+    - If the GET request is successful, returns the response text. Otherwise, returns None.
+
+    The function shuffles a list of proxies, ports, user agents, and headers, and selects
+    the first shuffled item for each parameter. It then creates a dictionary of shuffled proxy
+    and header parameters and sends a GET request to the provided URL with these parameters.
+    If the GET request is successful, the function returns the response text. Otherwise,
+    it returns None.
+    """
+    # Define proxies, ports, user agents, and headers to shuffle
+    proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
+    ports = ['80', '8080', '3128']
+    user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+                   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0']
+    headers = {'Accept-Language': 'en-US,en;q=0.5', 'Connection': 'keep-alive'}
+
+    # Shuffle the proxies, ports, user agents, and headers
+    random.shuffle(proxies)
+    random.shuffle(ports)
+    random.shuffle(user_agents)
+    random.shuffle(headers)
+    
+    # Select the first shuffled item for each parameter
+    proxy = proxies[0]
+    port = ports[0]
+    user_agent = user_agents[0]
+    header = headers[0]
+    
+    # Create dictionary of shuffled proxy and header parameters
+    proxies_dict = {'http': f'http://{proxy}:{port}', 'https': f'https://{proxy}:{port}'}
+    headers_dict = {'User-Agent': user_agent, **header}
+    
+    # Send GET request with shuffled parameters and handle exceptions
+    try:
+        response = requests.get(url, proxies=proxies_dict, headers=headers_dict)
+        response.raise_for_status()
+        return response.text
+    except (requests.exceptions.RequestException, ValueError):
+        return None
+
+
+def apply_raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+    """
+    Sends HTTP requests to a given URL with a specified number of threats and requests.
+    """
+    if not url.startswith('http://') and not url.startswith('https://'):
+        url = 'https://' + url
+    prepared_request = requests.Request('GET', url).prepare()
+    results = []
+    with requests.Session() as session:
+        adapter = requests.adapters.HTTPAdapter(max_retries=num_retries)
+        session.mount('http://', adapter)
+        session.mount('https://', adapter)
+        pool = session.send
+        for i in range(num_threats):
+            threat_results = []
+            with tqdm(total=num_requests, desc=f'Threat {i+1}') as pbar:
+                for j in range(num_requests):
+                    response = pool(prepared_request)
+                    threat_results.append(response)
+                    if response.status_code == 200:
+                        break
+                    time.sleep(pause_before_retry/1000)
+                    pbar.update(1)
+            results.append(threat_results)
+    return results

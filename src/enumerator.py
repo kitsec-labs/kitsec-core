@@ -246,3 +246,62 @@ def fetch_tech(url):
     
     # Max retries reached, return None
     return None
+
+
+
+def full_enumerator(request, technology, active, domain):
+    """
+    Enumerates subdomains for a given domain using Subfinder and active enumeration.
+    """
+    # Get subdomains using Subfinder
+    subdomains = passive_enumerator(domain)
+
+    if active:
+        # Enumerate subdomains using active enumeration
+        active_subdomains = active_enumerator(domain)
+        # Add the active subdomains to the set of subdomains
+        subdomains.update(active_subdomains)
+
+    if request and not technology:
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, False)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
+        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+
+    if technology and not request:
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
+        click.echo(tabulate(tech_table, headers=['Subdomain', 'Technology']))
+
+    if request and technology:
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, True)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
+
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
+
+        # Combine the two tables into a single table
+        response_df = pd.DataFrame(response_table, columns=['Subdomain', 'Status', 'Reason', 'Technology'])
+        tech_df = pd.DataFrame(tech_table, columns=['Subdomain', 'Technology'])
+        combined_df = pd.merge(response_df, tech_df, on='Subdomain', how='outer')
+        combined_df.fillna('', inplace=True)  # replace NaN values with empty string
+        combined_table = combined_df.to_records(index=False).tolist()
+
+        click.echo(tabulate(combined_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+
+    if not request and not technology:
+        # Just print the subdomains
+        subdomains_list = list(subdomains)
+        with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
+            subdomains_list = [[subdomain] for subdomain in subdomains_list]
+            click.echo(tabulate(subdomains_list, headers=['Subdomain']))
+            pbar.update(len(subdomains_list))

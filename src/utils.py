@@ -30,7 +30,6 @@ import click
 import base64
 import platform
 import textwrap
-import binasciis
 
 def apply_transformation(data, transformation_type):
     """
