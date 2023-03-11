@@ -288,7 +288,7 @@ Tests a base URL against a curated list of [path](https://github.com/milo2012/pa
 `kitsec inject domain.com`
 
 
-# 🚨 Guidelines
+# Guidelines
 
 Here are some guidelines for using open source tools for ethical hacking:
 
@@ -320,18 +320,18 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 </ol>
 
 
-# 💡 Reporting Bugs and Contributing
+# Reporting Bugs and Contributing
 
 If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
-# ‼️ Disclaimer
+# Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
 
-# 🙏🏽 Acknowledgements
+# Acknowledgements
 
 Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
 
-# 🔖  License
+# License
 
 Kitsec is licensed under the [MIT License](https://github.com/kitsec-labs/kitsec-core/blob/main/LICENSE).
