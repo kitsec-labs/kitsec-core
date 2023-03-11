@@ -124,7 +124,7 @@ Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://gi
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-`kitsec capture`
+`kitsec capture url`
 
 <details>
   <summary>Output</summary>
@@ -223,21 +223,6 @@ example.com:443
 
 </details>
 
-### 🥷 Raid 
-
-Tests a base url against a bruteforce threat:
-
-`kitsec raid domain.com`
-
-### 🌫️ Fuzz
-
-Fuzz a base URL with a curated list of path
-
-### 💉 Inject
-
-Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
-
-`kitsec inject domain.com`
 
 ### 📶 CIDR
 
@@ -271,7 +256,24 @@ CWE       CWE-77: Improper Neutralization of Special Elements used in a Command 
 Severity  Severity information not available
 Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection') vulnerability in shutil module (make_archive function) that can result in Denial of service, Information gain via injection of arbitrary files on the system or entire drive. This attack appear to be exploitable via Passage of unfiltered user input to the function. This vulnerability appears to have been fixed in after commit add531a1e55b0a739b0f42582f1c9747e5649ace.
 ```
+
 </details>
+
+### 🥷 Raid 
+
+Tests a base url against a bruteforce threat:
+
+`kitsec raid domain.com`
+
+### 🌫️ Fuzz
+
+Fuzz a base URL with a curated list of path
+
+### 💉 Inject
+
+Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
+
+`kitsec inject domain.com`
 
 
 # 🚨 Guidelines
