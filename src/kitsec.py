@@ -36,9 +36,6 @@ import binascii
 
 #break the code into multiple files like kitsetc.utils, kitsec.enumerator, kitsec.recon, kitsec.scanner, kitsec.exploiter, kitsec.fuzzer, kitsec.bruter, kitsec.misc
 
-#add user agent rotation
-#add proxy rotation
-
 
 @click.group()
 def cli():
