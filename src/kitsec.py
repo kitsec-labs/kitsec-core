@@ -291,41 +291,51 @@ def passive_enumerator(domain):
     # Initialize set to store subdomains
     subdomains = set()
 
-    # Check if Subfinder is installed and run it if it is
+    # Enumerate using Subfinder
     try:
         print('Enumerating using Subfinder...')
         with open(os.devnull, 'w') as nullfile:
-            subfinder_output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
-
-        # Add Subfinder output to set of subdomains
-        subdomains.update(subfinder_output.decode('utf-8').strip().split('\n'))
+            output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
+        subdomains.update(output.decode('utf-8').strip().split('\n'))
     except:
-        print('Subfinder is not installed, skipping...')
+        print('Subfinder is not installed or encountered an error, skipping..."')
 
-    # Use Findomain to passively enumerate subdomains
-    subdomains.update(findomain_enumerator(domain))
+    # Enumerate using Findomain
+    try:
+        print('Enumerating using Findomain...')
+        with open(os.devnull, 'w') as nullfile:
+            output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
+        subdomains.update(output.decode('utf-8').strip().split('\n')[1:])
+        subdomains = set([x for x in subdomains if domain in x])
+    except:
+        print('Findomain is not installed or encountered an error, skipping..."')
 
-    # Check if Assetfinder is installed and run it if it is
+    # Enumerate using Assetfinder
     try:
         print('Enumerating using Assetfinder...')
         with open(os.devnull, 'w') as nullfile:
-            assetfinder_output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
-
-        # Add Assetfinder output to set of subdomains
-        subdomains.update([s.split('.')[0] for s in assetfinder_output.decode('utf-8').strip().split('\n')])
+            output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
+        subdomains.update([s.split('.')[0] for s in output.decode('utf-8').strip().split('\n')])
     except:
-        print('Assetfinder is not installed, skipping...')
+        print('Assetfinder is not installed or encountered an error, skipping..."')
 
-    # Check if Amass is installed and run it if it is
+    # Enumerate using Amass
     try:
         print('Enumerating using Amass...')
         with open(os.devnull, 'w') as nullfile:
-            amass_output = subprocess.check_output(['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
-
-        # Add Amass output to set of subdomains with the domain appended
-        subdomains.update([s.split('.')[0] + '.' + domain for s in amass_output.decode('utf-8').strip().split('\n')])
+            output = subprocess.check_output(['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
+        subdomains.update([s.split('.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
     except:
-        print('Amass is not installed, skipping...')
+        print('Amass is not installed or encountered an error, skipping... / debug by running "amass enum --passive -d example.com"')
+
+    # Enumerate using waybackurls
+    try:
+        print('Enumerating using waybackurls...')
+        with open(os.devnull, 'w') as nullfile:
+            output = subprocess.check_output(['waybackurls', domain], stderr=nullfile)
+        subdomains.update([urlparse(url).hostname for url in output.decode('utf-8').strip().split('\n')])
+    except:
+        print('waybackurls is not installed or encountered an error, skipping... / debug by running "waybackurls example.com"')
 
     # Remove duplicates from set of subdomains
     subdomains = set(subdomains)
@@ -333,61 +343,6 @@ def passive_enumerator(domain):
     # Return set of subdomains
     return subdomains
 
-
-
-def passive_enumerator(domain):
-    """
-    Uses multiple tools to passively enumerate subdomains for a given domain.
-
-    Args:
-        domain (str): The domain to enumerate subdomains for.
-
-    Returns:
-        set: A set of subdomains.
-    """
-    # Initialize set to store subdomains
-    subdomains = set()
-
-    # List of enumeration tools
-    tools = [
-        {'name': 'Subfinder', 'cmd': ['subfinder', '-d', domain]},
-        {'name': 'Findomain', 'cmd': ['findomain', '-t', domain]},
-        {'name': 'Assetfinder', 'cmd': ['assetfinder', '--subs-only', domain]},
-        {'name': 'Amass', 'cmd': ['amass', 'enum', '--passive', '-d', domain]}
-    ]
-
-    # Iterate over tools and run them
-    while True:
-        for tool in tools:
-            name = tool['name']
-            cmd = tool['cmd']
-            try:
-                print(f'Enumerating using {name}...')
-                with open(os.devnull, 'w') as nullfile:
-                    output = subprocess.check_output(cmd, stderr=nullfile)
-
-                # Add output to set of subdomains
-                if name == 'Subfinder':
-                    subdomains.update(output.decode('utf-8').strip().split('\n'))
-                elif name == 'Findomain':
-                    subdomains.update(output.decode('utf-8').strip().split('\n')[1:])
-                    subdomains = set([x for x in subdomains if domain in x])
-                elif name == 'Assetfinder':
-                    subdomains.update([s.split('.')[0] for s in output.decode('utf-8').strip().split('\n')])
-                elif name == 'Amass':
-                    subdomains.update([s.split('.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
-            except:
-                print(f'{name} is not installed or encountered an error, skipping...')
-
-        # Remove duplicates from set of subdomains
-        subdomains = set(subdomains)
-
-        # Check if any tools failed or all have been run successfully
-        if all([tool['name'] not in subdomains for tool in tools]):
-            break
-
-    # Return set of subdomains
-    return subdomains
 
 
 
@@ -460,11 +415,6 @@ def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
             response = session.get(f'http://{subdomain}', timeout=5)
             response_table.append([subdomain, response.status_code, response.reason, ''])
             
-            # Fetch technology if specified
-            if technology:
-                tech = fetch_tech(subdomain)
-                response_table[-1][-1] = tech
-            
             # Add a delay of 0.5 seconds to avoid overloading the target website
             time.sleep(0.5)
         
@@ -497,18 +447,24 @@ def fetch_tech(url):
     - A list of strings representing the technologies used by the website.
     - If an error occurs while fetching the technologies, returns None.
     """
-    #ignore JAVA warnings on wappalyzer & skip
+    # Ignore JAVA warnings on wappalyzer & skip
     warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
     warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
     warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
-    print(f"Fetching technologies for {url}")
     # Ensure URL starts with http(s)
     if not url.startswith('http'):
         url = 'https://' + url
-    
+
     # Fetch web page and analyze with Wappalyzer
     technologies = []
+    
+    # Print only once when the function is launched
+    if not hasattr(fetch_tech, 'counter'):
+        fetch_tech.counter = 0
+    if fetch_tech.counter == 0:
+        print("Fetching technologies...")
+        fetch_tech.counter += 1
     
     # Retry fetching up to 5 times in case of error
     max_retries = 5
@@ -524,22 +480,17 @@ def fetch_tech(url):
         
         # Handle timeout and connection errors
         except requests.exceptions.Timeout:
-            print(f"Timeout fetching technologies for {url}")
             return None
         except requests.exceptions.ConnectionError:
-            print(f"Connection error fetching technologies for {url}")
             return None
         
         # Handle other exceptions
-        except Exception as e:
+        except Exception:
             retry_count += 1
-            print(f"Error fetching technologies for {url} ({str(e)})")
             if retry_count < max_retries:
-                print(f"Retrying ({retry_count}/{max_retries})")
                 time.sleep(5)
     
     # Max retries reached, return None
-    print(f"Max retries reached for {url}")
     return None
 
 
@@ -569,35 +520,49 @@ def enumerator():
         # Add the active subdomains to the set of subdomains
         subdomains.update(active_subdomains)
 
-    if request:
+    if request and not technology:
         # Test subdomains and print http response for active ones
         response_table = fetch_response(subdomains, False)
         # sort response_table by status in ascending order
         response_table = sorted(response_table, key=lambda x: x[1])
-    else:
-        response_table = []
+        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
 
-    if technology:
+    if technology and not request:
         # Analyze technology used by subdomains
         tech_table = []
         for subdomain in subdomains:
             tech = fetch_tech(subdomain)
-            tech_table.append([subdomain, "", tech])
-    else:
-        tech_table = []
+            tech_table.append([subdomain, tech])
+        click.echo(tabulate(tech_table, headers=['Subdomain', 'Technology']))
 
     if request and technology:
-        # Merge response_table and tech_table into a single table
-        merged_table = merge_tables([response_table, tech_table], ["Subdomain", "Status", "Technology"])
-    else:
-        # Combine the response_table and tech_table and sort by subdomain
-        merged_table = sorted(response_table + tech_table, key=lambda x: x[0])
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, True)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
 
-    # Print the final table
-    click.echo(tabulate(merged_table, headers=['Subdomain', 'Status', 'Technology']))
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
 
-    click.echo("Enumeration completed successfully!")
+        # Combine the two tables into a single table
+        response_df = pd.DataFrame(response_table, columns=['Subdomain', 'Status', 'Reason', 'Technology'])
+        tech_df = pd.DataFrame(tech_table, columns=['Subdomain', 'Technology'])
+        combined_df = pd.merge(response_df, tech_df, on='Subdomain', how='outer')
+        combined_df.fillna('', inplace=True)  # replace NaN values with empty string
+        combined_table = combined_df.to_records(index=False).tolist()
 
+        click.echo(tabulate(combined_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+
+    if not request and not technology:
+        # Just print the subdomains
+        subdomains_list = list(subdomains)
+        with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
+            subdomains_list = [[subdomain] for subdomain in subdomains_list]
+            click.echo(tabulate(subdomains_list, headers=['Subdomain']))
+            pbar.update(len(subdomains_list))
 
 
 
@@ -943,7 +908,6 @@ cli.add_command(portscan)
 cli.add_command(inject)
 cli.add_command(cve)
 cli.add_command(fuzz)
-
 
 
 if __name__ == '__main__':
