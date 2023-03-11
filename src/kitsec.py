@@ -34,8 +34,7 @@ import binascii
 
 
 
-#fix enumerator's output when yessing both technology and requests.
-#Add XSS scanner (https://github.com/s0md3v/XSStrike)
+#break the code into multiple files like kitsetc.utils, kitsec.enumerator, kitsec.recon, kitsec.scanner, kitsec.exploiter, kitsec.fuzzer, kitsec.bruter, kitsec.misc
 
 #add user agent rotation
 #add proxy rotation
