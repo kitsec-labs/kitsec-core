@@ -177,7 +177,7 @@ Convert your data from one format to another:
 
 Enumerate subdomains for example.com :
 
-`kitsec enumerate`
+`kitsec enumerate -r -t -a domain.com`
 
 <details>
   <summary>Output</summary>
@@ -202,13 +202,13 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Scan ports :
 
-`kitsec portscan`
+`kitsec portscan domain.com`
 
 ### 🥷 Raid 
 
 Tests a base url against a bruteforce threat:
 
-`kitsec raid`
+`kitsec raid domain.com`
 
 ### 🌫️ Fuzz
 
@@ -218,13 +218,25 @@ Fuzz a base URL with a curated list of path
 
 Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
-`kitsec inject`
+`kitsec inject domain.com`
+
+### 📶 CIDR
+
+Search for CIDR ranges.:
+
+`kitsec cidr`
+
+<details>
+  <summary>Output</summary>
+
+`The CIDR range for domain.com is 141.82.112.0/20`
+</details>
 
 ### 🌐 CVE
 
-Search for vulnerabilities in the NVD database [0 = No limit]:
+Search for 5 vulnerabilities in the NVD database [0 = No limit]:
 
-`kitsec cve`
+`kitsec cve aws -l 5`
 
 # 🚨 Guidelines
 
