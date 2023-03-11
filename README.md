@@ -48,7 +48,7 @@ Run the following command in your terminal:
 `brew install go`
 
 
-### To install subfinder using go install:
+### To install go dependencies using go install:
 
 Make sure you have Go installed and properly configured.
 
@@ -61,9 +61,6 @@ Run the following command in your terminal:
 
 
 `go install github.com/tomnomnom/waybackurls@latest`
-
-
-`pip install Sublist3r`
 
 
 `brew install findomain`
@@ -86,13 +83,19 @@ CentOS: `sudo yum install python3`
 Debian/Ubuntu: `sudo apt-get install golang`  
 Fedora/RHEL/CentOS: `sudo dnf install golang`  
 
-### To install subfinder using go install:
+### To install go dependencings using go install:
 
 Make sure you have Go installed and properly configured.
 
 Run the following command in your terminal:
 
 `go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+
+`go install github.com/tomnomnom/assetfinder@latest`
+
+
+`go install github.com/tomnomnom/waybackurls@latest`
 
 Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
 
@@ -112,13 +115,19 @@ Run the installer and follow the instructions to complete the installation.
 Download the latest Go installer from the official website: https://golang.org/dl/  
 Run the installer and follow the instructions to complete the installation.  
 
-### To install subfinder using go install:
+### To install go dependencings using go install:
 
 Make sure you have Go installed and properly configured.
 
 Run the following command in your terminal:
 
 `go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
+
+
+`go install github.com/tomnomnom/assetfinder@latest`
+
+
+`go install github.com/tomnomnom/waybackurls@latest`
 
 Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
 
