@@ -324,13 +324,13 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
 If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
 
-# 🙏🏽 Acknowledgements
-
-Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
-
 # ‼️ Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
+
+# 🙏🏽 Acknowledgements
+
+Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
 
 # 🔖  License
 
