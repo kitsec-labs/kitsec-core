@@ -1,39 +1,10 @@
 import os
-import time
-import gzip
-import socket
-import ipwhois
-import warnings
-import subprocess
-import urllib.parse
-from typing import List
-import hashlib
-
-
 import requests
-import paramiko
-import ipaddress
-import concurrent
-import pandas as pd
 from tqdm import tqdm
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-from urllib.parse import urlparse
-from Wappalyzer import Wappalyzer, WebPage
-
-
-import html
-import json
-import black
-import magic
 import click
-import base64
-import platform
-import textwrap
-import binascii
 
 
-def inject(base_url, path):
+def apply_injector(base_url, path='../lists/injector'):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
