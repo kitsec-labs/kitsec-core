@@ -10,7 +10,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Capture**: A tool to send a GET request to a given URL and capture the request headersand extract the hostname and path + cookies!
+- **Capture**: A tool that sends a GET request to a specified URL, captures the request headers, and extracts the hostname, path, and cookies.
 - **Convert**: A tool that automatically detects various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Disturb**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
 - **Enumerator**: A powerful active and passive subdomain enumeration tool that scrapes technology using subfinder, amass, assetfinder and findomain.
@@ -331,3 +331,7 @@ Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening thei
 # 🔖  License
 
 Kitsec is licensed under the [MIT License](https://github.com/your-username/seckit/blob/main/LICENSE).
+
+# ‼️ Disclaimer
+
+This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
