@@ -6,6 +6,7 @@ import warnings
 import subprocess
 import pandas as pd
 from tqdm import tqdm
+from typing import List
 from tabulate import tabulate
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
