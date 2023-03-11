@@ -334,4 +334,4 @@ This project is made for educational and ethical testing purposes only. Usage of
 
 # 🔖  License
 
-Kitsec is licensed under the MIT License.
+Kitsec is licensed under the [MIT License](https://github.com/kitsec-labs/kitsec-core/blob/main/LICENSE).
