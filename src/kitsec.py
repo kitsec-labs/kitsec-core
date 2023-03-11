@@ -924,6 +924,7 @@ def fuzz():
                 postdata = 'username=admin&password=' + value if 'FUZZ' in postdata_contents[0] else postdata_contents[0].replace('FUZZ', value)
                 response = requests.post(url, data=postdata)
 
+
 cli.add_command(vps_logger)
 cli.add_command(collab)
 cli.add_command(capture)
