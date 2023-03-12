@@ -12,14 +12,15 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Capture**: Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
-- **Convert**: Automatically detect various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
-- **Enumerator**: Active and passive subdomain enumeration tool and scrape technology using subfinder, amass, assetfinder and findomain.
+- **Convert**: Applies a specified decoding or hashing function to input data. (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
+- **Enumerator**: Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
 - **Portscan**: Scan a host for common or all possible open ports.
-- **Raid**: Automatize customized attacks against a web server.
-- **Disturb**: Send multiple requests to a web server with the same payload.
+- **Certificate**: Check the SSL/TLS certificate information for a given URL.
+- **Raid**: Sends HTTP requests to a given URL with a specified number of attacks and requests.
+- **Disturb**: Send multiple HTTP requests to the specified URL with the same payload.
 - **Fuzz**: Test your web applications against path fuzzing and file fuzzing.
-- **CIDR**: A tool that  resolves a company's IP address and returns the CIDR range from its RDAP record.
-- **CVE**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns its CVE ID, CWE, severity, and summary.
+- **CIDR**: Looks up the CIDR range for a company's domain name from its RDAP record.
+- **CVE**: Retrieves CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD).
 
 
 ### 🛣️ Roadmap

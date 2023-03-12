@@ -26,7 +26,7 @@ from cve import query_cve
 from enumerator import apply_enumerator
 from fuzz import apply_file_format_fuzz, apply_path_fuzz
 from network import (apply_capture, apply_cidr, apply_disturb, apply_raid,
-                     apply_scan_ports, ssh_logger, check_certificate)
+                    apply_scan_ports, ssh_logger, apply_check_certificate)
 from utils import apply_transformation
 
 
@@ -69,9 +69,9 @@ def capture(url):
 
 @click.command()
 @click.argument('url')
-def check_certificate(url):
+def certificate(url):
     """
-    Captures the SSL/TLS certificate information for a given URL.
+    Checks the SSL/TLS certificate information for a given URL.
     """
     hostname = url.split('//')[-1].split('/')[0]
     apply_check_certificate(hostname)
@@ -214,6 +214,7 @@ def cve(product_name, limit):
 
 
 cli.add_command(vps_logger)
+cli.add_command(certificate)
 cli.add_command(capture)
 cli.add_command(convert)
 cli.add_command(enumerator)
