@@ -413,6 +413,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 `kitsec raid domain.com`
 
+`````
 """
   Sends HTTP GET requests to the specified URL with a specified number of attacks and requests.
 
@@ -426,6 +427,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
   Returns:
   - A list of response objects for each attack.
 """
+`````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
