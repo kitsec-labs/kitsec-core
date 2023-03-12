@@ -230,6 +230,13 @@ def apply_raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before
 def apply_cidr(company_name):
     """
     Look up the CIDR range for a company's domain name.
+
+    Args:
+    - company_name (str): The name of the company's domain name to look up.
+
+    Returns:
+    - The CIDR range for the company's domain name as a string.
+    - If an exception is raised during the execution of the function, an error message will be returned as a string.
     """
     try:
         # Look up the IP address for the company's domain name

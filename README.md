@@ -252,6 +252,19 @@ Search for CIDR ranges.:
 `The CIDR range for domain.com is 141.82.112.0/20`
 </details>
 
+`````
+"""
+  Look up the CIDR range for a company's domain name.
+
+  Args:
+  - company_name (str): The name of the company's domain name to look up.
+
+  Returns:
+  - The CIDR range for the company's domain name as a string.
+  - If an exception is raised an error message will be returned.
+"""
+`````
+
 ### 🌐 CVE
 
 Search for 5 vulnerabilities in the NVD database [0 = No limit]:
