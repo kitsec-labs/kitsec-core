@@ -418,14 +418,17 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
   Sends HTTP GET requests to a specified base URL with a given list of paths.
 
   Args:
-  - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
+  - base_url (str): The base URL to send requests to. The URL must include the 
+  protocol (http or https).
 
   Options:
-  - path (str): The path to a file or directory containing a list of paths to send requests to. Default: ../lists/fuzz/path_fuzz
+  - path (str): The path to a file or directory containing a list of paths to 
+  send requests to. Default: ../lists/fuzz/path_fuzz
   - file-fuzz (bool): Whether to use file format fuzzing or not
 
   Returns:
-  - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
+  - None. For each request sent, the program will print the URL and response code 
+  to the console if the response code is 200.
 """
 `````
 
