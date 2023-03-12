@@ -28,6 +28,7 @@ RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && 
 # Copy the source code and requirements.txt into the container
 COPY src /app
 COPY requirements.txt /app
+COPY lists /app/lists
 WORKDIR /app
 
 # Install Python dependencies
