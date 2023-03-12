@@ -120,9 +120,6 @@ def apply_scan_ports(url, common_ports=False):
     return open_ports
 
 
-import requests
-import urllib.parse
-import textwrap
 
 def apply_capture(url):
     """
