@@ -178,7 +178,23 @@ def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1
 
 def raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
     """
-    Sends HTTP requests to a given URL with a specified number of attacks and requests.
+    Sends HTTP GET requests to the specified URL with a specified number of attacks and requests.
+
+    Args:
+    - url (str): The URL to send GET requests to.
+    - num_attacks (int): The number of attacks to execute.
+    - num_requests (int): The number of requests to send in each attack.
+    - num_retries (int): The number of times to retry failed requests.
+    - pause_before_retry (int): The number of milliseconds to pause before retrying failed requests.
+
+    Returns:
+    - A list of response objects for each attack.
+
+    This function sends a GET request to the specified URL using the requests module. The URL is automatically
+    prefixed with 'https://' if it doesn't start with either 'http://' or 'https://'. The function then sends
+    a specified number of attacks to the URL, with a specified number of requests in each attack. For each request,
+    the function checks whether the response status code is 200. If it's not, the function retries the request a
+    specified number of times before giving up. The function returns a list of response objects for each attack.
     """
     if not url.startswith('http://') and not url.startswith('https://'):
         url = 'https://' + url
