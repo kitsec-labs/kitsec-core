@@ -134,7 +134,7 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
-@click.option('-p', '--path', default='../lists/fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
+@click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
 def fuzz(base_url, path):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
