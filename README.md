@@ -2,6 +2,18 @@
   <img src="assets/logo.png" alt="seckit logo" width='50%' height='50%'/>
 </p>
 
+<style>
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary:before {
+  content: '🔍 ';
+  color: blue;
+}
+</style>
+
+
 # Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you smplify & centralize your security workflow. 
