@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  kitsec:
+    build: ./src
+    volumes:
+      - ./data:/app/data
