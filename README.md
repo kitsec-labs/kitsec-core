@@ -137,7 +137,7 @@ Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://gi
 
 # Usage
 
-### 📶 VPS Logger <a name="vps-logger"></a>
+### 🧢 VPS Logger <a name="vps-logger"></a>
 
 Connects to a remote VPS server and tails the auth.log file.
 
