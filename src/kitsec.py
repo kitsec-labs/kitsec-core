@@ -177,7 +177,8 @@ def fuzz(base_url, path, file_fuzz):
     - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
 
     Options:
-    - path (str): The path to a file or directory containing a list of paths to send requests to. Default: ../lists/fuzz/path_fuzz
+    - path (str): The path to a file or directory containing a list of paths to send requests to. 
+    Default: ../lists/fuzz/path_fuzz
     - file-fuzz (bool): Whether to use file format fuzzing or not
 
     Returns:
