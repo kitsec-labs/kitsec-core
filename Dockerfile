@@ -1,4 +1,5 @@
 FROM python:3.9
+#change to alpine linuxw
 
 # Install necessary dependencies for Go installation
 RUN apt-get update && \
