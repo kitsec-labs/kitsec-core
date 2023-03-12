@@ -258,6 +258,21 @@ Search for 5 vulnerabilities in the NVD database [0 = No limit]:
 
 `kitsec cve python -l 2`
 
+`````
+"""
+  Retrieves CVE data for a specific product and displays it.
+
+  Args:
+    - product_name (str): The product name (company name) to search for.
+
+  Options:
+    limit (int): Number of results to display (default=10).
+
+  Returns:
+    - str: A plain string with each CVE record.
+"""
+`````
+
 <details>
   <summary>Output</summary>
 
