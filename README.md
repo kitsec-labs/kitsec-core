@@ -415,19 +415,19 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 `````
 """
-  Sends HTTP GET requests to the specified URL with a specified number of attacks 
-  and requests.
+Sends HTTP GET requests to the specified URL with a specified number of attacks 
+and requests.
 
-  Args:
-  - url (str): The URL to send GET requests to.
-  - num_attacks (int): The number of attacks to execute.
-  - num_requests (int): The number of requests to send in each attack.
-  - num_retries (int): The number of times to retry failed requests.
-  - pause_before_retry (int): The number of milliseconds to pause before retrying 
-  failed requests.
+Args:
+- url (str): The URL to send GET requests to.
+- num_attacks (int): The number of attacks to execute.
+- num_requests (int): The number of requests to send in each attack.
+- num_retries (int): The number of times to retry failed requests.
+- pause_before_retry (int): The number of milliseconds to pause before retrying 
+failed requests.
 
-  Returns:
-  - A list of response objects for each attack.
+Returns:
+- A list of response objects for each attack.
 """
 `````
 
