@@ -356,8 +356,6 @@ Not After: 2024-03-14 23:59:59
 ````
 </details>
 
-___
-
 ### 🌐 CVE
 
 Search for 5 vulnerabilities in the NVD database [0 = No limit]:
