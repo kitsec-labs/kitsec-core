@@ -203,6 +203,26 @@ Enumerate subdomains for example.com :
 
 `kitsec enumerate -r -t -a domain.com`
 
+````
+"""
+  Enumerates subdomains for a given domain using Subfinder and active enumeration.
+
+  Args:
+  - request : A flag indicating whether to fetch HTTP response for active subdomains.
+  - technology : A flag indicating whether to analyze technologies used by subdomains.
+  - active : A flag indicating whether to perform active enumeration.
+  - domain : The domain to enumerate subdomains for.
+
+  Returns:
+  - If only subdomains are requested, returns a list of subdomains.
+  - If only technology analysis is requested, returns a table containing the subdomains and their technologies.
+  - If only HTTP response is requested, returns a table containing the subdomains, their HTTP status & reason.
+  - If both technology & HTTP response are requested, returns a table containing the subdomains & HTTP status, 
+  reason, and technologies.
+  - If an error occurs during enumeration or analysis, returns None.
+"""
+````
+
 <details>
   <summary>Output</summary>
   
