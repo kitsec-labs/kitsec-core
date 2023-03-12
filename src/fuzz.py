@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 
 
-def apply_fuzz(base_url, path='../lists/injector'):
+def apply_fuzz(base_url, path='../lists/fuzz'):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 

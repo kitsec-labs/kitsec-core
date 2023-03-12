@@ -14,7 +14,6 @@ from urllib.parse import urlparse
 
 
 
-
 def apply_scan_ports(url, common_ports=False):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.

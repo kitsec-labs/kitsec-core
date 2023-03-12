@@ -282,7 +282,6 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 ### 🌫️ fuzz
 
-
 `kitsec fuzz domain.com`
 
 
