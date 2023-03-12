@@ -2,16 +2,6 @@
   <img src="assets/logo.png" alt="seckit logo" width='50%' height='50%'/>
 </p>
 
-<style>
-details summary::-webkit-details-marker {
-  display: none;
-}
-
-details summary:before {
-  content: '🔍 ';
-  color: blue;
-}
-</style>
 
 
 # Ethical hacking, made easy. 
@@ -24,11 +14,11 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Capture**: Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
 - **Convert**: Automatically detect various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
-- **Disturb**: Send multiple requests to a web server with the same payload.
 - **Enumerator**: Active and passive subdomain enumeration tool and scrape technology using subfinder, amass, assetfinder and findomain.
-- **Raid**: Automatize customized attacks against a web server.
 - **Portscan**: Scan a host for common or all possible open ports.
-- **Inject**: Test your web applications against SQL injection attacks.
+- **Raid**: Automatize customized attacks against a web server.
+- **Disturb**: Send multiple requests to a web server with the same payload.
+- **Fuzz**: Test your web applications against fuzzing (path fuzzing).
 - **CIDR**: A tool that  resolves a company's IP address and returns the CIDR range from its RDAP record.
 - **CVE**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns its CVE ID, CWE, severity, and summary.
 
@@ -36,7 +26,6 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### 🛣️ Roadmap
 
 - **Add raid types**: Add flood, hybrid and single shot
-- **Fuzz**: A tool to help you fuzz for vulnerabilities.
 - **XSS Scan**: Add XSS scanner.
 
 ### 📦 Installation 
@@ -434,7 +423,7 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
 # Reporting Bugs and Contributing
 
-If you encounter any bugs or would like to suggest new features, please create an issue on the GitHub repository. Contributions are also welcome! If you would like to contribute to Kitsec, please create a pull request on the GitHub repository.
+If you encounter any bugs or would like to suggest new features https://github.com/kitsec-labs/kitsec/issues/new
 
 # Disclaimer
 
