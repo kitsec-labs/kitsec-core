@@ -12,7 +12,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 - **VPS Logger**: Login to your VPS with a single command.
 - **Capture**: Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
-- **Convert**: Applies a specified decoding or hashing function to input data. (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
+- [**Convert**](#convert): Applies a specified decoding or hashing function to input data. (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - **Enumerator**: Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
 - **Portscan**: Scan a host for common or all possible open ports.
 - **Certificate**: Check the SSL/TLS certificate information for a given URL.
