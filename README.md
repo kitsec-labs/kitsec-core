@@ -338,7 +338,8 @@ Options:
 
 Returns:
   - The CIDR range for the company's domain name as a string.
-  - If an exception is raised during the lookup process, an error message will be displayed.
+  - If an exception is raised during the lookup process, 
+  an error message will be displayed.
 
 Example:
   kitsec cidr github.com
