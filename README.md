@@ -327,6 +327,35 @@ Search for CIDR ranges.:
 `The CIDR range for domain.com is 141.82.112.0/20`
 </details>
 
+### 📜 Certificate
+
+Search for CIDR ranges.:
+
+`kitsec certificate domain.com`
+
+`````
+"""
+  Check the SSL/TLS certificate for the specified host and port.
+
+  Args:
+  - hostname (str): The hostname to check the certificate for.
+  - port (int): The port to connect to. Default is 443.
+
+  Returns:
+  - None
+
+"""
+`````
+<details>
+  <summary>Output</summary>
+
+````
+Hostname: github.com
+Not Before: 2023-02-14 00:00:00
+Not After: 2024-03-14 23:59:59
+````
+</details>
+
 ### 🌐 CVE
 
 Search for 5 vulnerabilities in the NVD database [0 = No limit]:

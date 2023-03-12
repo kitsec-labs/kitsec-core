@@ -21,6 +21,26 @@ import urllib
 
 
 def apply_check_certificate(hostname, port=443):
+    """
+    Check the SSL/TLS certificate for the specified host and port.
+
+    Args:
+    - hostname (str): The hostname to check the certificate for.
+    - port (int): The port to connect to. Default is 443.
+
+    Returns:
+    - None
+
+    This function creates a socket object and wraps it with an SSL context to
+    establish a secure connection with the specified host and port. It then gets
+    the certificate from the connection and extracts relevant information such
+    as the notBefore and notAfter fields.
+
+    If the certificate is expired or expiring soon (within 30 days), this function
+    outputs a message to the console using the click.echo() function. It then outputs
+    some information about the certificate such as the hostname, notBefore, and notAfter fields.
+
+    """
     # Create a socket object and wrap it with an SSL context
     context = ssl.create_default_context()
     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname=hostname)
