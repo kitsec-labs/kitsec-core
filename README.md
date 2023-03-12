@@ -157,7 +157,7 @@ Connects to a remote VPS server and tails the auth.log file.
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-`kitsec capture <url>`
+`kitsec capture <domain.com>`
 
 ``````
 """
@@ -288,7 +288,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Scan for most common ports:
 
-`kitsec portscan -c domain.com`
+`kitsec portscan -c <domain.com>`
 
 ````
 """
