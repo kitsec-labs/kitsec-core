@@ -288,7 +288,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 Scan for most common ports:
 
-`kitsec portscan -c <domain.com>`
+`kitsec capture -c example.com`
 
 ````
 """
@@ -320,7 +320,7 @@ example.com:443
 
 Search for CIDR ranges.:
 
-`kitsec cidr domain.com`
+`kitsec cidr example.com`
 
 `````
 """
@@ -344,7 +344,7 @@ Search for CIDR ranges.:
 
 Search for CIDR ranges.:
 
-`kitsec certificate domain.com`
+`kitsec certificate example.com`
 
 `````
 """
@@ -373,7 +373,7 @@ Not After: 2024-03-14 23:59:59
 
 Search for 5 vulnerabilities in the NVD database [0 = No limit]:
 
-`kitsec cve python -l 2`
+`kitsec cve <product_name> -l 2`
 
 `````
 """
@@ -411,7 +411,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 ### 🌪️ storm <a name="storm"></a>
 
 
-`kitsec storm domain.com`
+`kitsec storm example.com`
 
 `````
 """
@@ -434,7 +434,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
-`kitsec fuzz domain.com`
+`kitsec fuzz example.com`
 
 `````
 """
