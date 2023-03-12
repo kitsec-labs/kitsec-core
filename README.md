@@ -234,7 +234,8 @@ Arguments:
 INPUT The input data to be converted.
 
 Options:
--t, --type TYPE The type of conversion to apply (HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
+-t, --type TYPE The type of conversion to apply (HTML, Base64, ASCII, 
+Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
