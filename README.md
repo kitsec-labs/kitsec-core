@@ -16,7 +16,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - [**Enumerator**](#enumerator): Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
 - [**Portscan**](#portscan): Scan a host for common or all possible open ports.
 - [**Certificate**](#certificate): Check the SSL/TLS certificate information for a given URL.
-- [**Raid**](#raid): Sends HTTP requests to a given URL with a specified number of attacks and requests.
+- [**Storm**](#storm): Sends HTTP requests to a given URL with a specified number of attacks and requests.
 - [**Disturb**](#disturb): Send multiple HTTP requests to the specified URL with the same payload.
 - [**Fuzz**](#fuzz): Test your web applications against path fuzzing and file fuzzing.
 - [**CIDR**](#cidr): Looks up the CIDR range for a company's domain name from its RDAP record.
@@ -408,7 +408,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 </details>
 
 
-### 🌪️ storm <a name="raid"></a>
+### 🌪️ storm <a name="storm"></a>
 
 
 `kitsec storm domain.com`
