@@ -42,7 +42,17 @@ or
 $ brew install docker-compose docker
 ````
 
+To mount the docker volume run:
 
+````
+$ docker-compose up
+````
+
+And then run a shell session in the container:
+
+````
+docker exec -it kitsec-core-kitsec-1 sh
+````
 
 # Usage
 
