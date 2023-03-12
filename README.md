@@ -295,7 +295,7 @@ Sends HTTP GET requests to a specified base URL with a given list of paths.
   - path (str): The path to a file or directory. Default: ../lists/injector
 
   Returns:
-  - For each request sent, the program will print the URL and response code if the code is 200.
+  - For each request sent, the program will print the URL and response code if it's 200.
 """
 `````
 
