@@ -26,7 +26,7 @@ from cve import query_cve
 from enumerator import apply_enumerator
 from fuzz import apply_file_format_fuzz, apply_path_fuzz
 from network import (apply_capture, apply_cidr, apply_disturb, apply_raid,
-                     apply_scan_ports, ssh_logger)
+                     apply_scan_ports, ssh_logger, check_certificate)
 from utils import apply_transformation
 
 
@@ -67,6 +67,14 @@ def capture(url):
     """
     apply_capture(url)
 
+@click.command()
+@click.argument('url')
+def check_certificate(url):
+    """
+    Captures the SSL/TLS certificate information for a given URL.
+    """
+    hostname = url.split('//')[-1].split('/')[0]
+    apply_check_certificate(hostname)
 
 @click.command()
 @click.argument('data')
