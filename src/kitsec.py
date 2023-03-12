@@ -22,7 +22,7 @@ import concurrent
 from network import apply_capture, apply_disturb, apply_raid, apply_scan_ports, apply_cidr, ssh_logger
 from utils import apply_transformation
 from enumerator import apply_enumerator
-from inject import apply_injector
+from fuzz import apply_fuzz
 from cve import query_cve
 
 #todo: run kitsec from any directory
@@ -134,8 +134,8 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
-@click.option('-p', '--path', default='../lists/injector', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
-def inject(base_url, path):
+@click.option('-p', '--path', default='../lists/fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
+def fuzz(base_url, path):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -148,7 +148,7 @@ def inject(base_url, path):
     Returns:
     - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
     """
-    apply_injector(base_url, path)
+    apply_fuzz(base_url, path)
 
 
 @click.command()
@@ -189,7 +189,7 @@ cli.add_command(enumerator)
 cli.add_command(disturb)
 cli.add_command(raid)
 cli.add_command(portscan)
-cli.add_command(inject)
+cli.add_command(fuzz)
 cli.add_command(cve)
 cli.add_command(cidr)
 

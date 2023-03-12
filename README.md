@@ -10,13 +10,13 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 ### ✨ Features
 
 - **VPS Logger**: Login to your VPS with a single command.
-- **Capture**: A tool that sends a GET request to a specified URL, captures the request headers, and extracts the hostname, path, and cookies.
-- **Convert**: A tool that automatically detects various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
-- **Disturb**: This tool sends multiple requests to a web server with the same payload, in order to test for vulnerabilities or analyze server behavior.
-- **Enumerator**: A powerful active and passive subdomain enumeration tool that scrapes technology using subfinder, amass, assetfinder and findomain.
-- **Raid**: A modular tool to help you test your web applications.
-- **Portscan**: A tool to help you scan ports.
-- **Inject**: A modular tool to help you test your web applications against SQL injection attacks.
+- **Capture**: Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
+- **Convert**: Automatically detect various formats and convert them (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
+- **Disturb**: Send multiple requests to a web server with the same payload.
+- **Enumerator**: Active and passive subdomain enumeration tool and scrape technology using subfinder, amass, assetfinder and findomain.
+- **Raid**: Automatize customized attacks against a web server.
+- **Portscan**: Scan a host for common or all possible open ports.
+- **Inject**: Test your web applications against SQL injection attacks.
 - **CIDR**: A tool that  resolves a company's IP address and returns the CIDR range from its RDAP record.
 - **CVE**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns its CVE ID, CWE, severity, and summary.
 
@@ -277,15 +277,13 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 ### 🥷 Raid 
 
-Tests a base url against a bruteforce threat:
 
 `kitsec raid domain.com`
 
-### 💉 Inject
+### 🌫️ fuzz
 
-Tests a base URL against a curated list of [path](https://github.com/milo2012/pathbrute)  [sql, php, ASP.NET]:
 
-`kitsec inject domain.com`
+`kitsec fuzz domain.com`
 
 
 # Guidelines
