@@ -30,109 +30,13 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 📦 Installation 
 
-To install the dependencies, run the following commands for:
+Assuming that you have Python 3.6+ installed, you can install Kitsec using pip:
 
-<details>
-  <summary>Apple</summary>
+`pip install kitsec`
 
-### To install Python 3 using Homebrew:
+Assuming that you have go installed, you can install the additional dependencies:
 
-Run the following command in your terminal:
-
-`brew install python3`
-
-
-### To install Go using Homebrew:
-
-Run the following command in your terminal:
-
-`brew install go`
-
-
-### To install go dependencies using go install:
-
-Make sure you have Go installed and properly configured.
-
-Run the following command in your terminal:
-
-`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
-
-
-`go install github.com/tomnomnom/assetfinder@latest`
-
-
-`go install github.com/tomnomnom/waybackurls@latest`
-
-
-`brew install findomain`
-
-Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
-
-</details>
-
-<details>
-  <summary>Linux</summary>
-  
-### To install Python 3:
-
-Debian/Ubuntu: `sudo apt-get install python3`  
-Fedora/RHEL: `sudo dnf install python3`  
-CentOS: `sudo yum install python3`  
-
-### To install Go:
-
-Debian/Ubuntu: `sudo apt-get install golang`  
-Fedora/RHEL/CentOS: `sudo dnf install golang`  
-
-### To install go dependencings using go install:
-
-Make sure you have Go installed and properly configured.
-
-Run the following command in your terminal:
-
-`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
-
-
-`go install github.com/tomnomnom/assetfinder@latest`
-
-
-`go install github.com/tomnomnom/waybackurls@latest`
-
-Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
-
-</details>
-
-
-<details>
-  <summary>Microsoft</summary>
-  
-### To install Python 3:  
-
-Download the latest Python 3 installer from the official website: https://www.python.org/downloads/windows/  
-Run the installer and follow the instructions to complete the installation.  
-
-### To install Go:  
-
-Download the latest Go installer from the official website: https://golang.org/dl/  
-Run the installer and follow the instructions to complete the installation.  
-
-### To install go dependencings using go install:
-
-Make sure you have Go installed and properly configured.
-
-Run the following command in your terminal:
-
-`go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest`
-
-
-`go install github.com/tomnomnom/assetfinder@latest`
-
-
-`go install github.com/tomnomnom/waybackurls@latest`
-
-Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://github.com/projectdiscovery/subfinder)
-
-</details>
+`kitsec deps`
 
 
 # Usage
