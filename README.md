@@ -10,17 +10,17 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### ✨ Features
 
-- **VPS Logger**: Login to your VPS with a single command.
-- **Capture**: Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
+- [**VPS Logger**](#vps-logger): Login to your VPS with a single command.
+- [**Capture**](#capture): Send a GET request to a specified URL, capture the request headers, and extract the hostname, path, and cookies.
 - [**Convert**](#convert): Applies a specified decoding or hashing function to input data. (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
-- **Enumerator**: Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
-- **Portscan**: Scan a host for common or all possible open ports.
-- **Certificate**: Check the SSL/TLS certificate information for a given URL.
-- **Raid**: Sends HTTP requests to a given URL with a specified number of attacks and requests.
-- **Disturb**: Send multiple HTTP requests to the specified URL with the same payload.
-- **Fuzz**: Test your web applications against path fuzzing and file fuzzing.
-- **CIDR**: Looks up the CIDR range for a company's domain name from its RDAP record.
-- **CVE**: Retrieves CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD).
+- [**Enumerator**](#enumerator): Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
+- [**Portscan**](#portscan): Scan a host for common or all possible open ports.
+- [**Certificate**](#certificate): Check the SSL/TLS certificate information for a given URL.
+- [**Raid**](#raid): Sends HTTP requests to a given URL with a specified number of attacks and requests.
+- [**Disturb**](#disturb): Send multiple HTTP requests to the specified URL with the same payload.
+- [**Fuzz**](#fuzz): Test your web applications against path fuzzing and file fuzzing.
+- [**CIDR**](#cidr): Looks up the CIDR range for a company's domain name from its RDAP record.
+- [**CVE**](#cve): Retrieves CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD).
 
 
 ### 🛣️ Roadmap
@@ -137,11 +137,27 @@ Make sure you set it up correctly (i.e. APIs keys). More infos [here](https://gi
 
 # Usage
 
-### 📸 Capture
+### 📶 VPS Logger <a name="vps-logger"></a>
+
+Connects to a remote VPS server and tails the auth.log file.
+
+`kitsec vps-logger -h <IP ADDRESS> -u <USERNAME> -p <PASSWORD>`
+
+``````
+"""
+  Connects to a remote VPS server and tails the auth.log file.
+
+  Returns:
+  - Prints a string containing the captured request headers, including method, 
+  hostname, path, cookies, and all other headers sent with the request.
+"""
+``````
+
+### 📸 Capture <a name="capture"></a>
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-`kitsec capture url`
+`kitsec capture <url>`
 
 ``````
 """
@@ -222,7 +238,7 @@ Convert your data from one format to another:
   ```
 </details>
 
- ### 🧮 Enumerate
+ ### 🧮 Enumerate <a name="enumerate"></a>
 
 Enumerate subdomains for example.com :
 
@@ -268,8 +284,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 </details>
 
-
-### 📡 Port Scan
+### 📡 Port Scan <a name="portscan"></a>
 
 Scan for most common ports:
 
@@ -301,8 +316,7 @@ example.com:443
 
 </details>
 
-
-### 📶 CIDR
+### 📶 CIDR <a name="cidr"></a>
 
 Search for CIDR ranges.:
 
@@ -326,7 +340,7 @@ Search for CIDR ranges.:
 `The CIDR range for domain.com is 141.82.112.0/20`
 </details>
 
-### 📜 Certificate
+### 📜 Certificate <a name="certificate"></a>
 
 Search for CIDR ranges.:
 
@@ -355,7 +369,7 @@ Not After: 2024-03-14 23:59:59
 ````
 </details>
 
-### 🌐 CVE
+### 🌐 CVE <a name="cve"></a>
 
 Search for 5 vulnerabilities in the NVD database [0 = No limit]:
 
@@ -393,12 +407,13 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 </details>
 
-### 🥷 Raid 
+
+### 🥷 Raid <a name="raid"></a>
 
 
 `kitsec raid domain.com`
 
-### 🌫️ fuzz
+### 🌫️ fuzz <a name="fuzz"></a>
 
 `kitsec fuzz domain.com`
 
