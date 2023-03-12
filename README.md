@@ -437,7 +437,8 @@ Options:
 -a, --num-attacks INT Number of parallel attacks to send requests from. Default: 6.
 -r, --num-requests INT Number of requests to send from each threat. Default: 200.
 -y, --num-retries INT Number of times to retry failed requests. Default: 4.
--p, --pause-before-retry INT Number of milliseconds to wait before retrying a failed request. Default: 3000.
+-p, --pause-before-retry INT Number of milliseconds to wait before retrying a failed 
+request. Default: 3000.
 --help Show this message and exit.
 
 Example:
