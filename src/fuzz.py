@@ -1,7 +1,11 @@
+# Standard library modules
 import os
+
+# Third-party modules
 import click
 import requests
 from tqdm import tqdm
+
 
 
 

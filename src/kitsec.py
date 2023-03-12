@@ -1,30 +1,34 @@
-import click
-import ipwhois
-import hashlib
-import requests
-import paramiko
-import ipaddress
-
-import pandas as pd
-from tqdm import tqdm
-from bs4 import BeautifulSoup
-from tabulate import tabulate
-from Wappalyzer import Wappalyzer, WebPage
-
-import os
-import sys
-import html
-import json
+# Standard library modules
 import base64
-import platform
 import binascii
 import concurrent
+import hashlib
+import html
+import json
+import os
+import platform
+import sys
 
-from network import apply_capture, apply_disturb, apply_raid, apply_scan_ports, apply_cidr, ssh_logger
-from utils import apply_transformation
-from enumerator import apply_enumerator
-from fuzz import apply_path_fuzz, apply_file_format_fuzz
+# Third-party modules
+import click
+import ipaddress
+import ipwhois
+import pandas as pd
+import paramiko
+import requests
+from bs4 import BeautifulSoup
+from tabulate import tabulate
+from tqdm import tqdm
+from Wappalyzer import Wappalyzer, WebPage
+
+# Local modules
 from cve import query_cve
+from enumerator import apply_enumerator
+from fuzz import apply_file_format_fuzz, apply_path_fuzz
+from network import (apply_capture, apply_cidr, apply_disturb, apply_raid,
+                     apply_scan_ports, ssh_logger)
+from utils import apply_transformation
+
 
 #todo: run kitsec from any directory
 

@@ -1,18 +1,49 @@
-import pty
-import time
-import click
+# Standard library modules
+import datetime
 import socket
-import random
-import urllib
+import ssl
+import time
+
+# Third-party modules
+import click
+import concurrent.futures
 import ipwhois
 import paramiko
-import textwrap
 import requests
 from tqdm import tqdm
-import concurrent.futures
 from urllib.parse import urlparse
 
+# Built-in modules
+import pty
+import random
+import textwrap
+import urllib
 
+
+def check_certificate(hostname, port=443):
+    # Create a socket object and wrap it with an SSL context
+    context = ssl.create_default_context()
+    conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname=hostname)
+
+    # Connect to the server and get the certificate
+    conn.connect((hostname, port))
+    cert = conn.getpeercert()
+
+    # Extract relevant information from the certificate
+    not_before = datetime.datetime.strptime(cert['notBefore'], '%b %d %H:%M:%S %Y %Z')
+    not_after = datetime.datetime.strptime(cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
+    remaining_days = (not_after - datetime.datetime.now()).days
+
+    # Check if the certificate is expired or expiring soon
+    if remaining_days <= 0:
+        print(f"The SSL/TLS certificate for {hostname} has expired!")
+    elif remaining_days <= 30:
+        print(f"The SSL/TLS certificate for {hostname} will expire in {remaining_days} days.")
+
+    # Print some information about the certificate
+    print(f"Hostname: {hostname}")
+    print(f"Not Before: {not_before}")
+    print(f"Not After: {not_after}")
 
 def apply_scan_ports(url, common_ports=False):
     """

@@ -1,13 +1,16 @@
+# Standard library modules
 import os
+import subprocess
 import time
+from typing import List
+
+# Third-party modules
 import click
+import pandas as pd
 import requests
 import warnings
-import subprocess
-import pandas as pd
-from tqdm import tqdm
-from typing import List
 from tabulate import tabulate
+from tqdm import tqdm
 from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 

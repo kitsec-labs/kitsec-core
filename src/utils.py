@@ -1,9 +1,13 @@
-import html
+# Standard library modules
 import gzip
-import magic
-import base64
 import hashlib
+import html
 import urllib.parse
+
+# Third-party modules
+import base64
+import magic
+
 
 
 
