@@ -13,12 +13,12 @@ import sys
 import click
 import ipaddress
 import ipwhois
-import pandas as pd
 import paramiko
 import requests
+import pandas as pd
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 from tabulate import tabulate
-from tqdm import tqdm
 from Wappalyzer import Wappalyzer, WebPage
 
 # Local modules
