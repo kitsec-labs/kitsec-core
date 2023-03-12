@@ -408,10 +408,10 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 </details>
 
 
-### 🥷 Raid <a name="raid"></a>
+### 🌪️ storm <a name="raid"></a>
 
 
-`kitsec raid domain.com`
+`kitsec storm domain.com`
 
 `````
 """
