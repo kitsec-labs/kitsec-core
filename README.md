@@ -167,8 +167,6 @@ prints it to the console as it is received.
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-`kitsec capture <domain.com>`
-
 ``````
 Usage: kitsec capture [OPTIONS] URL
 
