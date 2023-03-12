@@ -228,6 +228,21 @@ Scan for most common ports:
 
 `kitsec portscan -c domain.com`
 
+````
+"""
+  Performs a TCP port scan on a specified hostname or URL and a range of ports.
+
+  Args:
+  - url (str): The hostname or URL of the target host.
+
+  Options:
+  - common-ports (bool): Whether to scan only the most common HTTP ports (80, 8080, and 443).
+
+  Returns:
+  - A list of open ports found on the target host.
+"""
+````
+
 <details>
   <summary>Output</summary>
   
@@ -246,12 +261,6 @@ Search for CIDR ranges.:
 
 `kitsec cidr domain.com`
 
-<details>
-  <summary>Output</summary>
-
-`The CIDR range for domain.com is 141.82.112.0/20`
-</details>
-
 `````
 """
   Look up the CIDR range for a company's domain name.
@@ -264,6 +273,11 @@ Search for CIDR ranges.:
   - If an exception is raised an error message will be returned.
 """
 `````
+<details>
+  <summary>Output</summary>
+
+`The CIDR range for domain.com is 141.82.112.0/20`
+</details>
 
 ### 🌐 CVE
 
