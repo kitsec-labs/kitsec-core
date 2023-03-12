@@ -25,7 +25,7 @@ from Wappalyzer import Wappalyzer, WebPage
 from cve import query_cve
 from enumerator import apply_enumerator
 from fuzz import apply_file_format_fuzz, apply_path_fuzz
-from network import (apply_capture, apply_cidr, apply_disturb, apply_raid,
+from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, ssh_logger, apply_check_certificate)
 from utils import apply_transformation
 
@@ -124,11 +124,11 @@ def disturb(url, method, payload, headers, cookies, count):
 @click.option('--num-requests', '-r', type=int, default=200, help='Number of requests to send from each threat.')
 @click.option('--num-retries', '-y', type=int, default=4, help='Number of times to retry failed requests.')
 @click.option('--pause-before-retry', '-p', type=int, default=3000, help='Number of milliseconds to wait before retrying a failed request.')
-def raid(url, num_attacks, num_requests, num_retries, pause_before_retry):
+def storm(url, num_attacks, num_requests, num_retries, pause_before_retry):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
-    results = apply_raid(url, num_attacks, num_requests, num_retries, pause_before_retry)
+    results = apply_storm(url, num_attacks, num_requests, num_retries, pause_before_retry)
     click.echo(results)
 
 
@@ -219,7 +219,7 @@ cli.add_command(capture)
 cli.add_command(convert)
 cli.add_command(enumerator)
 cli.add_command(disturb)
-cli.add_command(raid)
+cli.add_command(storm)
 cli.add_command(portscan)
 cli.add_command(fuzz)
 cli.add_command(cve)

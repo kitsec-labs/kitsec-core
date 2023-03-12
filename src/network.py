@@ -176,7 +176,7 @@ def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1
     return responses
 
 
-def raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
     """
     Sends HTTP GET requests to the specified URL with a specified number of attacks and requests.
 
@@ -268,7 +268,7 @@ def shuffle(url):
         return None
 
 
-def apply_raid(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def apply_storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
