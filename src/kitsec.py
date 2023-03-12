@@ -236,6 +236,7 @@ def cve(product_name, limit):
     click.echo(cve_data)
 
 
+cli.add_command(deps)
 cli.add_command(vps_logger)
 cli.add_command(certificate)
 cli.add_command(capture)
