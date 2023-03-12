@@ -26,8 +26,8 @@ RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && 
     go install github.com/OWASP/Amass/v3/...
 
 # Copy the source code and requirements.txt into the container
-COPY src /app
-COPY requirements.txt /app
+COPY requirements.txt /app/
+COPY src /app/src
 COPY lists /app/lists
 WORKDIR /app
 
@@ -36,4 +36,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Run the application
-CMD ["python", "kitsec.py"]
+CMD ["python", "src/kitsec.py"]
