@@ -456,8 +456,8 @@ Arguments:
 BASE_URL The base URL to send requests to. The URL must include the protocol (http or https).
 
 Options:
--p, --path PATH The path to a file or directory containing a list of paths to send requests to. 
-Default: ../lists/fuzz/path_fuzz
+-p, --path PATH The path to a file or directory containing a list of paths to send requests 
+to. Default: ../lists/fuzz/path_fuzz
 -f, --file-fuzz Use file format fuzzing
 --help Show this message and exit.
 
