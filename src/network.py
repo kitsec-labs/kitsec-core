@@ -120,6 +120,10 @@ def apply_scan_ports(url, common_ports=False):
     return open_ports
 
 
+import requests
+import urllib.parse
+import textwrap
+
 def apply_capture(url):
     """
     Captures the request headers for a given URL.
@@ -140,19 +144,36 @@ def apply_capture(url):
     request_info = f"{response.request.method} {path} HTTP/1.1\n"
     request_info += f"Host: {hostname}\n"
     
-    cookie_lines = headers.get("Cookie", "").split("; ")
-    cookies = "\n".join(cookie_lines)
-    request_info += f"Cookie: {cookies}\n"
+    # Check for missing headers
+    missing_headers = []
+    for header in ["X-XSS-Protection", "X-Content-Type-Options", "Strict-Transport-Security", "Content-Security-Policy", "Referrer-Policy", "Feature-Policy"]:
+        if header not in headers:
+            missing_headers.append(header)
     
-    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent", "Cookie"]])
-    request_info += "\n\n"
-    
-    # Add response headers
+    # Add the "Response headers" section
     request_info += "Response headers:\n"
     request_info += textwrap.indent("\n".join([f"  {header}: {value}" for header, value in response.headers.items()]), "  ")
     request_info += "\n"
     
+    # Add the "Connection" header
+    connection_header = headers.get("Connection", "")
+    if connection_header:
+        request_info += f"Connection: {connection_header}\n"
+    
+    cookie_lines = headers.get("Cookie", "").split("; ")
+    cookies = "\n".join(cookie_lines)
+    request_info += f"Cookie: {cookies}\n"
+    
+    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent", "Cookie", "Connection"]])
+    request_info += "\n\n"
+    
+    # Add the "Missing headers" section if there are missing headers
+    if missing_headers:
+        request_info += "Missing headers:\n"
+        request_info += f"{', '.join(missing_headers)}\n"
+    
     print(request_info)
+
 
 
 def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
