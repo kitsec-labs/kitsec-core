@@ -219,8 +219,8 @@ Enumerate subdomains for example.com :
   & technologies.
   - If only HTTP response is requested, returns a table containing: subdomains, 
   HTTP status & reason.
-  - If both technology & HTTP response are requested, returns a table containing the subdomains 
-  & HTTP status, reason, and technologies.
+  - If both technology & HTTP response are requested, returns a table containing 
+  the subdomains & HTTP status, reason, and technologies.
   - If an error occurs during enumeration or analysis, returns None.
 """
 ````
