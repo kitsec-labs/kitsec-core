@@ -27,6 +27,7 @@ from enumerator import apply_enumerator
 from fuzz import apply_file_format_fuzz, apply_path_fuzz
 from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, ssh_logger, apply_check_certificate)
+from dependencies import install_dependencies
 from utils import apply_transformation
 
 
@@ -38,6 +39,15 @@ def cli():
     KitSec - A CLI tool for security testing and reconnaissance.
     """
     pass
+
+@click.command()
+def deps():
+    """
+    Installs the necessary dependencies for KitSec.
+    """
+    click.echo("Installing dependencies...")
+    install_dependencies()
+    click.echo("Dependencies installed successfully!")
 
 
 @click.command()

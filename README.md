@@ -5,7 +5,7 @@
 
 # Ethical hacking, made easy. 
 
-Kitsec is a powerful toolkit CLI designed to help you smplify & centralize your security workflow. 
+Kitsec is a powerful toolkit CLI designed to help you simplify & centralize your security workflow. 
 Whether you're a seasoned professional or just getting started, Kitsec provides a comprehensive set of tools to help you stay on top of your game.
 
 ### ✨ Features
