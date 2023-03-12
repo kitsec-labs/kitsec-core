@@ -69,6 +69,7 @@ def capture(url):
 
 @click.command()
 @click.argument('url')
+@click.help_option('--help', '-h')
 def certificate(url):
     """
     Checks the SSL/TLS certificate information for a given URL.
@@ -78,7 +79,8 @@ def certificate(url):
 
 @click.command()
 @click.argument('data')
-@click.option('--type', '-t', 'transformation_type', type=click.Choice(['URL', 'HTML', 'Base64', 'ASCII', 'Hex', 'Octal', 'Binary', 'MD5', 'SHA1', 'SHA256', 'BLAKE2B-160', 'GZIP']), default='Base64')
+@click.option('--type', '-t', 'transformation_type', type=click.Choice(['URL', 'HTML', 'Base64', 'ASCII', 'Hex', 'Octal', 'Binary', 'MD5', 'SHA1', 'SHA256', 'BLAKE2B-160', 'GZIP']), default='Base64', help='The type of transformation to apply to the input data.')
+@click.help_option('--help', '-h')
 def convert(data, transformation_type):
     """
     Applies a specified decoding or hashing function to input data.
@@ -92,14 +94,22 @@ def convert(data, transformation_type):
     click.echo(result)
 
 
+
 @click.command()
 @click.option('--request', '-r', is_flag=True, default=False, help='Test subdomains and print http response for active ones.')
 @click.option('--technology', '-t', is_flag=True, default=False, help='Analyze technology used by subdomains.')
 @click.option('--active', '-a', is_flag=True, default=False, help='Use active enumeration.')
 @click.argument('domain')
-def enumerator(request, technology, active, domain):
-    """Enumerate subdomains for a given domain."""
-    apply_enumerator(request=request, technology=technology, active=active, domain=domain)
+@click.option('-h', '--help', 'display_help', is_flag=True, help='Display this help message')
+def enumerator(request, technology, active, domain, display_help):
+    """
+    Enumerate subdomains for a given domain.
+    """
+    if display_help:
+        click.echo(enumerator.get_help(click.Context(enumerator)))
+    else:
+        apply_enumerator(request=request, technology=technology, active=active, domain=domain)
+
 
 
 @click.command()
@@ -109,27 +119,36 @@ def enumerator(request, technology, active, domain):
 @click.option('-H', '--headers', default='', help='Headers to include in the request')
 @click.option('-c', '--cookies', default='', help='Cookies to include in the request')
 @click.option('-n', '--count', default=1, type=int, help='Number of times to repeat the request')
-def disturb(url, method, payload, headers, cookies, count):
+@click.option('--show-help', '-h', is_flag=True, help='Show help message.')
+def disturb(url, method, payload, headers, cookies, count, show_help):
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
     """
-    responses = disturb(url, method, payload, headers, cookies, count)
-    for i, response in enumerate(responses):
-        click.echo(f'Response {i + 1}: {response.status_code} - {response.reason}')
+    if show_help:
+        click.echo(disturb.get_help(click.Context(disturb)))
+    else:
+        responses = disturb(url, method, payload, headers, cookies, count)
+        for i, response in enumerate(responses):
+            click.echo(f'Response {i + 1}: {response.status_code} - {response.reason}')
+
 
 
 @click.command()
-@click.argument('url', type=str)
+@click.argument('url')
 @click.option('--num-attacks', '-a', type=int, default=6, help='Number of parallel threats to send requests from.')
 @click.option('--num-requests', '-r', type=int, default=200, help='Number of requests to send from each threat.')
 @click.option('--num-retries', '-y', type=int, default=4, help='Number of times to retry failed requests.')
 @click.option('--pause-before-retry', '-p', type=int, default=3000, help='Number of milliseconds to wait before retrying a failed request.')
-def storm(url, num_attacks, num_requests, num_retries, pause_before_retry):
+@click.option('-h', '--help', 'display_help', is_flag=True, help='Display this help message')
+def storm(url, num_attacks, num_requests, num_retries, pause_before_retry, display_help):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
-    results = apply_storm(url, num_attacks, num_requests, num_retries, pause_before_retry)
-    click.echo(results)
+    if display_help:
+        click.echo(storm.get_help(click.Context(storm)))
+    else:
+        results = apply_storm(url, num_attacks, num_requests, num_retries, pause_before_retry)
+        click.echo(results)
 
 
 @click.command()
@@ -149,6 +168,7 @@ def portscan(url, common_ports):
 @click.argument('base_url')
 @click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
 @click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
+@click.help_option('--help', '-h')
 def fuzz(base_url, path, file_fuzz):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
@@ -184,16 +204,7 @@ def fuzz(base_url, path, file_fuzz):
 
 @click.command()
 @click.argument('company_name')
-def cidr(company_name):
-    """
-    Look up the CIDR range for a company's domain name.
-    """
-    result = apply_cidr(company_name)
-    click.echo(result)
-
-
-@click.command()
-@click.argument('company_name')
+@click.help_option('--help', '-h')
 def cidr(company_name):
     """
     Look up the CIDR range for a company's domain name.
@@ -205,6 +216,7 @@ def cidr(company_name):
 @click.command()
 @click.argument('product_name')
 @click.option('--limit', '-l', type=int, default=10, help='Number of results to display (default=10)')
+@click.help_option('--help', '-h')
 def cve(product_name, limit):
     """
     Retrieve CVE data for a specific product name (company name) and display it in a clean format.
