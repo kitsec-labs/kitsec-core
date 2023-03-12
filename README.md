@@ -143,13 +143,13 @@ Intercept requests to example.com. This will capture the request headers and ext
 `kitsec capture url`
 
 ``````
-    """
-    Captures the request headers for a given URL.
+"""
+  Captures the request headers for a given URL.
 
-    Returns:
-    - Prints a string containing the captured request headers, including method, 
-    hostname, path, cookies, and all other headers sent with the request.
-    """
+  Returns:
+  - Prints a string containing the captured request headers, including method, 
+  hostname, path, cookies, and all other headers sent with the request.
+"""
 ``````
 
 <details>
@@ -200,18 +200,18 @@ Convert your data from one format to another:
 `kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64`
 
 ````
-    """
-    Applies a specified decoding or hashing function to input data.
+"""
+  Applies a specified decoding or hashing function to input data.
 
-    Args:
-    - data (bytes): The input data to be transformed.
-    - transformation_type (str): The type of transformation to apply.
+  Args:
+  - data (bytes): The input data to be transformed.
+  - transformation_type (str): The type of transformation to apply.
 
-    Returns:
-    - If the input data is text, the transformed input data as a string.
-    - If the input data is binary, the resulting hash as a string.
-    - If an invalid transformation type is specified, an error message as a string.
-    """
+  Returns:
+  - If the input data is text, the transformed input data as a string.
+  - If the input data is binary, the resulting hash as a string.
+  - If an invalid transformation type is specified, an error message as a string.
+"""
 ````
 
 <details>
