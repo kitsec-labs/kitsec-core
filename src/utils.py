@@ -11,12 +11,14 @@ def apply_transformation(data, transformation_type):
     """
     Applies a specified decoding or hashing function to input data.
 
-    Returns:
-    - The transformed input data as a string.
+    Args:
+    - data (bytes): The input data to be transformed.
+    - transformation_type (str): The type of transformation to apply.
 
-    If the input data is text, the program will apply the specified transformation type, then return the result.
-    If the input data is binary, the program will apply the specified hashing function and return the resulting hash.
-    If an invalid transformation type is specified, the program will return an error message.
+    Returns:
+    - If the input data is text, the transformed input data as a string.
+    - If the input data is binary, the resulting hash as a string.
+    - If an invalid transformation type is specified, an error message as a string.
     """
     detected_type = magic.from_buffer(data, mime=True)
     

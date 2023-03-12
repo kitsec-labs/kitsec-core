@@ -189,6 +189,21 @@ Convert your data from one format to another:
 
 `kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64`
 
+````
+    """
+    Applies a specified decoding or hashing function to input data.
+
+    Args:
+    - data (bytes): The input data to be transformed.
+    - transformation_type (str): The type of transformation to apply.
+
+    Returns:
+    - If the input data is text, the transformed input data as a string.
+    - If the input data is binary, the resulting hash as a string.
+    - If an invalid transformation type is specified, an error message as a string.
+    """
+````
+
 <details>
   <summary>Output</summary>
   
