@@ -292,7 +292,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 ### 📡 Port Scan <a name="portscan"></a>
 
-Scan for most common ports
+Scan for all or most common open ports on example.com:
 
 ````
 Usage: kitsec portscan [OPTIONS] HOSTNAME
