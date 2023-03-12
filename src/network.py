@@ -41,6 +41,7 @@ def apply_check_certificate(hostname, port=443):
     some information about the certificate such as the hostname, notBefore, and notAfter fields.
 
     """
+   # Function for checking SSL/TLS certificate
     # Create a socket object and wrap it with an SSL context
     context = ssl.create_default_context()
     conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname=hostname)

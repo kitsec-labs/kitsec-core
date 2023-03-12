@@ -144,13 +144,23 @@ Connects to a remote VPS server and tails the auth.log file.
 `kitsec vps-logger -h <IP ADDRESS> -u <USERNAME> -p <PASSWORD>`
 
 ``````
-"""
-  Connects to a remote VPS server and tails the auth.log file.
+Usage: kitsec vps-logger [OPTIONS]
 
-  Returns:
-  - Prints a string containing the captured request headers, including method, 
-  hostname, path, cookies, and all other headers sent with the request.
-"""
+Connects to a remote VPS server and tails the auth.log file.
+
+Options:
+  -h, --host TEXT      The IP address of the VPS server to connect to.
+  -u, --username TEXT  The limited user account to use for connecting to the VPS server.
+  -p, --password TEXT  The password for the user account.
+  --help               Show this message and exit.
+
+Returns:
+- Prints a continuous stream of output from the auth.log file to the console.
+
+The program attempts to connect to the specified VPS server using SSH, with the provided
+username and password. Once connected, it invokes a shell and sends the command to tail
+the auth.log file using sudo. It then continuously checks for new output from the file and
+prints it to the console as it is received.
 ``````
 
 ### 📸 Capture <a name="capture"></a>
@@ -160,13 +170,15 @@ Intercept requests to example.com. This will capture the request headers and ext
 `kitsec capture <domain.com>`
 
 ``````
-"""
+Usage: kitsec capture [OPTIONS] URL
+
   Captures the request headers for a given URL.
 
-  Returns:
-  - Prints a string containing the captured request headers, including method, 
-  hostname, path, cookies, and all other headers sent with the request.
-"""
+Options:
+  --help  Show this message and exit.
+
+Example:
+  kitsec capture https://example.com
 ``````
 
 <details>
@@ -213,21 +225,20 @@ Response headers:
 
 Convert your data from one format to another:
 
-`kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64`
-
 ````
-"""
-  Applies a specified decoding or hashing function to input data.
+Usage: kitsec convert [OPTIONS] INPUT [-t TYPE]
 
-  Args:
-  - data (bytes): The input data to be transformed.
-  - transformation_type (str): The type of transformation to apply.
+Applies a specified decoding or hashing function to input data.
 
-  Returns:
-  - If the input data is text, the transformed input data as a string.
-  - If the input data is binary, the resulting hash as a string.
-  - If an invalid transformation type is specified, an error message as a string.
-"""
+Arguments:
+INPUT The input data to be converted.
+
+Options:
+-t, --type TYPE The type of conversion to apply (HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
+--help Show this message and exit.
+
+Example:
+kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -240,30 +251,24 @@ Convert your data from one format to another:
 
  ### 🧮 Enumerate <a name="enumerate"></a>
 
-Enumerate subdomains for example.com :
-
-`kitsec enumerate -r -t -a domain.com`
+Enumerate subdomains for example.com
 
 ````
-"""
-  Enumerates subdomains for a given domain using Subfinder and active enumeration.
+Usage: kitsec enumerate [OPTIONS] DOMAIN
 
-  Args:
-  - request : A flag indicating whether to fetch HTTP response for active subdomains.
-  - technology : A flag indicating whether to analyze technologies used by subdomains.
-  - active : A flag indicating whether to perform active enumeration.
-  - domain : The domain to enumerate subdomains for.
+Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
-  Returns:
-  - If only subdomains are requested, returns a list of subdomains.
-  - If only technology analysis is requested, returns a table containing:  subdomains 
-  & technologies.
-  - If only HTTP response is requested, returns a table containing: subdomains, 
-  HTTP status & reason.
-  - If both technology & HTTP response are requested, returns a table containing 
-  the subdomains & HTTP status, reason, and technologies.
-  - If an error occurs during enumeration or analysis, returns None.
-"""
+Arguments:
+DOMAIN The domain to enumerate subdomains for.
+
+Options:
+-r, --request Fetch HTTP response for active subdomains.
+-t, --technology Analyze technologies used by subdomains.
+-a, --active Perform active enumeration.
+--help Show this message and exit.
+
+Example:
+kitsec enumerate -r -t -a example.com 
 ````
 
 <details>
@@ -286,23 +291,22 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 
 ### 📡 Port Scan <a name="portscan"></a>
 
-Scan for most common ports:
-
-`kitsec capture -c example.com`
+Scan for most common ports
 
 ````
-"""
-  Performs a TCP port scan on a specified hostname or URL and a range of ports.
+Usage: kitsec portscan [OPTIONS] HOSTNAME
 
-  Args:
-  - url (str): The hostname or URL of the target host.
+Performs a TCP port scan on a specified hostname and a range of ports.
 
-  Options:
-  - common-ports (bool): Whether to scan only the most common HTTP ports (80, 8080, and 443).
+Arguments:
+HOSTNAME The hostname or URL of the target host.
 
-  Returns:
-  - A list of open ports found on the target host.
-"""
+Options:
+-c, --common-ports Scan only the most common HTTP ports (80, 8080, and 443).
+--help Show this message and exit.
+
+Example:
+kitsec portscan -c example.com 
 ````
 
 <details>
@@ -318,21 +322,25 @@ example.com:443
 
 ### 📶 CIDR <a name="cidr"></a>
 
-Search for CIDR ranges.:
-
-`kitsec cidr example.com`
+Search for CIDR ranges for a given domain name:
 
 `````
-"""
-  Look up the CIDR range for a company's domain name.
+Usage: kitsec cidr [OPTIONS] COMPANY_NAME
 
-  Args:
-  - company_name (str): The name of the company's domain name to look up.
+Look up the CIDR range for a company's domain name.
 
-  Returns:
+Arguments:
+  COMPANY_NAME  The name of the company's domain name to look up.
+
+Options:
+  --help           Show this message and exit.
+
+Returns:
   - The CIDR range for the company's domain name as a string.
-  - If an exception is raised an error message will be returned.
-"""
+  - If an exception is raised during the lookup process, an error message will be displayed.
+
+Example:
+  kitsec cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -342,22 +350,26 @@ Search for CIDR ranges.:
 
 ### 📜 Certificate <a name="certificate"></a>
 
-Search for CIDR ranges.:
-
-`kitsec certificate example.com`
+Search for ssl / tlsfor the specified host and port:
 
 `````
-"""
-  Check the SSL/TLS certificate for the specified host and port.
+Usage: kitsec certifcate [OPTIONS] HOSTNAME
 
-  Args:
-  - hostname (str): The hostname to check the certificate for.
-  - port (int): The port to connect to. Default is 443.
+Check the SSL/TLS certificate for the specified host and port.
 
-  Returns:
-  - None
+Arguments:
+  HOSTNAME  The hostname to check the certificate for.
 
-"""
+Options:
+  -p, --port INTEGER  The port to connect to. Default is 443.
+  --help              Show this message and exit.
+
+Returns:
+  None. Displays the certificate information to the console.
+
+Example:
+  kitsec certificate github.com
+
 `````
 <details>
   <summary>Output</summary>
@@ -371,23 +383,22 @@ Not After: 2024-03-14 23:59:59
 
 ### 🌐 CVE <a name="cve"></a>
 
-Search for 5 vulnerabilities in the NVD database [0 = No limit]:
-
-`kitsec cve <product_name> -l 2`
+Search for CVEs for the specified product.
 
 `````
-"""
-  Retrieves CVE data for a specific product and displays it.
+Usage: kitsec cve [OPTIONS] PRODUCT_NAME
 
-  Args:
-    - product_name (str): The product name (company name) to search for.
+Retrieves CVE data for a specific product and displays it.
 
-  Options:
-    limit (int): Number of results to display (default=10).
+Arguments:
+  PRODUCT_NAME  The product name (company name) to search for.
 
-  Returns:
-    - str: A plain string with each CVE record.
-"""
+Options:
+  --limit INTEGER  Number of results to display (default=10).
+  --help           Show this message and exit.
+
+Example:
+  kitsec cve python -l 2
 `````
 
 <details>
@@ -410,26 +421,25 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 
 ### 🌪️ storm <a name="storm"></a>
 
-
-`kitsec storm example.com`
+Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-"""
-  Sends HTTP GET requests to a specified base URL with a given list of paths.
+Usage: kitsec storm [OPTIONS] URL
 
-  Args:
-  - base_url (str): The base URL to send requests to. The URL must include the 
-  protocol (http or https).
+Sends HTTP requests to a given URL with a specified number of threats and requests.
 
-  Options:
-  - path (str): The path to a file or directory containing a list of paths to 
-  send requests to. Default: ../lists/fuzz/path_fuzz
-  - file-fuzz (bool): Whether to use file format fuzzing or not
+Arguments:
+URL The URL to send HTTP requests to.
 
-  Returns:
-  - None. For each request sent, the program will print the URL and response code 
-  to the console if the response code is 200.
-"""
+Options:
+-a, --num-attacks INT Number of parallel attacks to send requests from. Default: 6.
+-r, --num-requests INT Number of requests to send from each threat. Default: 200.
+-y, --num-retries INT Number of times to retry failed requests. Default: 4.
+-p, --pause-before-retry INT Number of milliseconds to wait before retrying a failed request. Default: 3000.
+--help Show this message and exit.
+
+Example:
+kitsec storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
@@ -437,18 +447,20 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 `kitsec fuzz example.com`
 
 `````
-"""
+Usage: kitsec fuzz [OPTIONS] BASE_URL
+
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
-  Args:
-  - base_url (str): The base URL to send requests to.
+Arguments:
+BASE_URL The base URL to send requests to. The URL must include the protocol (http or https).
 
-  Options:
-  - path (str): The path to a file or directory. Default: ../lists/injector
+Options:
+-p, --path PATH The path to a file or directory containing a list of paths to send requests to. Default: ../lists/fuzz/path_fuzz
+-f, --file-fuzz Use file format fuzzing
+--help Show this message and exit.
 
-  Returns:
-  - For each request sent, the program will print the URL and response code if it's 200.
-"""
+Example:
+kitsec fuzz example.com
 `````
 
 # Guidelines
