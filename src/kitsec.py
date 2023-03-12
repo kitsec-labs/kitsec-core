@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
+import os
 import sys
 import html
 import json
@@ -22,7 +23,7 @@ import concurrent
 from network import apply_capture, apply_disturb, apply_raid, apply_scan_ports, apply_cidr, ssh_logger
 from utils import apply_transformation
 from enumerator import apply_enumerator
-from fuzz import apply_fuzz
+from fuzz import apply_path_fuzz, apply_file_format_fuzz
 from cve import query_cve
 
 #todo: run kitsec from any directory
@@ -135,7 +136,8 @@ def portscan(url, common_ports):
 @click.command()
 @click.argument('base_url')
 @click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
-def fuzz(base_url, path):
+@click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
+def fuzz(base_url, path, file_fuzz):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -143,12 +145,29 @@ def fuzz(base_url, path):
     - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
 
     Options:
-    - path (str): The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector
+    - path (str): The path to a file or directory containing a list of paths to send requests to. Default: ../lists/fuzz/path_fuzz
+    - file-fuzz (bool): Whether to use file format fuzzing or not
 
     Returns:
     - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
     """
-    apply_fuzz(base_url, path)
+
+    # Add http or https prefix if missing
+    if not base_url.startswith('http'):
+        base_url = 'http://' + base_url
+
+    if file_fuzz:
+        apply_file_format_fuzz(base_url)
+
+    if os.path.isdir(path) and not file_fuzz:
+        apply_path_fuzz(base_url, path)
+
+    elif os.path.isfile(path) and not file_fuzz:
+        apply_path_fuzz(base_url, path)
+
+    else:
+        click.echo(f"{path} does not exist")
+
 
 
 @click.command()

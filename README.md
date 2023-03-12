@@ -3,7 +3,6 @@
 </p>
 
 
-
 # Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you smplify & centralize your security workflow. 
@@ -18,7 +17,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - **Portscan**: Scan a host for common or all possible open ports.
 - **Raid**: Automatize customized attacks against a web server.
 - **Disturb**: Send multiple requests to a web server with the same payload.
-- **Fuzz**: Test your web applications against fuzzing (path fuzzing).
+- **Fuzz**: Test your web applications against path fuzzing and file fuzzing.
 - **CIDR**: A tool that  resolves a company's IP address and returns the CIDR range from its RDAP record.
 - **CVE**: A tool that queries the CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD) and returns its CVE ID, CWE, severity, and summary.
 
@@ -431,7 +430,7 @@ This project is made for educational and ethical testing purposes only. Usage of
 
 # Acknowledgements
 
-Thank you to @projectdiscovery, @milo2012, @duyet & @ayoubfathi for opening their tools to the world.
+Thank you to @projectdiscovery, @milo2012, @duyet, @ayoubfathi, @Bo0oM and @Practical-Formal-Methods for opening their tools to the world.
 
 # License
 
