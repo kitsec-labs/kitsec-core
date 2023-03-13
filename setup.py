@@ -4,7 +4,7 @@ long_description = "KitSec is a package designed to streamline Ethical hackers w
 
 setup(
     name='kitsec',
-    version='0.1.3',
+    version='0.1.4',
     description='A package to streamline Ethical hackers workflows',
     author='Idriss CHEBAK',
     author_email='idrisschebak@me.com',
@@ -31,9 +31,9 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        kitsec=kitsec:cli
+        kitsec=kitsec.kitsec:cli
     ''',
     long_description=long_description,
     long_description_content_type='text/plain',
-    filename='kitsec-0.1.3.tar.gz'
+    filename='kitsec-0.1.4.tar.gz'
 )
