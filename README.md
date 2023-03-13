@@ -82,14 +82,12 @@ fi
 
 Connects to a remote VPS server and tails the auth.log file.
 
-`python kitsec.py vps -h <IP ADDRESS> -u <USERNAME> -p <PASSWORD>`
-
 ``````
 Usage: kitsec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
-Options:
+Prompts:
   -h, --host TEXT      The IP address of the VPS server to connect to.
   -u, --username TEXT  The limited user account to use for connecting to the VPS server.
   -p, --password TEXT  The password for the user account.
