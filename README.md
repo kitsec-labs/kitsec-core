@@ -25,8 +25,10 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 🛣️ Roadmap
 
-- **Add raid types**: Add flood, hybrid and single shot
-- **XSS Scan**: Add XSS scanner.
+- **Storm**: Add raid types: flood, hybrid and single shot.
+- **VPS**: Add linode logger.
+- **Fuzz**: Enrich fuzzing.
+- **Shuffler**: Enrich Shuffle IP/Agent/Referer lists.
 
 ### 📦 Installation 
 
