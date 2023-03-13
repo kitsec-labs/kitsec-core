@@ -50,7 +50,7 @@ def deps():
     click.echo("Dependencies installed successfully!")
 
 
-@click.command()
+@cli.command()
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
