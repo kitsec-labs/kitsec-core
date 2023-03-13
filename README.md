@@ -125,7 +125,7 @@ fi
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
 ``````
-Usage: kitsec capture [OPTIONS] URL
+Usage: python kitsec.py capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -210,7 +210,7 @@ python kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: kitsec enumerate [OPTIONS] DOMAIN
+Usage: python kitsec.py enumerate [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -250,7 +250,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 Scan for all or most common open ports on example.com:
 
 ````
-Usage: kitsec portscan [OPTIONS] HOSTNAME
+Usage: kitsec.py portscan [OPTIONS] HOSTNAME
 
 Performs a TCP port scan on a specified hostname and a range of ports.
 
@@ -281,7 +281,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage: kitsec cidr [OPTIONS] COMPANY_NAME
+Usage: python kitsec.py cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -310,7 +310,7 @@ Example:
 Search for ssl / tlsfor the specified host and port:
 
 `````
-Usage: kitsec certifcate [OPTIONS] HOSTNAME
+Usage: python kitsec.pycertifcate [OPTIONS] HOSTNAME
 
 Check the SSL/TLS certificate for the specified host and port.
 
@@ -343,7 +343,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage: kitsec cve [OPTIONS] PRODUCT_NAME
+Usage: python kitsec.py cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -381,7 +381,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage: kitsec storm [OPTIONS] URL
+Usage: python kitsec.py storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -402,10 +402,9 @@ python kitsec.py storm https://example.com/
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
-`kitsec fuzz example.com`
 
 `````
-Usage: kitsec fuzz [OPTIONS] BASE_URL
+Usage: python kitsec.py fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -427,7 +426,7 @@ python kitsec.py fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage: kitsec vps-logger [OPTIONS]
+Usage: python kitsec.py vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
