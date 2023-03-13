@@ -31,5 +31,5 @@ setup(
         [console_scripts]
         kitsec=kitsec:cli
     ''',
-    filename='kitsec-0.1.1.tar.gz'
+    filename='kitsec-0.1.3.tar.gz'
 )
