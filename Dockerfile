@@ -1,5 +1,4 @@
 FROM python:3.8-slim-buster
-#change to alpine linuxw
 
 # Install necessary dependencies for Go installation
 RUN apt-get update && \
@@ -7,6 +6,7 @@ RUN apt-get update && \
         ca-certificates \
         wget \
         tar \
+        libmagic1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and extract Go 1.19 binary archive
@@ -24,15 +24,14 @@ ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
     go install github.com/OWASP/Amass/v3/...
 
-# Copy the source code and requirements.txt into the container
-COPY requirements.txt /app/
-COPY src /app/src
-COPY lists /app/lists
+# Set the working directory to /app and copy source code
 WORKDIR /app
-
-# Install Python dependencies
+COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+COPY src /app/src
+COPY lists/fuzz/path_fuzz /app/lists/fuzz/path_fuzz
 
-# Run the application
+# Set the working directory to the parent directory of src and lists
+WORKDIR /app
 CMD ["python", "src/kitsec.py"]
