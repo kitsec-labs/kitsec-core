@@ -1,5 +1,6 @@
 # Standard library modules
 import gzip
+import click
 import hashlib
 import html
 import urllib.parse
@@ -8,28 +9,6 @@ import paramiko
 # Third-party modules
 import base64
 import magic
-
-def linode_logger(host, username, password, command):
-    """
-    Connects to a remote server using SSH and executes a command.
-
-    Args:
-    - host (str): The IP address or hostname of the remote server.
-    - username (str): The username to use for SSH authentication.
-    - password (str): The password to use for SSH authentication.
-    - command (str): The command to execute on the remote server.
-
-    Returns:
-    - The output of the command executed on the remote server.
-    """
-    client = paramiko.client.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(host, username=username, password=password)
-    _stdin, _stdout,_stderr = client.exec_command(command)
-    output = _stdout.read().decode()
-    client.close()
-    return output
-
 
 
 def apply_transformation(data, transformation_type):

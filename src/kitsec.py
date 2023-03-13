@@ -54,19 +54,31 @@ def deps():
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
-def linode(host, username, password):
+def vps(host, username, password):
     """
-    Connects to a remote VPS server and tails the auth.log file.
+    Connects to a remote server using SSH and logs in as the specified user.
+
+    Args:
+    - host (str): The IP address or hostname of the remote server.
+    - username (str): The username to use for SSH authentication.
+    - password (str): The password to use for SSH authentication.
 
     Returns:
-    - Prints a continuous stream of output from the auth.log file to the console.
-
-    The program attempts to connect to the specified VPS server using SSH, with the provided
-    username and password. Once connected, it invokes a shell and sends the command to tail
-    the auth.log file using sudo. It then continuously checks for new output from the file and
-    prints it to the console as it is received.
+    - None. The function logs into the remote server and starts an interactive session.
     """
-    linode_logger(host, username, password)
+    client = paramiko.client.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(host, username=username, password=password)
+    client.invoke_shell()
+    while True:
+        command = input("> ")
+        if command == "exit":
+            break
+        _, stdout, _ = client.exec_command(command)
+        output = stdout.read().decode("utf-8")
+        print(output)
+    client.close()
+
 
 
 @click.command()
@@ -237,7 +249,7 @@ def cve(product_name, limit):
 
 
 cli.add_command(deps)
-cli.add_command(linode)
+cli.add_command(vps)
 cli.add_command(certificate)
 cli.add_command(capture)
 cli.add_command(convert)
