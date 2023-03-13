@@ -48,15 +48,6 @@ def passive_enumerator(domain):
     except:
         print('Findomain is not installed or encountered an error, skipping..."')
 
-    # Enumerate using Assetfinder
-#    try:
-#        print('Enumerating using Assetfinder...')
-#        with open(os.devnull, 'w') as nullfile:
-#            output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
-#        subdomains.update([s.split('.')[0] for s in output.decode('utf-8').strip().split('\n')])
-#    except:
-#        print('Assetfinder is not installed or encountered an error, skipping..."')
-
     # Enumerate using Amass
     try:
         print('Enumerating using Amass...')
@@ -75,6 +66,14 @@ def passive_enumerator(domain):
 #    except:
 #        print('waybackurls is not installed or encountered an error, skipping... / debug by running "waybackurls example.com"')
 
+    # Enumerate using Assetfinder
+#    try:
+#        print('Enumerating using Assetfinder...')
+#        with open(os.devnull, 'w') as nullfile:
+#            output = subprocess.check_output(['assetfinder', '--subs-only', domain], stderr=nullfile)
+#        subdomains.update([s.split('.')[0] for s in output.decode('utf-8').strip().split('\n')])
+#    except:
+#        print('Assetfinder is not installed or encountered an error, skipping..."')
     # Remove duplicates from set of subdomains
     subdomains = set(subdomains)
 

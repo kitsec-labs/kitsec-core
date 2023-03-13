@@ -22,8 +22,6 @@ ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install required Go packages using go install
 RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
-    go install github.com/tomnomnom/assetfinder@latest && \
-    go install github.com/tomnomnom/waybackurls@latest && \
     go install github.com/OWASP/Amass/v3/...
 
 # Copy the source code and requirements.txt into the container
