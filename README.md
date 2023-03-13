@@ -45,14 +45,15 @@ $ brew install docker-compose docker
 To mount the docker volume run:
 
 ````
-docker build -t kitsec-core .
+docker build -t kitsec .
 ````
 
 To run kitsec within the docker container:
 
 ````
-docker run -it kitsec-core python src/kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
+docker run -it kitsec python src/kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
+
 
 to ease the process, you can add an alias to your .bashrc file:
 
