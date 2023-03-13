@@ -479,7 +479,7 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
 # Reporting Bugs and Contributing
 
-If you encounter any bugs or would like to suggest new features https://github.com/kitsec-labs/kitsec/issues/new
+If you encounter any bugs or would like to suggest new features [here](https://github.com/kitsec-labs/kitsec/issues/new)
 
 # Disclaimer
 
