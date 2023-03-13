@@ -38,16 +38,6 @@ def passive_enumerator(domain):
     except:
         print('Subfinder is not installed or encountered an error, skipping..."')
 
-    # Enumerate using Findomain
-    try:
-        print('Enumerating using Findomain...')
-        with open(os.devnull, 'w') as nullfile:
-            output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
-        subdomains.update(output.decode('utf-8').strip().split('\n')[1:])
-        subdomains = set([x for x in subdomains if domain in x])
-    except:
-        print('Findomain is not installed or encountered an error, skipping..."')
-
     # Enumerate using Amass
     try:
         print('Enumerating using Amass...')
@@ -56,6 +46,16 @@ def passive_enumerator(domain):
         subdomains.update([s.split('.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
     except:
         print('Amass is not installed or encountered an error, skipping... / debug by running "amass enum --passive -d example.com"')
+
+    # Enumerate using Findomain
+#    try:
+#        print('Enumerating using Findomain...')
+#        with open(os.devnull, 'w') as nullfile:
+#            output = subprocess.check_output(['findomain', '-t', domain], stderr=nullfile)
+#        subdomains.update(output.decode('utf-8').strip().split('\n')[1:])
+#        subdomains = set([x for x in subdomains if domain in x])
+#    except:
+#        print('Findomain is not installed or encountered an error, skipping..."')
 
     # Enumerate using waybackurls
 #    try:

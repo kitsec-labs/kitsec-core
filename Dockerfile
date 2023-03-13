@@ -25,7 +25,7 @@ ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 
 # Install required Go packages using go install
 RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
-    go install github.com/OWASP/Amass/v3/...
+    go install -v github.com/OWASP/Amass/v3/...@master
 
 # Set the working directory to /app and copy source code
 WORKDIR /app
