@@ -22,13 +22,14 @@ from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
 # Local modules
-from kitsec_core.kitsec_core.cve.cve import query_cve
-from kitsec_core.kitsec_core.enumerator.enumerator import apply_enumerator
-from kitsec_core.kitsec_core.fuzz.fuzz import apply_file_format_fuzz, apply_path_fuzz
-from kitsec_core.kitsec_core.network.network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
+from core.cve.cve import query_cve
+from core.enumerator.enumerator import apply_enumerator
+from core.fuzz.fuzz import apply_file_format_fuzz, apply_path_fuzz
+from core.network.network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, apply_check_certificate)
-from kitsec_core.kitsec_core.dependencies.dependencies import install_dependencies
-from kitsec_core.kitsec_core.utils.utils import apply_transformation
+from core.dependencies.dependencies import install_dependencies
+from core.utils.utils import apply_transformation
+
 
 
 
