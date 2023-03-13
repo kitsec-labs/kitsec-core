@@ -26,9 +26,9 @@ from cve import query_cve
 from enumerator import apply_enumerator
 from fuzz import apply_file_format_fuzz, apply_path_fuzz
 from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
-                    apply_scan_ports, ssh_logger, apply_check_certificate)
+                    apply_scan_ports, apply_check_certificate)
 from dependencies import install_dependencies
-from utils import apply_transformation
+from utils import apply_transformation, linode_logger
 
 
 #todo: run kitsec from any directory
@@ -50,11 +50,12 @@ def deps():
     click.echo("Dependencies installed successfully!")
 
 
-@cli.command()
+@click.command()
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
-def vps_logger(host, username, password):
+@click.confirmation_option(prompt='Are you sure you want to connect to the VPS server and tail the auth.log file?')
+def linode(host, username, password):
     """
     Connects to a remote VPS server and tails the auth.log file.
 
@@ -66,7 +67,7 @@ def vps_logger(host, username, password):
     the auth.log file using sudo. It then continuously checks for new output from the file and
     prints it to the console as it is received.
     """
-    ssh_logger(host, username, password)
+    linode_logger(host, username, password)
 
 
 @click.command()
