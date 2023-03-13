@@ -450,7 +450,7 @@ prints it to the console as it is received.
 Here are some guidelines for using open source tools for ethical hacking:
 
 <ol>
-  <li>Bug bounties are not a license to hack indiscriminately. Stay withing your scope and safe harbour.</li>
+  <li>Bug bounties are not a license to hack indiscriminately. Stay within your scope and safe harbour.</li>
 
   <li>Ensure you have a strong understanding of the open source tools being used and their impact.</li>
 

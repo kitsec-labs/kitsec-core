@@ -32,7 +32,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-COPY src /app/src
+COPY kitsec /app/kitsec
 COPY lists /app/../lists
 
 # Set the working directory to the parent directory of src and lists
@@ -42,4 +42,4 @@ WORKDIR /app
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Set the default command to run the Python script
-CMD ["python", "src/kitsec.py"]
+CMD ["python", "kitsec/kitsec.py"]

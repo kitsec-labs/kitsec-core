@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='kitsec',
-    version='0.1.2',
+    version='0.1.3',
     description='A package to streamline Ethical hackers workflows',
     author='Idriss CHEBAK',
     author_email='idrisschebak@me.com',
