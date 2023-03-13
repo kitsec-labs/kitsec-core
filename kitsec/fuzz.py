@@ -16,8 +16,6 @@ def send_request(url):
         click.echo(f"{url} - {response.status_code}")
 
 
-import os
-
 def apply_path_fuzz(base_url, path='../lists/fuzz/path_fuzz'):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
@@ -69,7 +67,6 @@ def apply_path_fuzz(base_url, path='../lists/fuzz/path_fuzz'):
 
             for future in tqdm(futures, desc="File path fuzz", position=0, leave=True):
                 future.result()
-
 
 
 def apply_file_format_fuzz(base_url, path='../lists/fuzz/file_fuzz'):

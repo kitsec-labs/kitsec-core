@@ -188,7 +188,7 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
-@click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
+@click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to.')
 @click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
 @click.help_option('--help', '-h')
 def fuzz(base_url, path, file_fuzz):
