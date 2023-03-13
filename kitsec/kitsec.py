@@ -188,10 +188,10 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
-@click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
 @click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
+@click.option('-p', '--path-fuzz', is_flag=True, help='Use path fuzzing')
 @click.help_option('--help', '-h')
-def fuzz(base_url, path, file_fuzz):
+def fuzz(base_url, file_fuzz, path_fuzz):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -199,9 +199,8 @@ def fuzz(base_url, path, file_fuzz):
     - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
 
     Options:
-    - path (str): The path to a file or directory containing a list of paths to send requests to. 
-    Default: ../lists/fuzz/path_fuzz
     - file-fuzz (bool): Whether to use file format fuzzing or not
+    - path-fuzz (bool): Whether to use path fuzzing or not
 
     Returns:
     - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
@@ -214,14 +213,11 @@ def fuzz(base_url, path, file_fuzz):
     if file_fuzz:
         apply_file_format_fuzz(base_url)
 
-    if os.path.isdir(path) and not file_fuzz:
-        apply_path_fuzz(base_url, path)
+    if path_fuzz:
+        apply_path_fuzz(base_url)
 
-    elif os.path.isfile(path) and not file_fuzz:
-        apply_path_fuzz(base_url, path)
-
-    else:
-        click.echo(f"{path} does not exist")
+    if not file_fuzz and not path_fuzz:
+        print("Please specify either --file-fuzz or --path-fuzz.")
 
 
 

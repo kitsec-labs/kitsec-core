@@ -5,104 +5,91 @@ import os
 import click
 import requests
 from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor
 
 
+def send_request(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        print(f"Found URL with status 200: {url}")
 
 
-def apply_path_fuzz(base_url, path='../lists/fuzz/path_fuzz/'):
-    """
-    Sends HTTP GET requests to a specified base URL with a given list of paths.
-
-    Args:
-    - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
-
-    Options:
-    - path (str): The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector
-
-    Returns:
-    - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
-    """
-
-    # Add http or https prefix if missing
+def apply_file_format_fuzz(base_url, path='../lists/fuzz/file_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
-    # Check if the path is a directory or a file
-    if os.path.isdir(path):
-        # If the path is a directory, iterate through each file in the directory
-        for filename in os.listdir(path):
-            filepath = os.path.join(path, filename)
-            if os.path.isfile(filepath):
-                # If the file is a regular file, read each line in the file and send a request to the URL
-                with open(filepath) as f:
-                    paths = f.read().splitlines()
-                    progress_bar = tqdm(paths, desc=os.path.splitext(filename)[0], position=0, leave=True)
-                    for p in progress_bar:
-                        url = f"{base_url}/{p}"
-                        response = requests.get(url)
-                        # If the response code is 200, print the URL and response code to the console
-                        if response.status_code == 200:
-                            click.echo(f"{url} - {response.status_code}")
-    elif os.path.isfile(path):
-        # If the path is a regular file, read each line in the file and send a request to the URL
-        with open(path) as f:
-            paths = f.read().splitlines()
-            progress_bar = tqdm(paths, desc=os.path.basename(path), position=0, leave=True)
-            for p in progress_bar:
-                url = f"{base_url}/{p}"
-                response = requests.get(url)
-                # If the response code is 200, print the URL and response code to the console
-                if response.status_code == 200:
-                    click.echo(f"{url} - {response.status_code}")
-    else:
-        # If the path does not exist, print an error message to the console
-        click.echo(f"{path} does not exist")
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        if os.path.isdir(path):
+            # If the path is a directory, iterate through each file in the directory
+            futures = []
+            for filename in os.listdir(path):
+                filepath = os.path.join(path, filename)
+                if os.path.isfile(filepath):
+                    # If the file is a regular file, read each line in the file and send a request to the URL
+                    with open(filepath) as f:
+                        file_formats = f.read().splitlines()
+                        progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
+                        for file_format in progress_bar:
+                            url = f"{base_url}/{file_format}"
+                            future = executor.submit(send_request, url)
+                            futures.append(future)
 
-def apply_file_format_fuzz(base_url, path='../lists/fuzz/file_fuzz'):
-    """
-    Sends HTTP GET requests to a specified base URL with a given list of file formats.
+            for future in futures:
+                future.result()
 
-    Args:
-    - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
+        elif os.path.isfile(path):
+            # If the path is a regular file, read each line in the file and send a request to the URL
+            with open(path) as f:
+                file_formats = f.read().splitlines()
+                progress_bar = tqdm(file_formats, desc=os.path.basename(path), position=0, leave=True)
+                futures = []
+                for file_format in progress_bar:
+                    url = f"{base_url}/{file_format}"
+                    future = executor.submit(send_request, url)
+                    futures.append(future)
 
-    Options:
-    - path (str): The path to a file or directory containing a list of file formats to send requests to. Default: ../lists/fuzz/file_fuzz
+                for future in futures:
+                    future.result()
 
-    Returns:
-    - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
-    """
+        else:
+            print(f"{path} does not exist")
 
-    # Add http or https prefix if missing
+def apply_path_fuzz(base_url, path='../lists/fuzz/path_fuzz/', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
-    # Check if the path is a directory or a file
-    if os.path.isdir(path):
-        # If the path is a directory, iterate through each file in the directory
-        for filename in os.listdir(path):
-            filepath = os.path.join(path, filename)
-            if os.path.isfile(filepath):
-                # If the file is a regular file, read each line in the file and send a request to the URL
-                with open(filepath) as f:
-                    file_formats = f.read().splitlines()
-                    progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
-                    for file_format in progress_bar:
-                        url = f"{base_url}/{file_format}"
-                        response = requests.get(url)
-                        # If the response code is 200, print the URL and response code to the console
-                        if response.status_code == 200:
-                            click.echo(f"{url} - {response.status_code}")
-    elif os.path.isfile(path):
-        # If the path is a regular file, read each line in the file and send a request to the URL
-        with open(path) as f:
-            file_formats = f.read().splitlines()
-            progress_bar = tqdm(file_formats, desc=os.path.basename(path), position=0, leave=True)
-            for file_format in progress_bar:
-                url = f"{base_url}/{file_format}"
-                response = requests.get(url)
-                # If the response code is 200, print the URL and response code to the console
-                if response.status_code == 200:
-                    click.echo(f"{url} - {response.status_code}")
-    else:
-        # If the path does not exist, print an error message to the console
-        click.echo(f"{path} does not exist")
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        if os.path.isdir(path):
+            # If the path is a directory, iterate through each file in the directory
+            futures = []
+            for filename in os.listdir(path):
+                filepath = os.path.join(path, filename)
+                if os.path.isfile(filepath):
+                    # If the file is a regular file, read each line in the file and send a request to the URL
+                    with open(filepath) as f:
+                        file_formats = f.read().splitlines()
+                        progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
+                        for file_format in progress_bar:
+                            url = f"{base_url}/{file_format}"
+                            future = executor.submit(send_request, url)
+                            futures.append(future)
+
+            for future in futures:
+                future.result()
+
+        elif os.path.isfile(path):
+            # If the path is a regular file, read each line in the file and send a request to the URL
+            with open(path) as f:
+                file_formats = f.read().splitlines()
+                progress_bar = tqdm(file_formats, desc=os.path.basename(path), position=0, leave=True)
+                futures = []
+                for file_format in progress_bar:
+                    url = f"{base_url}/{file_format}"
+                    future = executor.submit(send_request, url)
+                    futures.append(future)
+
+                for future in futures:
+                    future.result()
+
+        else:
+            print(f"{path} does not exist")
