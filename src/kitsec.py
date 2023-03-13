@@ -28,7 +28,7 @@ from fuzz import apply_file_format_fuzz, apply_path_fuzz
 from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, apply_check_certificate)
 from dependencies import install_dependencies
-from utils import apply_transformation, linode_logger
+from utils import apply_transformation
 
 
 #todo: run kitsec from any directory
