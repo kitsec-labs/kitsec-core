@@ -33,7 +33,7 @@ COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 COPY src /app/src
-COPY lists/fuzz/path_fuzz /app/lists/fuzz/path_fuzz
+COPY lists/ /app/lists
 
 # Set the working directory to the parent directory of src and lists
 WORKDIR /app
