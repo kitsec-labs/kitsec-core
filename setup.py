@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+long_description = "KitSec is a package designed to streamline Ethical hackers workflows. The package contains a variety of tools that can be used for scanning and testing networks, web applications, and more."
+
 setup(
     name='kitsec',
     version='0.1.3',
@@ -31,5 +33,7 @@ setup(
         [console_scripts]
         kitsec=kitsec:cli
     ''',
+    long_description=long_description,
+    long_description_content_type='text/plain',
     filename='kitsec-0.1.3.tar.gz'
 )
