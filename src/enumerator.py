@@ -15,7 +15,6 @@ from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
-
 def passive_enumerator(domain):
     """
     Uses multiple tools to passively enumerate subdomains for a given domain.
