@@ -10,7 +10,6 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### ✨ Features
 
-- [**VPS Logger**](#vps-logger): Login to your VPS with a single command.
 - [**Convert**](#convert): Applies a specified decoding or hashing function to input data. (ie. URL, HTML, Base64, ASCII, Hex, Octal, Binary & GZIP).
 - [**Enumerator**](#enumerator): Enumerates subdomains for a given domain using subfinder, amass, assetfinder and findomain and active enumeration.
 - [**Capture**](#capture): Send a GET request to a specified URL, capture the request headers, extract the hostname, path, and cookies and missing headers.
@@ -21,6 +20,7 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 - [**Fuzz**](#fuzz): Test your web applications against path fuzzing and file fuzzing.
 - [**CIDR**](#cidr): Looks up the CIDR range for a company's domain name from its RDAP record.
 - [**CVE**](#cve): Retrieves CVE data for a specific product name (company name) from NIST's National Vulnerability Database (NVD).
+- [**VPS**](#vps-logger): Login to your VPS with a single command.
 
 
 ### 🛣️ Roadmap
@@ -78,29 +78,6 @@ fi
 
 # Usage
 
-### 🧢 VPS <a name="vps-logger"></a>
-
-Connects to a remote VPS server and tails the auth.log file.
-
-``````
-Usage: kitsec vps-logger [OPTIONS]
-
-Connects to a remote VPS server and tails the auth.log file.
-
-Prompts:
-  -h, --host TEXT      The IP address of the VPS server to connect to.
-  -u, --username TEXT  The limited user account to use for connecting to the VPS server.
-  -p, --password TEXT  The password for the user account.
-  --help               Show this message and exit.
-
-Returns:
-- Prints a continuous stream of output from the auth.log file to the console.
-
-The program attempts to connect to the specified VPS server using SSH, with the provided
-username and password. Once connected, it invokes a shell and sends the command to tail
-the auth.log file using sudo. It then continuously checks for new output from the file and
-prints it to the console as it is received.
-``````
 
 ### 📸 Capture <a name="capture"></a>
 
@@ -403,6 +380,30 @@ to. Default: ../lists/fuzz/path_fuzz
 Example:
 python kitsec.py fuzz example.com
 `````
+
+### 🧢 VPS <a name="vps-logger"></a>
+
+Connects to a remote VPS server and tails the auth.log file.
+
+``````
+Usage: kitsec vps-logger [OPTIONS]
+
+Connects to a remote VPS server and tails the auth.log file.
+
+Prompts:
+  -h, --host TEXT      The IP address of the VPS server to connect to.
+  -u, --username TEXT  The limited user account to use for connecting to the VPS server.
+  -p, --password TEXT  The password for the user account.
+  --help               Show this message and exit.
+
+Returns:
+- Prints a continuous stream of output from the auth.log file to the console.
+
+The program attempts to connect to the specified VPS server using SSH, with the provided
+username and password. Once connected, it invokes a shell and sends the command to tail
+the auth.log file using sudo. It then continuously checks for new output from the file and
+prints it to the console as it is received.
+``````
 
 # Guidelines
 
