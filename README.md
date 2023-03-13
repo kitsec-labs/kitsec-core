@@ -408,13 +408,12 @@ Usage: python kitsec.py fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
-Arguments:
-BASE_URL The base URL to send requests to. The URL must include the protocol (http or https).
+  Args:
+  - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
 
 Options:
--p, --path PATH The path to a file or directory containing a list of paths to send requests 
-to. Default: ../lists/fuzz/path_fuzz
--f, --file-fuzz Use file format fuzzing
+- file-fuzz (bool): Whether to use file format fuzzing or not
+- path-fuzz (bool): Whether to use path fuzzing or not
 --help Show this message and exit.
 
 Example:
