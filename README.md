@@ -32,6 +32,11 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 📦 Installation 
 
+
+
+<details>
+  <summary>Install Docker</summary>
+
 Install docker-compose and docker on your system:
 
 ````
@@ -43,6 +48,12 @@ or
 ````
 $ brew install docker-compose docker
 ````
+
+</details>
+
+<details>
+  <summary>Run using Docker </summary>
+
 
 To build the docker image run:
 
@@ -56,7 +67,35 @@ To run kitsec within the docker container:
 docker run -it kitsec python src/kitsec.py <command> <options>
 ````
 
+</details>
+
 <details>
+  <summary>Run using Python </summary>
+
+Install dependencies:
+  
+````
+pip install -r requirements.txt
+````
+
+
+Install go dependencies:
+
+````
+python kitsec.py deps
+````
+
+Run kitsec:
+
+````
+python kitsec.py <command> <options>
+````
+
+
+</details>
+
+<details>
+
   <summary>tips</summary>
   
 ``````
