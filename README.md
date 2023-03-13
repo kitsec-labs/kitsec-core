@@ -42,7 +42,7 @@ or
 $ brew install docker-compose docker
 ````
 
-To mount the docker volume run:
+To build the docker image run:
 
 ````
 docker build -t kitsec .
@@ -51,11 +51,14 @@ docker build -t kitsec .
 To run kitsec within the docker container:
 
 ````
-docker run -it kitsec python src/kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
+docker run -it kitsec python src/kitsec.py <command> <options>
 ````
 
-
-to ease the process, you can add an alias to your .bashrc file:
+<details>
+  <summary>tips</summary>
+  
+``````
+to ease the process, you can add an alias to your shell file:
 
 ````
 # Add alias for Bash shell
@@ -70,15 +73,16 @@ fi
 if [[ -n $(command -v fish) ]]; then
     echo "alias drk 'docker run -it kitsec'" >> ~/.config/fish/config.fish
 fi
-````
+``````
+</details>
 
 # Usage
 
-### 🧢 VPS Logger <a name="vps-logger"></a>
+### 🧢 VPS <a name="vps-logger"></a>
 
 Connects to a remote VPS server and tails the auth.log file.
 
-`kitsec vps-logger -h <IP ADDRESS> -u <USERNAME> -p <PASSWORD>`
+`python kitsec.py vps -h <IP ADDRESS> -u <USERNAME> -p <PASSWORD>`
 
 ``````
 Usage: kitsec vps-logger [OPTIONS]
@@ -113,7 +117,7 @@ Options:
   --help  Show this message and exit.
 
 Example:
-  kitsec capture https://example.com
+  python kitsec.py capture https://example.com
 ``````
 
 <details>
@@ -174,7 +178,7 @@ Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
-kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
+python kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -204,7 +208,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kitsec enumerate -r -t -a example.com 
+python kitsec.py enumerate -r -t -a example.com 
 ````
 
 <details>
@@ -242,7 +246,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kitsec portscan -c example.com 
+python kitsec.py portscan -c example.com 
 ````
 
 <details>
@@ -277,7 +281,7 @@ Returns:
   an error message will be displayed.
 
 Example:
-  kitsec cidr github.com
+  python kitsec.py cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -305,7 +309,7 @@ Returns:
   None. Displays the certificate information to the console.
 
 Example:
-  kitsec certificate github.com
+  python kitsec.py certificate github.com
 
 `````
 <details>
@@ -335,7 +339,7 @@ Options:
   --help           Show this message and exit.
 
 Example:
-  kitsec cve python -l 2
+  python kitsec.py cve python -l 2
 `````
 
 <details>
@@ -377,7 +381,7 @@ request. Default: 3000.
 --help Show this message and exit.
 
 Example:
-kitsec storm https://example.com/
+python kitsec.py storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
@@ -399,7 +403,7 @@ to. Default: ../lists/fuzz/path_fuzz
 --help Show this message and exit.
 
 Example:
-kitsec fuzz example.com
+python kitsec.py fuzz example.com
 `````
 
 # Guidelines
