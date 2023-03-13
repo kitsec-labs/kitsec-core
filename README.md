@@ -30,13 +30,29 @@ Whether you're a seasoned professional or just getting started, Kitsec provides 
 
 ### 📦 Installation 
 
-Assuming that you have Python 3.6+ installed, you can install Kitsec using pip:
+Install docker-compose and docker on your system:
 
-`pip install kitsec`
+````
+$ sudo apt install docker-compose docker
+```` 
 
-Assuming that you have go installed, you can install the additional dependencies:
+or
 
-`kitsec deps`
+````
+$ brew install docker-compose docker
+````
+
+To mount the docker volume run:
+
+````
+docker build -t kitsec-core .
+````
+
+To run kitsec within the docker container:
+
+````
+docker run -it kitsec-core python src/kitsec.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
+````
 
 
 # Usage

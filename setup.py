@@ -8,7 +8,6 @@ setup(
         'Click',
         'requests',
         'paramiko',
-        'pandas',
         'tqdm',
         'bs4',
         'tabulate',
