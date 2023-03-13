@@ -54,7 +54,6 @@ def deps():
 @click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
 @click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
 @click.option('--password', prompt='Enter the password for the user account', hide_input=True)
-@click.confirmation_option(prompt='Are you sure you want to connect to the VPS server and tail the auth.log file?')
 def linode(host, username, password):
     """
     Connects to a remote VPS server and tails the auth.log file.
@@ -238,7 +237,7 @@ def cve(product_name, limit):
 
 
 cli.add_command(deps)
-cli.add_command(vps_logger)
+cli.add_command(linode)
 cli.add_command(certificate)
 cli.add_command(capture)
 cli.add_command(convert)
