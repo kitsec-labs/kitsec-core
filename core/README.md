@@ -65,7 +65,7 @@ docker build -t kitsec .
 To run kitsec within the docker container:
 
 ````
-docker run -it kitsec python kitsec/kitsec.py <command> <options>
+docker run -it kitsec python core/kitsec/cli/main.py <command> <options>
 ````
 
 </details>

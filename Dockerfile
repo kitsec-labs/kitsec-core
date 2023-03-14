@@ -23,23 +23,18 @@ ENV GOROOT /usr/local/go
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 
-# Install required Go packages using go install
-RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
-    go install -v github.com/OWASP/Amass/v3/...@master
-
-# Set the working directory to /app and copy source code
+# Set the working directory to /app and copy source code and lists
 WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-COPY kitsec /app/kitsec
-COPY lists /app/../lists
+COPY core /app/core
+RUN pip3 install -e /app/core
 
-# Set the working directory to the parent directory of src and lists
+# Set the working directory to the parent directory of core
 WORKDIR /app
-
-# Create an alias to allow using python3 with either python or python3 command
 RUN ln -s /usr/bin/python3 /usr/bin/python
+ENV PYTHONPATH=/app
 
 # Set the default command to run the Python script
-CMD ["python", "kitsec/kitsec.py"]
+CMD ["python", "core/kitsec/cli/main.py"]
