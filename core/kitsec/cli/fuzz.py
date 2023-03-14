@@ -6,6 +6,7 @@ import click
 import requests
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
+import pkg_resources
 
 
 def send_request(url):
@@ -14,9 +15,12 @@ def send_request(url):
         print(f"Found URL with status 200: {url}")
 
 
-def apply_file_format_fuzz(base_url, path='../lists/fuzz/file_fuzz', max_workers=10):
+def apply_file_format_fuzz(base_url, path='core/kitsec/list/fuzz/file_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
+
+    path = os.path.abspath(path)
+    path = pkg_resources.resource_filename('kitsec', os.path.join('lists', 'fuzz', 'file_fuzz'))
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):
@@ -54,9 +58,13 @@ def apply_file_format_fuzz(base_url, path='../lists/fuzz/file_fuzz', max_workers
         else:
             print(f"{path} does not exist")
 
-def apply_path_fuzz(base_url, path='../lists/fuzz/path_fuzz/', max_workers=10):
+
+def apply_path_fuzz(base_url, path='core/kitsec/list/fuzz/path_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
+
+    path = os.path.abspath(path)
+    path = pkg_resources.resource_filename('kitsec', os.path.join('lists', 'fuzz', 'path_fuzz'))
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):

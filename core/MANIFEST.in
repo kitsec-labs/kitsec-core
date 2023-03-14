@@ -1,0 +1,4 @@
+include kitsec/lists/active_enumerator/*.txt
+include kitsec/lists/fuzz/file_fuzz/*.txt
+include kitsec/lists/fuzz/path_fuzz/*.txt
+include kitsec/lists/passwords/*.txt
