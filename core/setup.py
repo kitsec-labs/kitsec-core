@@ -45,4 +45,7 @@ setup(
             "kitsec=kitsec.cli.main:cli",
         ],
     },
+    package_data={
+        "kitsec.core.kitsec.lists": ["*"],
+    }
 )
