@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="kitsec",
-    version="0.1.0",
+    version="0.1.4b",
     author="Idriss CHEBAK",
     author_email="idrisschebak@me.com",
     description="A package designed to streamline Ethical hackers workflows.",
@@ -42,7 +42,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "kitsec=core.cli.main:cli",
+            "kitsec=kitsec.cli.main:cli",
         ],
     },
 )
