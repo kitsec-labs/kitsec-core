@@ -22,13 +22,17 @@ from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
 # Local modules
-from cve import query_cve
-from enumerator import apply_enumerator
-from fuzz import apply_file_format_fuzz, apply_path_fuzz
-from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
+from kitsec.cli.cve import query_cve
+from kitsec.cli.enumerator import apply_enumerator
+from kitsec.cli.fuzz import apply_file_format_fuzz, apply_path_fuzz
+from kitsec.cli.network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, apply_check_certificate)
-from dependencies import install_dependencies
-from utils import apply_transformation
+from kitsec.cli.dependencies import install_dependencies
+from kitsec.cli.utils import apply_transformation
+
+
+
+
 
 
 #todo: run kitsec from any directory
