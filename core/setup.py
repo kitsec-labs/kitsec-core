@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="kitsec",
-    version="0.1.4rc2",
+    version="0.1.5",
     author="Idriss CHEBAK",
     author_email="idrisschebak@me.com",
     description="A package designed to streamline Ethical hackers workflows.",
