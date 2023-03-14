@@ -79,6 +79,11 @@ Install dependencies:
 pip install -r requirements.txt
 ````
 
+Install editable:
+
+````
+pip install -e
+````
 
 Install go dependencies:
 
