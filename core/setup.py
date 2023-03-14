@@ -13,6 +13,9 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/kitsec-labs/kitsec-core",
     packages=find_packages(),
+    package_data={
+        "kitsec": ["lists/*/*", "lists/*/*/*"]
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3",
@@ -45,7 +48,4 @@ setup(
             "kitsec=kitsec.cli.main:cli",
         ],
     },
-    package_data={
-        "kitsec.core.kitsec.lists": ["*"],
-    }
 )
