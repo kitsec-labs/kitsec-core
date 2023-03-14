@@ -1,0 +1,7 @@
+setup.py
+kitsec.egg-info/PKG-INFO
+kitsec.egg-info/SOURCES.txt
+kitsec.egg-info/dependency_links.txt
+kitsec.egg-info/entry_points.txt
+kitsec.egg-info/requires.txt
+kitsec.egg-info/top_level.txt

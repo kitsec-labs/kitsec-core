@@ -22,17 +22,13 @@ from tabulate import tabulate
 from Wappalyzer import Wappalyzer, WebPage
 
 # Local modules
-from kitsec.cli.cve import query_cve
-from kitsec.cli.enumerator import apply_enumerator
-from kitsec.cli.fuzz import apply_file_format_fuzz, apply_path_fuzz
-from kitsec.cli.network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
+from cve import query_cve
+from enumerator import apply_enumerator
+from fuzz import apply_file_format_fuzz, apply_path_fuzz
+from network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
                     apply_scan_ports, apply_check_certificate)
-from kitsec.cli.dependencies import install_dependencies
-from kitsec.cli.utils import apply_transformation
-
-
-
-
+from dependencies import install_dependencies
+from utils import apply_transformation
 
 
 #todo: run kitsec from any directory
@@ -192,10 +188,10 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
+@click.option('-p', '--path', default='../lists/fuzz/path_fuzz', help='The path to a file or directory containing a list of paths to send requests to. Default: ../lists/injector')
 @click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
-@click.option('-p', '--path-fuzz', is_flag=True, help='Use path fuzzing')
 @click.help_option('--help', '-h')
-def fuzz(base_url, file_fuzz, path_fuzz):
+def fuzz(base_url, path, file_fuzz):
     """
     Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -203,8 +199,9 @@ def fuzz(base_url, file_fuzz, path_fuzz):
     - base_url (str): The base URL to send requests to. The URL must include the protocol (http or https).
 
     Options:
+    - path (str): The path to a file or directory containing a list of paths to send requests to. 
+    Default: ../lists/fuzz/path_fuzz
     - file-fuzz (bool): Whether to use file format fuzzing or not
-    - path-fuzz (bool): Whether to use path fuzzing or not
 
     Returns:
     - None. For each request sent, the program will print the URL and response code to the console if the response code is 200.
@@ -217,11 +214,14 @@ def fuzz(base_url, file_fuzz, path_fuzz):
     if file_fuzz:
         apply_file_format_fuzz(base_url)
 
-    if path_fuzz:
-        apply_path_fuzz(base_url)
+    if os.path.isdir(path) and not file_fuzz:
+        apply_path_fuzz(base_url, path)
 
-    if not file_fuzz and not path_fuzz:
-        print("Please specify either --file-fuzz or --path-fuzz.")
+    elif os.path.isfile(path) and not file_fuzz:
+        apply_path_fuzz(base_url, path)
+
+    else:
+        click.echo(f"{path} does not exist")
 
 
 
