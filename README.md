@@ -59,7 +59,7 @@ $ brew install docker-compose docker
 To build the docker image run:
 
 ````
-docker build -t kitsec .
+docker pull idrisschebak/kitsec
 ````
 
 To run kitsec within the docker container:
