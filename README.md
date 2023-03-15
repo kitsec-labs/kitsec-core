@@ -5,8 +5,11 @@
 
 <p align="center">
 <a href="https://github.com/kitsec-labs/kitsec-core/issues"><img src="https://img.shields.io/badge/contributions-welcome-blue"></a>
+<a href="https://pypi.org/project/kitsec/"><img src="https://img.shields.io/pypi/dm/kitsec?color=purple"></a>
 <a href="https://hub.docker.com/r/idrisschebak/kitsec"><img src="https://img.shields.io/docker/pulls/idrisschebak/kitsec"></a>
 <a href="https://github.com/kitsec-labs/kitsec-core"><img src="https://img.shields.io/github/repo-size/kitsec-labs/kitsec-core"></a>
+
+
 </p>
 
 <p align="center">
