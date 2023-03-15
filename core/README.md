@@ -56,7 +56,7 @@ $ brew install docker-compose docker
   <summary>Run using Docker </summary>
 
 
-To build the docker image run:
+o build the docker image run:
 
 ````
 docker build -t kitsec .
@@ -65,7 +65,13 @@ docker build -t kitsec .
 To run kitsec within the docker container:
 
 ````
-docker run -it kitsec python core/kitsec/cli/main.py <command> <options>
+docker run -it kitsec kitsec <command> <options>
+````
+
+For example:
+
+````
+docker run -it kitsec kitsec cve python -l 2
 ````
 
 </details>
