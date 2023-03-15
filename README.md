@@ -123,11 +123,7 @@ docker run -it kitsec kitsec cve python -l 2
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
-</details>
 
-<details>
-
-  <summary>Usage</summary>
 ``````
 Usage: kistec capture [OPTIONS] URL
 
@@ -140,7 +136,6 @@ Example:
  kistec capture https://example.com
 ``````
 
-</details>
 
 <details>
   <summary>Output</summary>
