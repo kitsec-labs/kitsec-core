@@ -56,7 +56,7 @@ $ brew install docker-compose docker
   <summary>Run using Docker </summary>
 
 
-o build the docker image run:
+To build the docker image run:
 
 ````
 docker build -t kitsec .
