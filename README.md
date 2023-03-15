@@ -3,6 +3,20 @@
 </p>
 
 
+<p align="center">
+<a href="https://github.com/kitsec-labs/kitsec-core/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://hub.docker.com/r/idrisschebak/kitsec"><img src="https://img.shields.io/docker/pulls/idrisschebak/kitsec"></a>
+<a href="https://github.com/kitsec-labs/kitsec-core"><img src="https://img.shields.io/github/repo-size/kitsec-labs/kitsec-core"></a>
+</p>
+
+<p align="center">
+  <a href="#install">Install</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#guidelines">Guidelines</a>
+</p>
+
+---
+
 # Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you simplify and centralize your security workflow. Whether you're a seasoned professional or 
@@ -31,7 +45,7 @@ it can execute multiple tasks simultaneously, making it a lightning-fast solutio
 - **Fuzz**: Enrich fuzzing.
 - **Shuffler**: Enrich Shuffle IP/Agent/Referer lists.
 
-### 📦 Installation 
+# Install
 
 
 
@@ -82,14 +96,9 @@ docker run -it kitsec kitsec cve python -l 2
 Install dependencies:
   
 ````
-pip install -r requirements.txt
+pip install kitsec
 ````
 
-Install editable:
-
-````
-pip install -e
-````
 
 Install go dependencies:
 
@@ -107,26 +116,23 @@ kitsec <command> <options>
 </details>
 
 <details>
+  <summary>Run using script </summary>
+
+Install dependencies:
+  
+
+````
+kitsec <command> <options>
+````
+
+
+</details>
+
+<details>
 
   <summary>tips</summary>
   
-``````
-to ease the process, you can add an alias to your shell file:
 
-````
-# Add alias for Bash shell
-echo "alias drk='docker run -it kitsec'" >> ~/.bashrc
-
-# Add alias for Zsh shell
-if [[ -n $(command -v zsh) ]]; then
-    echo "alias drk='docker run -it kitsec'" >> ~/.zshrc
-fi
-
-# Add alias for Fish shell
-if [[ -n $(command -v fish) ]]; then
-    echo "alias drk 'docker run -it kitsec'" >> ~/.config/fish/config.fish
-fi
-``````
 </details>
 
 # Usage
@@ -137,7 +143,7 @@ fi
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
 ``````
-Usage: kitsec capture [OPTIONS] URL
+Usage:kistec capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -145,7 +151,7 @@ Options:
   --help  Show this message and exit.
 
 Example:
-  kitsec capture https://example.com
+ kistec capture https://example.com
 ``````
 
 <details>
@@ -206,7 +212,7 @@ Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
-kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
+kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -222,7 +228,7 @@ kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: kitsec enumerate [OPTIONS] DOMAIN
+Usage:kistec enumerate [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -236,7 +242,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kitsec enumerate -r -t -a example.com 
+kistec enumerate -r -t -a example.com 
 ````
 
 <details>
@@ -274,7 +280,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kitsec portscan -c example.com 
+kistec portscan -c example.com 
 ````
 
 <details>
@@ -293,7 +299,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage: kitsec cidr [OPTIONS] COMPANY_NAME
+Usage:kistec cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -309,7 +315,7 @@ Returns:
   an error message will be displayed.
 
 Example:
-  kitsec cidr github.com
+ kistec cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -322,7 +328,7 @@ Example:
 Search for ssl / tlsfor the specified host and port:
 
 `````
-Usage: python main.pycertifcate [OPTIONS] HOSTNAME
+Usage:kisteccertifcate [OPTIONS] HOSTNAME
 
 Check the SSL/TLS certificate for the specified host and port.
 
@@ -337,7 +343,7 @@ Returns:
   None. Displays the certificate information to the console.
 
 Example:
-  kitsec certificate github.com
+ kistec certificate github.com
 
 `````
 <details>
@@ -355,7 +361,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage: kitsec cve [OPTIONS] PRODUCT_NAME
+Usage:kistec cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -367,7 +373,7 @@ Options:
   --help           Show this message and exit.
 
 Example:
-  kitsec cve python -l 2
+ kistec cve python -l 2
 `````
 
 <details>
@@ -393,7 +399,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage: kitsec storm [OPTIONS] URL
+Usage:kistec storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -409,14 +415,14 @@ request. Default: 3000.
 --help Show this message and exit.
 
 Example:
-kitsec storm https://example.com/
+kistec storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
 
 `````
-Usage: kitsec fuzz [OPTIONS] BASE_URL
+Usage:kistec fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -429,7 +435,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kitsec fuzz example.com
+kistec fuzz example.com
 `````
 
 ### 🧢 VPS <a name="vps-logger"></a>
@@ -437,7 +443,7 @@ kitsec fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage: kitsec vps-logger [OPTIONS]
+Usage:kistec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
@@ -491,8 +497,6 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 # Reporting Bugs and Contributing
 
 If you encounter any bugs or would like to suggest new features [here](https://github.com/kitsec-labs/kitsec/issues/new).
-Or join the [discord](https://discord.gg/DdQ65CJ6).
-
 # Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.

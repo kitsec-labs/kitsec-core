@@ -3,6 +3,20 @@
 </p>
 
 
+<p align="center">
+<a href="https://github.com/kitsec-labs/kitsec-core/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
+<a href="https://hub.docker.com/r/idrisschebak/kitsec"><img src="https://img.shields.io/docker/pulls/idrisschebak/kitsec"></a>
+<a href="https://github.com/kitsec-labs/kitsec-core"><img src="https://img.shields.io/github/repo-size/kitsec-labs/kitsec-core"></a>
+</p>
+
+<p align="center">
+  <a href="#install">Install</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#guidelines">Guidelines</a>
+</p>
+
+---
+
 # Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you simplify and centralize your security workflow. Whether you're a seasoned professional or 
@@ -31,7 +45,7 @@ it can execute multiple tasks simultaneously, making it a lightning-fast solutio
 - **Fuzz**: Enrich fuzzing.
 - **Shuffler**: Enrich Shuffle IP/Agent/Referer lists.
 
-### 📦 Installation 
+# Install
 
 
 
@@ -482,8 +496,7 @@ Here are some examples of websites that offer bug bounty programs for ethical ha
 
 # Reporting Bugs and Contributing
 
-If you encounter any bugs or would like to suggest new features [here](https://github.com/kitsec-labs/kitsec/issues/new)
-
+If you encounter any bugs or would like to suggest new features [here](https://github.com/kitsec-labs/kitsec/issues/new).
 # Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
