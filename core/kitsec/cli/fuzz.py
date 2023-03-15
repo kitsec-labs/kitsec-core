@@ -15,12 +15,19 @@ def send_request(url):
         print(f"Found URL with status 200: {url}")
 
 
-def apply_file_format_fuzz(base_url, path='core/kitsec/list/fuzz/file_fuzz', max_workers=10):
+import os
+from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
+
+def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
-    path = os.path.abspath(path)
-    path = pkg_resources.resource_filename('kitsec', os.path.join('lists', 'fuzz', 'file_fuzz'))
+    # Find the directory of the current script
+    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the path to the fuzz list
+    path = os.path.join(current_script_dir, '..', path)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):
@@ -58,13 +65,15 @@ def apply_file_format_fuzz(base_url, path='core/kitsec/list/fuzz/file_fuzz', max
         else:
             print(f"{path} does not exist")
 
-
-def apply_path_fuzz(base_url, path='core/kitsec/list/fuzz/path_fuzz', max_workers=10):
+def apply_file_format_fuzz(base_url, path='lists/fuzz/file_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
-    path = os.path.abspath(path)
-    path = pkg_resources.resource_filename('kitsec', os.path.join('lists', 'fuzz', 'path_fuzz'))
+    # Find the directory of the current script
+    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the path to the fuzz list
+    path = os.path.join(current_script_dir, '..', path)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):
