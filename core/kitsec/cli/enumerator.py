@@ -80,49 +80,32 @@ def passive_enumerator(domain):
     return subdomains
 
 
-def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
-    """
-    Fetches the HTTP response codes and reasons for a list of subdomains.
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-    Args:
-    - subdomains (List[str]): A list of subdomains to fetch responses for.
-    - technology (bool): Whether to also fetch the technologies used by each subdomain.
+def fetch_response_worker(subdomain: str, session: requests.Session) -> List[str]:
+    try:
+        response = session.get(f'http://{subdomain}', timeout=5)
+        return [subdomain, response.status_code, response.reason, '']
+    except requests.exceptions.Timeout:
+        print(f"Skipped '{subdomain}'")
+    except requests.exceptions.ConnectionError:
+        print(f"Skipped '{subdomain}'")
+    except Exception as e:
+        print(f"Skipped '{subdomain}': {str(e)}")
+    return None
 
-    Returns:
-    - A list of lists, where each sub-list contains the following fields for a subdomain:
-      - Subdomain name (str)
-      - HTTP status code (int)
-      - HTTP status reason (str)
-      - List of technologies used by the subdomain (if technology is True), or an empty string (if technology is False).
-    """
-    # Initialize empty response table and create a session object for TCP connection reuse
+def fetch_response(subdomains: List[str], technology: bool, max_workers: int = 10) -> List[List[str]]:
     response_table = []
     session = requests.Session()
-    
-    # Fetch response for each subdomain in the list
-    for subdomain in tqdm(subdomains, desc='Fetching response', unit='subdomain', leave=False):
-        try:
-            # Make HTTP GET request with timeout of 5 seconds
-            response = session.get(f'http://{subdomain}', timeout=5)
-            response_table.append([subdomain, response.status_code, response.reason, ''])
-            
-            # Add a delay of 0.5 seconds to avoid overloading the target website
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_subdomain = {executor.submit(fetch_response_worker, subdomain, session): subdomain for subdomain in subdomains}
+        for future in tqdm(as_completed(future_to_subdomain), desc='Fetching response', total=len(subdomains), unit='subdomain', leave=False):
+            result = future.result()
+            if result:
+                response_table.append(result)
             time.sleep(0.5)
-        
-        # Handle timeout and connection errors
-        except requests.exceptions.Timeout:
-            print(f"Skipped '{subdomain}'")
-            continue
-        except requests.exceptions.ConnectionError:
-            print(f"Skipped '{subdomain}'")
-            continue
-        
-        # Handle other exceptions
-        except Exception as e:
-            print(f"Skipped '{subdomain}': {str(e)}")
-            continue
-    
-    # Return response table
+
     return response_table
 
 

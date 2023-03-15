@@ -76,17 +76,30 @@ docker run -it kitsec python core/kitsec/cli/main.py <command> <options>
 Install dependencies:
   
 ````
-pip install -r requirements.txt
+pip install kitsec
 ````
 
 
 Install go dependencies:
 
 ````
-python main.py deps
+kitsec deps
 ````
 
 Run kitsec:
+
+````
+kitsec <command> <options>
+````
+
+
+</details>
+
+<details>
+  <summary>Run using script </summary>
+
+Install dependencies:
+  
 
 ````
 python main.py <command> <options>
@@ -99,23 +112,7 @@ python main.py <command> <options>
 
   <summary>tips</summary>
   
-``````
-to ease the process, you can add an alias to your shell file:
 
-````
-# Add alias for Bash shell
-echo "alias drk='docker run -it kitsec'" >> ~/.bashrc
-
-# Add alias for Zsh shell
-if [[ -n $(command -v zsh) ]]; then
-    echo "alias drk='docker run -it kitsec'" >> ~/.zshrc
-fi
-
-# Add alias for Fish shell
-if [[ -n $(command -v fish) ]]; then
-    echo "alias drk 'docker run -it kitsec'" >> ~/.config/fish/config.fish
-fi
-``````
 </details>
 
 # Usage
@@ -126,7 +123,7 @@ fi
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
 ``````
-Usage: python main.py capture [OPTIONS] URL
+Usage:kistec capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -134,7 +131,7 @@ Options:
   --help  Show this message and exit.
 
 Example:
-  python main.py capture https://example.com
+ kistec capture https://example.com
 ``````
 
 <details>
@@ -195,7 +192,7 @@ Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
-python main.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
+kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -211,7 +208,7 @@ python main.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: python main.py enumerate [OPTIONS] DOMAIN
+Usage:kistec enumerate [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -225,7 +222,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py enumerate -r -t -a example.com 
+kistec enumerate -r -t -a example.com 
 ````
 
 <details>
@@ -263,7 +260,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py portscan -c example.com 
+kistec portscan -c example.com 
 ````
 
 <details>
@@ -282,7 +279,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage: python main.py cidr [OPTIONS] COMPANY_NAME
+Usage:kistec cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -298,7 +295,7 @@ Returns:
   an error message will be displayed.
 
 Example:
-  python main.py cidr github.com
+ kistec cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -311,7 +308,7 @@ Example:
 Search for ssl / tlsfor the specified host and port:
 
 `````
-Usage: python main.pycertifcate [OPTIONS] HOSTNAME
+Usage:kisteccertifcate [OPTIONS] HOSTNAME
 
 Check the SSL/TLS certificate for the specified host and port.
 
@@ -326,7 +323,7 @@ Returns:
   None. Displays the certificate information to the console.
 
 Example:
-  python main.py certificate github.com
+ kistec certificate github.com
 
 `````
 <details>
@@ -344,7 +341,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage: python main.py cve [OPTIONS] PRODUCT_NAME
+Usage:kistec cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -356,7 +353,7 @@ Options:
   --help           Show this message and exit.
 
 Example:
-  python main.py cve python -l 2
+ kistec cve python -l 2
 `````
 
 <details>
@@ -382,7 +379,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage: python main.py storm [OPTIONS] URL
+Usage:kistec storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -398,14 +395,14 @@ request. Default: 3000.
 --help Show this message and exit.
 
 Example:
-python main.py storm https://example.com/
+kistec storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
 
 `````
-Usage: python main.py fuzz [OPTIONS] BASE_URL
+Usage:kistec fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -418,7 +415,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py fuzz example.com
+kistec fuzz example.com
 `````
 
 ### 🧢 VPS <a name="vps-logger"></a>
@@ -426,7 +423,7 @@ python main.py fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage: python main.py vps-logger [OPTIONS]
+Usage:kistec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
