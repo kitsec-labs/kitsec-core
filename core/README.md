@@ -124,9 +124,7 @@ Intercept requests to example.com. This will capture the request headers and ext
 
 </details>
 
-<details>
 
-  <summary>Usage</summary>
 ``````
 Usage: kistec capture [OPTIONS] URL
 
@@ -139,7 +137,6 @@ Example:
  kistec capture https://example.com
 ``````
 
-</details>
 
 <details>
   <summary>Output</summary>
