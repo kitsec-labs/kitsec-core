@@ -5,8 +5,11 @@
 
 <p align="center">
 <a href="https://github.com/kitsec-labs/kitsec-core/issues"><img src="https://img.shields.io/badge/contributions-welcome-blue"></a>
+<a href="https://pypi.org/project/kitsec/"><img src="https://img.shields.io/pypi/dm/kitsec?color=purple"></a>
 <a href="https://hub.docker.com/r/idrisschebak/kitsec"><img src="https://img.shields.io/docker/pulls/idrisschebak/kitsec"></a>
 <a href="https://github.com/kitsec-labs/kitsec-core"><img src="https://img.shields.io/github/repo-size/kitsec-labs/kitsec-core"></a>
+
+
 </p>
 
 <p align="center">
@@ -40,55 +43,14 @@ it can execute multiple tasks simultaneously, making it a lightning-fast solutio
 
 ### 🛣️ Roadmap
 
+- **Convert**: Add more encoding/decoding functions.
+- **Graphql**: Add graphql grabber.
 - **Storm**: Add raid types: flood, hybrid and single shot.
 - **VPS**: Add linode logger.
 - **Fuzz**: Enrich fuzzing.
 - **Shuffler**: Enrich Shuffle IP/Agent/Referer lists.
 
 # Install
-
-
-
-<details>
-  <summary>Install Docker</summary>
-
-Install docker-compose and docker on your system:
-
-````
-$ sudo apt install docker-compose docker
-```` 
-
-or
-
-````
-$ brew install docker-compose docker
-````
-
-</details>
-
-<details>
-  <summary>Run using Docker </summary>
-
-
-To build the docker image run:
-
-````
-docker pull idrisschebak/kitsec
-````
-
-To run kitsec within the docker container:
-
-````
-docker run -it kitsec kitsec <command> <options>
-````
-
-For example:
-
-````
-docker run -it kitsec kitsec cve python -l 2
-````
-
-</details>
 
 <details>
   <summary>Run using Python </summary>
@@ -116,17 +78,35 @@ kitsec <command> <options>
 </details>
 
 <details>
-  <summary>Run using script </summary>
+  <summary>Run using Docker </summary>
 
-Install dependencies:
-  
+
+Pull the image from docker hub:
 
 ````
-kitsec <command> <options>
+docker pull idrisschebak/kitsec
 ````
 
+Or build the docker image from the docker directory:
+
+````
+docker build -t kitsec .
+````
+
+To run kitsec within the docker container:
+
+````
+docker run -it kitsec kitsec <command> <options>
+````
+
+For example:
+
+````
+docker run -it kitsec kitsec cve python -l 2
+````
 
 </details>
+
 
 <details>
 
@@ -142,8 +122,13 @@ kitsec <command> <options>
 
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
+</details>
+
+<details>
+
+  <summary>Usage</summary>
 ``````
-Usage:kistec capture [OPTIONS] URL
+Usage: kistec capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -153,6 +138,8 @@ Options:
 Example:
  kistec capture https://example.com
 ``````
+
+</details>
 
 <details>
   <summary>Output</summary>
@@ -228,7 +215,7 @@ kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage:kistec enumerate [OPTIONS] DOMAIN
+Usage: kistec enumerate [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -268,7 +255,7 @@ sales.domain1.com                  200  OK                   ['Nginx', 'Google F
 Scan for all or most common open ports on example.com:
 
 ````
-Usage: main.py portscan [OPTIONS] HOSTNAME
+Usage: kitsec portscan [OPTIONS] HOSTNAME
 
 Performs a TCP port scan on a specified hostname and a range of ports.
 
@@ -299,7 +286,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage:kistec cidr [OPTIONS] COMPANY_NAME
+Usage: kistec cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -328,7 +315,7 @@ Example:
 Search for ssl / tlsfor the specified host and port:
 
 `````
-Usage:kisteccertifcate [OPTIONS] HOSTNAME
+Usage: kistec certifcate [OPTIONS] HOSTNAME
 
 Check the SSL/TLS certificate for the specified host and port.
 
@@ -361,7 +348,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage:kistec cve [OPTIONS] PRODUCT_NAME
+Usage: kistec cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -399,7 +386,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage:kistec storm [OPTIONS] URL
+Usage: kistec storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -422,7 +409,7 @@ kistec storm https://example.com/
 
 
 `````
-Usage:kistec fuzz [OPTIONS] BASE_URL
+Usage: kistec fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -443,7 +430,7 @@ kistec fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage:kistec vps-logger [OPTIONS]
+Usage: kistec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
