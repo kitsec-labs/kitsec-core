@@ -124,17 +124,16 @@ def convert(data, transformation_type):
 @click.command()
 @click.option('--request', '-r', is_flag=True, default=False, help='Test subdomains and print http response for active ones.')
 @click.option('--technology', '-t', is_flag=True, default=False, help='Analyze technology used by subdomains.')
-@click.option('--active', '-a', is_flag=True, default=False, help='Use active enumeration.')
 @click.argument('domain')
 @click.option('-h', '--help', 'display_help', is_flag=True, help='Display this help message')
-def enumerator(request, technology, active, domain, display_help):
+def enumerator(request, technology, domain, display_help):
     """
     Enumerate subdomains for a given domain.
     """
     if display_help:
         click.echo(enumerator.get_help(click.Context(enumerator)))
     else:
-        apply_enumerator(request=request, technology=technology, active=active, domain=domain)
+        apply_enumerator(request=request, technology=technology, domain=domain)
 
 
 

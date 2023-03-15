@@ -79,57 +79,158 @@ def passive_enumerator(domain):
     # Return set of subdomains
     return subdomains
 
-import os
-import requests
-from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
 
-def apply_enumerator(domain, path='lists/active_enumerator', max_workers=10):
-    subdomains = set()
+def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
+    """
+    Fetches the HTTP response codes and reasons for a list of subdomains.
 
-    # Find the directory of the current script
-    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+    Args:
+    - subdomains (List[str]): A list of subdomains to fetch responses for.
+    - technology (bool): Whether to also fetch the technologies used by each subdomain.
 
-    # Construct the path to the subdomain list
-    path = os.path.join(current_script_dir, '..', path)
+    Returns:
+    - A list of lists, where each sub-list contains the following fields for a subdomain:
+      - Subdomain name (str)
+      - HTTP status code (int)
+      - HTTP status reason (str)
+      - List of technologies used by the subdomain (if technology is True), or an empty string (if technology is False).
+    """
+    # Initialize empty response table and create a session object for TCP connection reuse
+    response_table = []
+    session = requests.Session()
+    
+    # Fetch response for each subdomain in the list
+    for subdomain in tqdm(subdomains, desc='Fetching response', unit='subdomain', leave=False):
+        try:
+            # Make HTTP GET request with timeout of 5 seconds
+            response = session.get(f'http://{subdomain}', timeout=5)
+            response_table.append([subdomain, response.status_code, response.reason, ''])
+            
+            # Add a delay of 0.5 seconds to avoid overloading the target website
+            time.sleep(0.5)
+        
+        # Handle timeout and connection errors
+        except requests.exceptions.Timeout:
+            print(f"Skipped '{subdomain}'")
+            continue
+        except requests.exceptions.ConnectionError:
+            print(f"Skipped '{subdomain}'")
+            continue
+        
+        # Handle other exceptions
+        except Exception as e:
+            print(f"Skipped '{subdomain}': {str(e)}")
+            continue
+    
+    # Return response table
+    return response_table
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        if os.path.isdir(path):
-            # If the path is a directory, iterate through each file in the directory
-            futures = []
-            for filename in os.listdir(path):
-                filepath = os.path.join(path, filename)
-                if os.path.isfile(filepath):
-                    # If the file is a regular file, read each line in the file and send a request to the URL
-                    with open(filepath) as f:
-                        file_formats = f.read().splitlines()
-                        progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
-                        for file_format in progress_bar:
-                            full_domain = f"{file_format}.{domain}"
-                            future = executor.submit(send_head_request, full_domain)
-                            futures.append(future)
 
-            for future in futures:
-                result = future.result()
-                if result is not None:
-                    subdomains.add(result)
+def fetch_tech(url):
+    """
+    Fetches the technologies used by a website using Wappalyzer.
 
-        else:
-            print(f"{path} does not exist")
+    Args:
+    - url (str): The URL of the website to analyze.
 
-    if subdomains:
-        return subdomains
-    else:
-        return set()
+    Returns:
+    - A list of strings representing the technologies used by the website.
+    - If an error occurs while fetching the technologies, returns None.
+    """
+    # Ignore JAVA warnings on wappalyzer & skip
+    warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
+    warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
+    warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
 
-def send_head_request(full_domain):
-    try:
-        # Send a HEAD request to check if the subdomain is active
-        response = requests.head("https://" + full_domain, timeout=3)
-        if response.status_code < 400:
-            return full_domain.split('.')[0]
+    # Ensure URL starts with http(s)
+    if not url.startswith('http'):
+        url = 'https://' + url
 
-    except:
-        pass
-
+    # Fetch web page and analyze with Wappalyzer
+    technologies = []
+    
+    # Print only once when the function is launched
+    if not hasattr(fetch_tech, 'counter'):
+        fetch_tech.counter = 0
+    if fetch_tech.counter == 0:
+        print("Fetching technologies...")
+        fetch_tech.counter += 1
+    
+    # Retry fetching up to 5 times in case of error
+    max_retries = 5
+    retry_count = 0
+    while retry_count < max_retries:
+        try:
+            # Create WebPage object and analyze with Wappalyzer
+            webpage = WebPage.new_from_url(url)
+            wappalyzer = Wappalyzer.latest()
+            for tech in wappalyzer.analyze(webpage):
+                technologies.append(tech)
+            return technologies
+        
+        # Handle timeout and connection errors
+        except requests.exceptions.Timeout:
+            return None
+        except requests.exceptions.ConnectionError:
+            return None
+        
+        # Handle other exceptions
+        except Exception:
+            retry_count += 1
+            if retry_count < max_retries:
+                time.sleep(5)
+    
+    # Max retries reached, return None
     return None
+
+
+def apply_enumerator(request, technology, domain):
+    """
+    Enumerates subdomains for a given domain using passive enumeration.
+    """
+    # Get subdomains using passive enumeration
+    subdomains = passive_enumerator(domain)
+
+    if request and not technology:
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, False)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
+        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+
+    if technology and not request:
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
+        click.echo(tabulate(tech_table, headers=['Subdomain', 'Technology']))
+
+    if request and technology:
+        # Test subdomains and print http response for active ones
+        response_table = fetch_response(subdomains, True)
+        # sort response_table by status in ascending order
+        response_table = sorted(response_table, key=lambda x: x[1])
+
+        # Analyze technology used by subdomains
+        tech_table = []
+        for subdomain in subdomains:
+            tech = fetch_tech(subdomain)
+            tech_table.append([subdomain, tech])
+
+        # Combine the two tables into a single table
+        response_df = pd.DataFrame(response_table, columns=['Subdomain', 'Status', 'Reason', 'Technology'])
+        tech_df = pd.DataFrame(tech_table, columns=['Subdomain', 'Technology'])
+        combined_df = pd.merge(response_df, tech_df, on='Subdomain', how='outer')
+        combined_df.fillna('', inplace=True)  # replace NaN values with empty string
+        combined_table = combined_df.to_records(index=False).tolist()
+
+        click.echo(tabulate(combined_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+
+    if not request and not technology:
+        # Just print the subdomains
+        subdomains_list = list(subdomains)
+        with tqdm(total=len(subdomains_list), desc='Enumerating subdomains', unit='subdomain') as pbar:
+            subdomains_list = [[subdomain] for subdomain in subdomains_list]
+            click.echo(tabulate(subdomains_list, headers=['Subdomain']))
+            pbar.update(len(subdomains_list))
