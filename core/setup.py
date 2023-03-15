@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setup(
     name="kitsec",
-    version="0.1.6rc4",
+    version="0.1.6rc5",
     author="Idriss CHEBAK",
     author_email="idrisschebak@me.com",
     description="A package designed to streamline Ethical hackers workflows.",
