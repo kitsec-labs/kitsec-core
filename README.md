@@ -94,13 +94,13 @@ pip install -e
 Install go dependencies:
 
 ````
-python main.py deps
+kitsec deps
 ````
 
 Run kitsec:
 
 ````
-python main.py <command> <options>
+kitsec <command> <options>
 ````
 
 
@@ -137,7 +137,7 @@ fi
 Intercept requests to example.com. This will capture the request headers and extract the hostname and path + cookies! :
 
 ``````
-Usage: python main.py capture [OPTIONS] URL
+Usage: kitsec capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -145,7 +145,7 @@ Options:
   --help  Show this message and exit.
 
 Example:
-  python main.py capture https://example.com
+  kitsec capture https://example.com
 ``````
 
 <details>
@@ -206,7 +206,7 @@ Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
-python main.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
+kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -222,7 +222,7 @@ python main.py convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: python main.py enumerate [OPTIONS] DOMAIN
+Usage: kitsec enumerate [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -236,7 +236,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py enumerate -r -t -a example.com 
+kitsec enumerate -r -t -a example.com 
 ````
 
 <details>
@@ -274,7 +274,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py portscan -c example.com 
+kitsec portscan -c example.com 
 ````
 
 <details>
@@ -293,7 +293,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage: python main.py cidr [OPTIONS] COMPANY_NAME
+Usage: kitsec cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -309,7 +309,7 @@ Returns:
   an error message will be displayed.
 
 Example:
-  python main.py cidr github.com
+  kitsec cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -337,7 +337,7 @@ Returns:
   None. Displays the certificate information to the console.
 
 Example:
-  python main.py certificate github.com
+  kitsec certificate github.com
 
 `````
 <details>
@@ -355,7 +355,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage: python main.py cve [OPTIONS] PRODUCT_NAME
+Usage: kitsec cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -367,7 +367,7 @@ Options:
   --help           Show this message and exit.
 
 Example:
-  python main.py cve python -l 2
+  kitsec cve python -l 2
 `````
 
 <details>
@@ -393,7 +393,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage: python main.py storm [OPTIONS] URL
+Usage: kitsec storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -409,14 +409,14 @@ request. Default: 3000.
 --help Show this message and exit.
 
 Example:
-python main.py storm https://example.com/
+kitsec storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
 
 `````
-Usage: python main.py fuzz [OPTIONS] BASE_URL
+Usage: kitsec fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -429,7 +429,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-python main.py fuzz example.com
+kitsec fuzz example.com
 `````
 
 ### 🧢 VPS <a name="vps-logger"></a>
@@ -437,7 +437,7 @@ python main.py fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage: python main.py vps-logger [OPTIONS]
+Usage: kitsec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 

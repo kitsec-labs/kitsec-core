@@ -108,7 +108,7 @@ Install dependencies:
   
 
 ````
-python main.py <command> <options>
+kitsec <command> <options>
 ````
 
 
