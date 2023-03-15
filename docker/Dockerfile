@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Upgrade pip and install the kitsec package from TestPyPI
 RUN pip install --upgrade pip
-RUN pip install kitsec==0.1.6rc3
+RUN pip install kitsec
 
 # Set the working directory to the parent directory of core
 WORKDIR /app
