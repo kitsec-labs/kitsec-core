@@ -28,6 +28,12 @@ WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install kitsec
 
+# Install subfinder
+RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+# Install amass
+RUN go install -v github.com/OWASP/Amass/v3/...@master
+
 # Set the working directory to the parent directory of core
 WORKDIR /app
 ENV PYTHONPATH=/app
