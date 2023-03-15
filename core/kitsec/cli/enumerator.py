@@ -80,92 +80,32 @@ def passive_enumerator(domain):
     return subdomains
 
 
-def active_enumerator(domain):
-    """
-    Enumerates subdomains for a given domain, and checks which ones are active.
-    Args:
-        domain (str): The domain to enumerate subdomains for.
-    Returns:
-        set or None: A set of subdomains, or None if no subdomains were found.
-    """
-    subdomains = set()
-    
-    # Check if subdomains directory exists
-    dir_path = "../lists/active_enumerator"
-    if not os.path.isdir(dir_path):
-        raise FileNotFoundError(f"Subdomains directory '{dir_path}' not found")
-    
-    # Get list of subdomain files in directory
-    file_names = [file_name for file_name in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, file_name)) and file_name.endswith(".txt")]
-    total_files = len(file_names)
-    
-    # Enumerate subdomains from each file and check if active
-    for i, file_name in enumerate(file_names):
-        file_path = os.path.join(dir_path, file_name)
-        with open(file_path, "r") as subdomain_file:
-            for line in tqdm(subdomain_file, desc="Active enumeration", unit="Subdomains"):
-                subdomain = line.strip()
-                full_domain = subdomain + "." + domain
-                try:
-                    # Send a HEAD request to check if the subdomain is active
-                    response = requests.head("https://" + full_domain, timeout=3)
-                    if response.status_code < 400:
-                        subdomains.add(subdomain)
-                
-                # Ignore exceptions and continue to the next subdomain
-                except:
-                    pass
-    
-    # Return set of active subdomains or empty set if none were found
-    if subdomains:
-        return subdomains
-    else:
-        return set()
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
+def fetch_response_worker(subdomain: str, session: requests.Session) -> List[str]:
+    try:
+        response = session.get(f'http://{subdomain}', timeout=5)
+        return [subdomain, response.status_code, response.reason, '']
+    except requests.exceptions.Timeout:
+        print(f"Skipped '{subdomain}'")
+    except requests.exceptions.ConnectionError:
+        print(f"Skipped '{subdomain}'")
+    except Exception as e:
+        print(f"Skipped '{subdomain}': {str(e)}")
+    return None
 
-def fetch_response(subdomains: List[str], technology: bool) -> List[List[str]]:
-    """
-    Fetches the HTTP response codes and reasons for a list of subdomains.
-
-    Args:
-    - subdomains (List[str]): A list of subdomains to fetch responses for.
-    - technology (bool): Whether to also fetch the technologies used by each subdomain.
-
-    Returns:
-    - A list of lists, where each sub-list contains the following fields for a subdomain:
-      - Subdomain name (str)
-      - HTTP status code (int)
-      - HTTP status reason (str)
-      - List of technologies used by the subdomain (if technology is True), or an empty string (if technology is False).
-    """
-    # Initialize empty response table and create a session object for TCP connection reuse
+def fetch_response(subdomains: List[str], technology: bool, max_workers: int = 10) -> List[List[str]]:
     response_table = []
     session = requests.Session()
-    
-    # Fetch response for each subdomain in the list
-    for subdomain in tqdm(subdomains, desc='Fetching response', unit='subdomain', leave=False):
-        try:
-            # Make HTTP GET request with timeout of 5 seconds
-            response = session.get(f'http://{subdomain}', timeout=5)
-            response_table.append([subdomain, response.status_code, response.reason, ''])
-            
-            # Add a delay of 0.5 seconds to avoid overloading the target website
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_subdomain = {executor.submit(fetch_response_worker, subdomain, session): subdomain for subdomain in subdomains}
+        for future in tqdm(as_completed(future_to_subdomain), desc='Fetching response', total=len(subdomains), unit='subdomain', leave=False):
+            result = future.result()
+            if result:
+                response_table.append(result)
             time.sleep(0.5)
-        
-        # Handle timeout and connection errors
-        except requests.exceptions.Timeout:
-            print(f"Skipped '{subdomain}'")
-            continue
-        except requests.exceptions.ConnectionError:
-            print(f"Skipped '{subdomain}'")
-            continue
-        
-        # Handle other exceptions
-        except Exception as e:
-            print(f"Skipped '{subdomain}': {str(e)}")
-            continue
-    
-    # Return response table
+
     return response_table
 
 
@@ -227,18 +167,12 @@ def fetch_tech(url):
     return None
 
 
-def apply_enumerator(request, technology, active, domain):
+def apply_enumerator(request, technology, domain):
     """
-    Enumerates subdomains for a given domain using Subfinder and active enumeration.
+    Enumerates subdomains for a given domain using passive enumeration.
     """
-    # Get subdomains using Subfinder
+    # Get subdomains using passive enumeration
     subdomains = passive_enumerator(domain)
-
-    if active:
-        # Enumerate subdomains using active enumeration
-        active_subdomains = active_enumerator(domain)
-        # Add the active subdomains to the set of subdomains
-        subdomains.update(active_subdomains)
 
     if request and not technology:
         # Test subdomains and print http response for active ones
