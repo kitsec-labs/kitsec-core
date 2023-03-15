@@ -15,10 +15,6 @@ def send_request(url):
         print(f"Found URL with status 200: {url}")
 
 
-import os
-from concurrent.futures import ThreadPoolExecutor
-from tqdm import tqdm
-
 def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
@@ -64,6 +60,7 @@ def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
 
         else:
             print(f"{path} does not exist")
+
 
 def apply_file_format_fuzz(base_url, path='lists/fuzz/file_fuzz', max_workers=10):
     if not base_url.startswith('http'):
