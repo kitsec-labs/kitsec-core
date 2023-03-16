@@ -6,7 +6,7 @@
 <p align="center">
 <a href="https://github.com/kitsec-labs/kitsec-core/issues"><img src="https://img.shields.io/badge/contributions-welcome-blue"></a>
 <a href="https://pepy.tech/project/kitsec"><img src="https://static.pepy.tech/badge/kitsec"></a>
-<a href="https://hub.docker.com/r/idrisschebak/kitsec"><img src="https://img.shields.io/docker/pulls/idrisschebak/kitsec"></a>
+<a href="https://pypi.org/project/kitsec/"><img src="https://img.shields.io/pypi/v/kitsec?color=blue"></a>
 <a href="https://github.com/kitsec-labs/kitsec-core/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-agpl--3.0-blue"></a>
 
 
