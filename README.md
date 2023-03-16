@@ -22,7 +22,7 @@
 ---
 # Testimonials
 
-> "I was familiar with ethical hacking tools, but Kitsec impressed me. It's user-friendly and centralized, making it fast and efficient. It offers a wide range of capabilities, including OWASP Top 10 coverage, fuzzing,  port scanning and more. Some of its features are usually only found in closed source products. Overall, Kitsec is an exceptional ethical hacking tool that I highly recommend." [yassinek3ch](https://hackerone.com/yassinek3ch?type=user), Hacker0ne Full Time #2, Morocco
+> "I was familiar with ethical hacking tools, but Kitsec impressed me. It's user-friendly and centralized, making it fast and efficient. It offers a wide range of capabilities, including OWASP Top 10 coverage, fuzzing,  port scanning and more. Some of its features are usually only found in closed source products. Overall, Kitsec is an exceptional ethical hacking tool that I highly recommend." [yassinek3ch](https://hackerone.com/yassinek3ch?type=user), **Hacker0ne Full Time #2**, Morocco
 
 
 ---
