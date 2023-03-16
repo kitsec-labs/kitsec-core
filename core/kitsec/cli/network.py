@@ -14,7 +14,6 @@ from tqdm import tqdm
 from urllib.parse import urlparse
 
 # Built-in modules
-import pty
 import random
 import textwrap
 import urllib
@@ -44,22 +43,28 @@ def apply_check_certificate(hostname, port=443):
    # Function for checking SSL/TLS certificate
     # Create a socket object and wrap it with an SSL context
     context = ssl.create_default_context()
-    conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname=hostname)
+    conn = context.wrap_socket(
+        socket.socket(
+            socket.AF_INET),
+        server_hostname=hostname)
 
     # Connect to the server and get the certificate
     conn.connect((hostname, port))
     cert = conn.getpeercert()
 
     # Extract relevant information from the certificate
-    not_before = datetime.datetime.strptime(cert['notBefore'], '%b %d %H:%M:%S %Y %Z')
-    not_after = datetime.datetime.strptime(cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
+    not_before = datetime.datetime.strptime(
+        cert['notBefore'], '%b %d %H:%M:%S %Y %Z')
+    not_after = datetime.datetime.strptime(
+        cert['notAfter'], '%b %d %H:%M:%S %Y %Z')
     remaining_days = (not_after - datetime.datetime.now()).days
 
     # Check if the certificate is expired or expiring soon
     if remaining_days <= 0:
         click.echo(f"The SSL/TLS certificate for {hostname} has expired!")
     elif remaining_days <= 30:
-        click.echo(f"The SSL/TLS certificate for {hostname} will expire in {remaining_days} days.")
+        click.echo(
+            f"The SSL/TLS certificate for {hostname} will expire in {remaining_days} days.")
 
     # Output some information about the certificate
     click.echo(f"Hostname: {hostname}")
@@ -99,7 +104,7 @@ def apply_scan_ports(url, common_ports=False):
         try:
             sock.connect((ip_address, port))
             open_ports.append(f"{hostname}:{port}")
-        except:
+        except BaseException:
             pass
         finally:
             sock.close()
@@ -118,7 +123,6 @@ def apply_scan_ports(url, common_ports=False):
 
     # Return the open ports
     return open_ports
-
 
 
 def apply_capture(url):
@@ -140,40 +144,56 @@ def apply_capture(url):
     # Construct the request info string
     request_info = f"{response.request.method} {path} HTTP/1.1\n"
     request_info += f"Host: {hostname}\n"
-    
+
     # Check for missing headers
     missing_headers = []
-    for header in ["X-XSS-Protection", "X-Content-Type-Options", "Strict-Transport-Security", "Content-Security-Policy", "Referrer-Policy", "Feature-Policy"]:
+    for header in [
+        "X-XSS-Protection",
+        "X-Content-Type-Options",
+        "Strict-Transport-Security",
+        "Content-Security-Policy",
+        "Referrer-Policy",
+            "Feature-Policy"]:
         if header not in headers:
             missing_headers.append(header)
-    
+
     # Add the "Response headers" section
     request_info += "Response headers:\n"
-    request_info += textwrap.indent("\n".join([f"  {header}: {value}" for header, value in response.headers.items()]), "  ")
+    request_info += textwrap.indent("\n".join(
+        [f"  {header}: {value}" for header, value in response.headers.items()]), "  ")
     request_info += "\n"
-    
+
     # Add the "Connection" header
     connection_header = headers.get("Connection", "")
     if connection_header:
         request_info += f"Connection: {connection_header}\n"
-    
+
     cookie_lines = headers.get("Cookie", "").split("; ")
     cookies = "\n".join(cookie_lines)
     request_info += f"Cookie: {cookies}\n"
-    
-    request_info += "\n".join([f"{header}: {value}" for header, value in headers.items() if header not in ["Host", "User-Agent", "Cookie", "Connection"]])
+
+    request_info += "\n".join([f"{header}: {value}" for header,
+                               value in headers.items() if header not in ["Host",
+                                                                          "User-Agent",
+                                                                          "Cookie",
+                                                                          "Connection"]])
     request_info += "\n\n"
-    
+
     # Add the "Missing headers" section if there are missing headers
     if missing_headers:
         request_info += "Missing headers:\n"
         request_info += f"{', '.join(missing_headers)}\n"
-    
+
     print(request_info)
 
 
-
-def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1):
+def apply_disturb(
+        url,
+        method='GET',
+        payload='',
+        headers={},
+        cookies={},
+        count=1):
     """
     Sends multiple HTTP requests to the specified URL with the same payload.
 
@@ -190,12 +210,22 @@ def apply_disturb(url, method='GET', payload='', headers={}, cookies={}, count=1
     """
     responses = []
     for i in range(count):
-        response = requests.request(method, url, data=payload, headers=headers, cookies=cookies)
+        response = requests.request(
+            method,
+            url,
+            data=payload,
+            headers=headers,
+            cookies=cookies)
         responses.append(response)
     return responses
 
 
-def storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def storm(
+        url,
+        num_attacks=6,
+        num_requests=200,
+        num_retries=4,
+        pause_before_retry=3000):
     """
     Sends HTTP GET requests to the specified URL with a specified number of attacks and requests.
 
@@ -232,7 +262,7 @@ def storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retr
                     threat_results.append(response)
                     if response.status_code == 200:
                         break
-                    time.sleep(pause_before_retry/1000)
+                    time.sleep(pause_before_retry / 1000)
                     pbar.update(1)
             results.append(threat_results)
     return results
@@ -258,8 +288,9 @@ def shuffle(url):
     # Define proxies, ports, user agents, and headers to shuffle
     proxies = ['1.2.3.4:8080', '5.6.7.8:3128', '9.10.11.12:80']
     ports = ['80', '8080', '3128']
-    user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-                   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0']
+    user_agents = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0']
     headers = {'Accept-Language': 'en-US,en;q=0.5', 'Connection': 'keep-alive'}
 
     # Shuffle the proxies, ports, user agents, and headers
@@ -267,27 +298,37 @@ def shuffle(url):
     random.shuffle(ports)
     random.shuffle(user_agents)
     random.shuffle(headers)
-    
+
     # Select the first shuffled item for each parameter
     proxy = proxies[0]
     port = ports[0]
     user_agent = user_agents[0]
     header = headers[0]
-    
+
     # Create dictionary of shuffled proxy and header parameters
-    proxies_dict = {'http': f'http://{proxy}:{port}', 'https': f'https://{proxy}:{port}'}
+    proxies_dict = {
+        'http': f'http://{proxy}:{port}',
+        'https': f'https://{proxy}:{port}'}
     headers_dict = {'User-Agent': user_agent, **header}
-    
+
     # Send GET request with shuffled parameters and handle exceptions
     try:
-        response = requests.get(url, proxies=proxies_dict, headers=headers_dict)
+        response = requests.get(
+            url,
+            proxies=proxies_dict,
+            headers=headers_dict)
         response.raise_for_status()
         return response.text
     except (requests.exceptions.RequestException, ValueError):
         return None
 
 
-def apply_storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_before_retry=3000):
+def apply_storm(
+        url,
+        num_attacks=6,
+        num_requests=200,
+        num_retries=4,
+        pause_before_retry=3000):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
@@ -308,7 +349,7 @@ def apply_storm(url, num_attacks=6, num_requests=200, num_retries=4, pause_befor
                     threat_results.append(response)
                     if response.status_code == 200:
                         break
-                    time.sleep(pause_before_retry/1000)
+                    time.sleep(pause_before_retry / 1000)
                     pbar.update(1)
             results.append(threat_results)
     return results
@@ -353,18 +394,20 @@ def ssh_logger(host, username, password):
     the auth.log file using sudo. It then continuously checks for new output from the file and
     prints it to the console as it is received.
     """
-    # Create an SSH client object and set the missing host key policy to auto add
+    # Create an SSH client object and set the missing host key policy to auto
+    # add
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    
+
     # Connect to the VPS server using the provided host, username, and password
     ssh.connect(host, username=username, password=password)
-    
+
     # Invoke a shell and send the command to tail the auth.log file using sudo
     channel = ssh.invoke_shell()
     channel.send('sudo tail -f /var/log/auth.log\n')
-    
-    # Continuously check for new output from the auth.log file and print it to the console
+
+    # Continuously check for new output from the auth.log file and print it to
+    # the console
     while True:
         if channel.recv_ready():
             output = channel.recv(1024).decode('utf-8')

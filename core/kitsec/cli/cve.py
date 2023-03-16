@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
 def fetch_cwe(cwe_code):
     """Fetches the CWE name given a CWE code.
 
@@ -15,7 +14,8 @@ def fetch_cwe(cwe_code):
     # Construct the URL for the CWE code
     cwe_url = f"https://cwe.mitre.org/data/definitions/{cwe_code[4:].lower()}.html"
 
-    # Send a GET request to the URL and parse the HTML response with BeautifulSoup
+    # Send a GET request to the URL and parse the HTML response with
+    # BeautifulSoup
     response = requests.get(cwe_url)
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -56,12 +56,26 @@ def query_cve(product_name, limit=10):
             severity_msg = "Severity information not available"
         else:
             severity_msg = severity
-        summary = item.get("cve", {}).get("description", {}).get("description_data", [])
-        summary = next((x.get("value") for x in summary if x.get("lang") == "en"), "")
+        summary = item.get(
+            "cve",
+            {}).get(
+            "description",
+            {}).get(
+            "description_data",
+            [])
+        summary = next((x.get("value")
+                       for x in summary if x.get("lang") == "en"), "")
 
         # Extract CWE information and append it to the data
-        cwe_nodes = item.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
-        cwe_codes = [n.get("description", [{}])[0].get("value", "") for n in cwe_nodes if n.get("description")]
+        cwe_nodes = item.get(
+            "cve",
+            {}).get(
+            "problemtype",
+            {}).get(
+            "problemtype_data",
+            [])
+        cwe_codes = [n.get("description", [{}])[0].get("value", "")
+                     for n in cwe_nodes if n.get("description")]
         for cwe_code in cwe_codes:
             cwe_name = fetch_cwe(cwe_code)
             result += f"CVE ID: {cve_id}\nCWE: {cwe_name}\nSeverity: {severity_msg}\nSummary: {summary}\n\n"

@@ -1,4 +1,5 @@
 # Standard library modules
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 import subprocess
 import time
@@ -11,7 +12,6 @@ import requests
 import warnings
 from tabulate import tabulate
 from tqdm import tqdm
-from urllib.parse import urlparse
 from Wappalyzer import Wappalyzer, WebPage
 
 
@@ -32,18 +32,21 @@ def passive_enumerator(domain):
     try:
         print('Enumerating using Subfinder...')
         with open(os.devnull, 'w') as nullfile:
-            output = subprocess.check_output(['subfinder', '-d', domain], stderr=nullfile)
+            output = subprocess.check_output(
+                ['subfinder', '-d', domain], stderr=nullfile)
         subdomains.update(output.decode('utf-8').strip().split('\n'))
-    except:
+    except BaseException:
         print('Subfinder is not installed or encountered an error, skipping..."')
 
     # Enumerate using Amass
     try:
         print('Enumerating using Amass...')
         with open(os.devnull, 'w') as nullfile:
-            output = subprocess.check_output(['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
-        subdomains.update([s.split('.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
-    except:
+            output = subprocess.check_output(
+                ['amass', 'enum', '--passive', '-d', domain], stderr=nullfile)
+        subdomains.update([s.split(
+            '.')[0] + '.' + domain for s in output.decode('utf-8').strip().split('\n')])
+    except BaseException:
         print('Amass is not installed or encountered an error, skipping... / debug by running "amass enum --passive -d example.com"')
 
     # Enumerate using Findomain
@@ -80,9 +83,9 @@ def passive_enumerator(domain):
     return subdomains
 
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-def fetch_response_worker(subdomain: str, session: requests.Session) -> List[str]:
+def fetch_response_worker(
+        subdomain: str,
+        session: requests.Session) -> List[str]:
     try:
         response = session.get(f'http://{subdomain}', timeout=5)
         return [subdomain, response.status_code, response.reason, '']
@@ -94,13 +97,25 @@ def fetch_response_worker(subdomain: str, session: requests.Session) -> List[str
         print(f"Skipped '{subdomain}': {str(e)}")
     return None
 
-def fetch_response(subdomains: List[str], technology: bool, max_workers: int = 10) -> List[List[str]]:
+
+def fetch_response(subdomains: List[str],
+                   technology: bool,
+                   max_workers: int = 10) -> List[List[str]]:
     response_table = []
     session = requests.Session()
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_subdomain = {executor.submit(fetch_response_worker, subdomain, session): subdomain for subdomain in subdomains}
-        for future in tqdm(as_completed(future_to_subdomain), desc='Fetching response', total=len(subdomains), unit='subdomain', leave=False):
+        future_to_subdomain = {
+            executor.submit(
+                fetch_response_worker,
+                subdomain,
+                session): subdomain for subdomain in subdomains}
+        for future in tqdm(
+                as_completed(future_to_subdomain),
+                desc='Fetching response',
+                total=len(subdomains),
+                unit='subdomain',
+                leave=False):
             result = future.result()
             if result:
                 response_table.append(result)
@@ -122,8 +137,14 @@ def fetch_tech(url):
     """
     # Ignore JAVA warnings on wappalyzer & skip
     warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-    warnings.filterwarnings("ignore", category=UserWarning, message=".*It looks like you're parsing an XML document using an HTML parser.*")
-    warnings.filterwarnings("ignore", message="""Caught 'unbalanced parenthesis at position 119' compiling regex""", category=UserWarning )
+    warnings.filterwarnings(
+        "ignore",
+        category=UserWarning,
+        message=".*It looks like you're parsing an XML document using an HTML parser.*")
+    warnings.filterwarnings(
+        "ignore",
+        message="""Caught 'unbalanced parenthesis at position 119' compiling regex""",
+        category=UserWarning)
 
     # Ensure URL starts with http(s)
     if not url.startswith('http'):
@@ -131,14 +152,14 @@ def fetch_tech(url):
 
     # Fetch web page and analyze with Wappalyzer
     technologies = []
-    
+
     # Print only once when the function is launched
     if not hasattr(fetch_tech, 'counter'):
         fetch_tech.counter = 0
     if fetch_tech.counter == 0:
         print("Fetching technologies...")
         fetch_tech.counter += 1
-    
+
     # Retry fetching up to 5 times in case of error
     max_retries = 5
     retry_count = 0
@@ -150,19 +171,19 @@ def fetch_tech(url):
             for tech in wappalyzer.analyze(webpage):
                 technologies.append(tech)
             return technologies
-        
+
         # Handle timeout and connection errors
         except requests.exceptions.Timeout:
             return None
         except requests.exceptions.ConnectionError:
             return None
-        
+
         # Handle other exceptions
         except Exception:
             retry_count += 1
             if retry_count < max_retries:
                 time.sleep(5)
-    
+
     # Max retries reached, return None
     return None
 
@@ -179,7 +200,13 @@ def apply_enumerator(request, technology, domain):
         response_table = fetch_response(subdomains, False)
         # sort response_table by status in ascending order
         response_table = sorted(response_table, key=lambda x: x[1])
-        click.echo(tabulate(response_table, headers=['Subdomain', 'Status', 'Reason']))
+        click.echo(
+            tabulate(
+                response_table,
+                headers=[
+                    'Subdomain',
+                    'Status',
+                    'Reason']))
 
     if technology and not request:
         # Analyze technology used by subdomains
@@ -202,13 +229,31 @@ def apply_enumerator(request, technology, domain):
             tech_table.append([subdomain, tech])
 
         # Combine the two tables into a single table
-        response_df = pd.DataFrame(response_table, columns=['Subdomain', 'Status', 'Reason', 'Technology'])
+        response_df = pd.DataFrame(
+            response_table,
+            columns=[
+                'Subdomain',
+                'Status',
+                'Reason',
+                'Technology'])
         tech_df = pd.DataFrame(tech_table, columns=['Subdomain', 'Technology'])
-        combined_df = pd.merge(response_df, tech_df, on='Subdomain', how='outer')
-        combined_df.fillna('', inplace=True)  # replace NaN values with empty string
+        combined_df = pd.merge(
+            response_df,
+            tech_df,
+            on='Subdomain',
+            how='outer')
+        # replace NaN values with empty string
+        combined_df.fillna('', inplace=True)
         combined_table = combined_df.to_records(index=False).tolist()
 
-        click.echo(tabulate(combined_table, headers=['Subdomain', 'Status', 'Reason', 'Technology']))
+        click.echo(
+            tabulate(
+                combined_table,
+                headers=[
+                    'Subdomain',
+                    'Status',
+                    'Reason',
+                    'Technology']))
 
     if not request and not technology:
         # Just print the subdomains

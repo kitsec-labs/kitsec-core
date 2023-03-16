@@ -1,17 +1,9 @@
 # Standard library modules
-import base64
 import binascii
-import concurrent
-import hashlib
-import html
-import json
-import os
-import platform
 import sys
 
 # Third-party modules
 import click
-import ipaddress
 import ipwhois
 import paramiko
 import requests
@@ -25,24 +17,25 @@ from Wappalyzer import Wappalyzer, WebPage
 from kitsec.cli.cve import query_cve
 from kitsec.cli.enumerator import apply_enumerator
 from kitsec.cli.fuzz import apply_file_format_fuzz, apply_path_fuzz
-from kitsec.cli.network import (apply_capture, apply_cidr, apply_disturb, apply_storm,
-                    apply_scan_ports, apply_check_certificate)
+from kitsec.cli.network import (
+    apply_capture,
+    apply_cidr,
+    apply_disturb,
+    apply_storm,
+    apply_scan_ports,
+    apply_check_certificate)
 from kitsec.cli.dependencies import install_dependencies
 from kitsec.cli.utils import apply_transformation
 
 
-
-
-
-
-#todo: run kitsec from any directory
+# todo: run kitsec from any directory
 
 @click.group()
 def cli():
     """
     KitSec - A CLI tool for security testing and reconnaissance.
     """
-    pass
+
 
 @click.command()
 def deps():
@@ -55,9 +48,13 @@ def deps():
 
 
 @click.command()
-@click.option('--host', prompt='Enter the IP address of the VPS server to connect to')
-@click.option('--username', prompt='Enter the limited user account to use for connecting to the VPS server')
-@click.option('--password', prompt='Enter the password for the user account', hide_input=True)
+@click.option('--host',
+              prompt='Enter the IP address of the VPS server to connect to')
+@click.option('--username',
+              prompt='Enter the limited user account to use for connecting to the VPS server')
+@click.option('--password',
+              prompt='Enter the password for the user account',
+              hide_input=True)
 def vps(host, username, password):
     """
     Connects to a remote server using SSH and logs in as the specified user.
@@ -84,7 +81,6 @@ def vps(host, username, password):
     client.close()
 
 
-
 @click.command()
 @click.argument('url')
 def capture(url):
@@ -92,6 +88,7 @@ def capture(url):
     Captures the request headers for a given URL.
     """
     apply_capture(url)
+
 
 @click.command()
 @click.argument('url')
@@ -103,16 +100,34 @@ def certificate(url):
     hostname = url.split('//')[-1].split('/')[0]
     apply_check_certificate(hostname)
 
+
 @click.command()
 @click.argument('data')
-@click.option('--type', '-t', 'transformation_type', type=click.Choice(['URL', 'HTML', 'Base64', 'ASCII', 'Hex', 'Octal', 'Binary', 'MD5', 'SHA1', 'SHA256', 'BLAKE2B-160', 'GZIP']), default='Base64', help='The type of transformation to apply to the input data.')
+@click.option('--type',
+              '-t',
+              'transformation_type',
+              type=click.Choice(['URL',
+                                 'HTML',
+                                 'Base64',
+                                 'ASCII',
+                                 'Hex',
+                                 'Octal',
+                                 'Binary',
+                                 'MD5',
+                                 'SHA1',
+                                 'SHA256',
+                                 'BLAKE2B-160',
+                                 'GZIP']),
+              default='Base64',
+              help='The type of transformation to apply to the input data.')
 @click.help_option('--help', '-h')
 def convert(data, transformation_type):
     """
     Applies a specified decoding or hashing function to input data.
     """
     try:
-        result = apply_transformation(data.encode('utf-8'), transformation_type)
+        result = apply_transformation(
+            data.encode('utf-8'), transformation_type)
     except Exception as e:
         click.echo(f"Error: {str(e)}")
         sys.exit(1)
@@ -120,12 +135,14 @@ def convert(data, transformation_type):
     click.echo(result)
 
 
-
 @click.command()
-@click.option('--request', '-r', is_flag=True, default=False, help='Test subdomains and print http response for active ones.')
-@click.option('--technology', '-t', is_flag=True, default=False, help='Analyze technology used by subdomains.')
+@click.option('--request', '-r', is_flag=True, default=False,
+              help='Test subdomains and print http response for active ones.')
+@click.option('--technology', '-t', is_flag=True, default=False,
+              help='Analyze technology used by subdomains.')
 @click.argument('domain')
-@click.option('-h', '--help', 'display_help', is_flag=True, help='Display this help message')
+@click.option('-h', '--help', 'display_help', is_flag=True,
+              help='Display this help message')
 def enumerator(request, technology, domain, display_help):
     """
     Enumerate subdomains for a given domain.
@@ -136,14 +153,17 @@ def enumerator(request, technology, domain, display_help):
         apply_enumerator(request=request, technology=technology, domain=domain)
 
 
-
 @click.command()
 @click.argument('url', required=True)
 @click.option('-m', '--method', default='GET', help='HTTP method to use')
-@click.option('-p', '--payload', default='', help='Payload to include in the request body')
-@click.option('-H', '--headers', default='', help='Headers to include in the request')
-@click.option('-c', '--cookies', default='', help='Cookies to include in the request')
-@click.option('-n', '--count', default=1, type=int, help='Number of times to repeat the request')
+@click.option('-p', '--payload', default='',
+              help='Payload to include in the request body')
+@click.option('-H', '--headers', default='',
+              help='Headers to include in the request')
+@click.option('-c', '--cookies', default='',
+              help='Cookies to include in the request')
+@click.option('-n', '--count', default=1, type=int,
+              help='Number of times to repeat the request')
 @click.option('--show-help', '-h', is_flag=True, help='Show help message.')
 def disturb(url, method, payload, headers, cookies, count, show_help):
     """
@@ -154,31 +174,48 @@ def disturb(url, method, payload, headers, cookies, count, show_help):
     else:
         responses = disturb(url, method, payload, headers, cookies, count)
         for i, response in enumerate(responses):
-            click.echo(f'Response {i + 1}: {response.status_code} - {response.reason}')
-
+            click.echo(
+                f'Response {i + 1}: {response.status_code} - {response.reason}')
 
 
 @click.command()
 @click.argument('url')
-@click.option('--num-attacks', '-a', type=int, default=6, help='Number of parallel threats to send requests from.')
-@click.option('--num-requests', '-r', type=int, default=200, help='Number of requests to send from each threat.')
-@click.option('--num-retries', '-y', type=int, default=4, help='Number of times to retry failed requests.')
-@click.option('--pause-before-retry', '-p', type=int, default=3000, help='Number of milliseconds to wait before retrying a failed request.')
-@click.option('-h', '--help', 'display_help', is_flag=True, help='Display this help message')
-def storm(url, num_attacks, num_requests, num_retries, pause_before_retry, display_help):
+@click.option('--num-attacks', '-a', type=int, default=6,
+              help='Number of parallel threats to send requests from.')
+@click.option('--num-requests', '-r', type=int, default=200,
+              help='Number of requests to send from each threat.')
+@click.option('--num-retries', '-y', type=int, default=4,
+              help='Number of times to retry failed requests.')
+@click.option('--pause-before-retry', '-p', type=int, default=3000,
+              help='Number of milliseconds to wait before retrying a failed request.')
+@click.option('-h', '--help', 'display_help', is_flag=True,
+              help='Display this help message')
+def storm(
+        url,
+        num_attacks,
+        num_requests,
+        num_retries,
+        pause_before_retry,
+        display_help):
     """
     Sends HTTP requests to a given URL with a specified number of threats and requests.
     """
     if display_help:
         click.echo(storm.get_help(click.Context(storm)))
     else:
-        results = apply_storm(url, num_attacks, num_requests, num_retries, pause_before_retry)
+        results = apply_storm(
+            url,
+            num_attacks,
+            num_requests,
+            num_retries,
+            pause_before_retry)
         click.echo(results)
 
 
 @click.command()
 @click.argument('url')
-@click.option('-c', '--common-ports', is_flag=True, help='Scan only the most common HTTP ports (80, 8080, and 443)')
+@click.option('-c', '--common-ports', is_flag=True,
+              help='Scan only the most common HTTP ports (80, 8080, and 443)')
 def portscan(url, common_ports):
     """
     Performs a TCP port scan on a specified hostname or URL and a range of ports.
@@ -191,7 +228,8 @@ def portscan(url, common_ports):
 
 @click.command()
 @click.argument('base_url')
-@click.option('-f', '--file-fuzz', is_flag=True, help='Use file format fuzzing')
+@click.option('-f', '--file-fuzz', is_flag=True,
+              help='Use file format fuzzing')
 @click.option('-p', '--path-fuzz', is_flag=True, help='Use path fuzzing')
 @click.help_option('--help', '-h')
 def fuzz(base_url, file_fuzz, path_fuzz):
@@ -223,7 +261,6 @@ def fuzz(base_url, file_fuzz, path_fuzz):
         print("Please specify either --file-fuzz or --path-fuzz.")
 
 
-
 @click.command()
 @click.argument('company_name')
 @click.help_option('--help', '-h')
@@ -237,7 +274,8 @@ def cidr(company_name):
 
 @click.command()
 @click.argument('product_name')
-@click.option('--limit', '-l', type=int, default=10, help='Number of results to display (default=10)')
+@click.option('--limit', '-l', type=int, default=10,
+              help='Number of results to display (default=10)')
 @click.help_option('--help', '-h')
 def cve(product_name, limit):
     """

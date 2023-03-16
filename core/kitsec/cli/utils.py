@@ -25,7 +25,7 @@ def apply_transformation(data, transformation_type):
     - If an invalid transformation type is specified, an error message as a string.
     """
     detected_type = magic.from_buffer(data, mime=True)
-    
+
     if detected_type.startswith('text'):
         if transformation_type == "URL":
             result = urllib.parse.unquote(data)
@@ -46,12 +46,14 @@ def apply_transformation(data, transformation_type):
                 result = "Invalid hex input"
         elif transformation_type == "Octal":
             try:
-                result = ''.join([chr(int(octet, 8)) for octet in data.split()])
+                result = ''.join([chr(int(octet, 8))
+                                 for octet in data.split()])
             except ValueError:
                 result = "Invalid octal input"
         elif transformation_type == "Binary":
             try:
-                result = ''.join([chr(int(octet, 2)) for octet in data.split()])
+                result = ''.join([chr(int(octet, 2))
+                                 for octet in data.split()])
             except ValueError:
                 result = "Invalid binary input"
         elif transformation_type == "GZIP":
