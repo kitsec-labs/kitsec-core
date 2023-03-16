@@ -27,15 +27,21 @@ def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):
-            # If the path is a directory, iterate through each file in the directory
+            # If the path is a directory, iterate through each file in the
+            # directory
             futures = []
             for filename in os.listdir(path):
                 filepath = os.path.join(path, filename)
                 if os.path.isfile(filepath):
-                    # If the file is a regular file, read each line in the file and send a request to the URL
+                    # If the file is a regular file, read each line in the file
+                    # and send a request to the URL
                     with open(filepath) as f:
                         file_formats = f.read().splitlines()
-                        progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
+                        progress_bar = tqdm(
+                            file_formats,
+                            desc=os.path.splitext(filename)[0],
+                            position=0,
+                            leave=True)
                         for file_format in progress_bar:
                             url = f"{base_url}/{file_format}"
                             future = executor.submit(send_request, url)
@@ -45,10 +51,15 @@ def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
                 future.result()
 
         elif os.path.isfile(path):
-            # If the path is a regular file, read each line in the file and send a request to the URL
+            # If the path is a regular file, read each line in the file and
+            # send a request to the URL
             with open(path) as f:
                 file_formats = f.read().splitlines()
-                progress_bar = tqdm(file_formats, desc=os.path.basename(path), position=0, leave=True)
+                progress_bar = tqdm(
+                    file_formats,
+                    desc=os.path.basename(path),
+                    position=0,
+                    leave=True)
                 futures = []
                 for file_format in progress_bar:
                     url = f"{base_url}/{file_format}"
@@ -62,7 +73,10 @@ def apply_path_fuzz(base_url, path='lists/fuzz/path_fuzz', max_workers=10):
             print(f"{path} does not exist")
 
 
-def apply_file_format_fuzz(base_url, path='lists/fuzz/file_fuzz', max_workers=10):
+def apply_file_format_fuzz(
+        base_url,
+        path='lists/fuzz/file_fuzz',
+        max_workers=10):
     if not base_url.startswith('http'):
         base_url = 'http://' + base_url
 
@@ -74,15 +88,21 @@ def apply_file_format_fuzz(base_url, path='lists/fuzz/file_fuzz', max_workers=10
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         if os.path.isdir(path):
-            # If the path is a directory, iterate through each file in the directory
+            # If the path is a directory, iterate through each file in the
+            # directory
             futures = []
             for filename in os.listdir(path):
                 filepath = os.path.join(path, filename)
                 if os.path.isfile(filepath):
-                    # If the file is a regular file, read each line in the file and send a request to the URL
+                    # If the file is a regular file, read each line in the file
+                    # and send a request to the URL
                     with open(filepath) as f:
                         file_formats = f.read().splitlines()
-                        progress_bar = tqdm(file_formats, desc=os.path.splitext(filename)[0], position=0, leave=True)
+                        progress_bar = tqdm(
+                            file_formats,
+                            desc=os.path.splitext(filename)[0],
+                            position=0,
+                            leave=True)
                         for file_format in progress_bar:
                             url = f"{base_url}/{file_format}"
                             future = executor.submit(send_request, url)
@@ -92,10 +112,15 @@ def apply_file_format_fuzz(base_url, path='lists/fuzz/file_fuzz', max_workers=10
                 future.result()
 
         elif os.path.isfile(path):
-            # If the path is a regular file, read each line in the file and send a request to the URL
+            # If the path is a regular file, read each line in the file and
+            # send a request to the URL
             with open(path) as f:
                 file_formats = f.read().splitlines()
-                progress_bar = tqdm(file_formats, desc=os.path.basename(path), position=0, leave=True)
+                progress_bar = tqdm(
+                    file_formats,
+                    desc=os.path.basename(path),
+                    position=0,
+                    leave=True)
                 futures = []
                 for file_format in progress_bar:
                     url = f"{base_url}/{file_format}"
