@@ -215,7 +215,7 @@ kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: kistec enumerate [OPTIONS] DOMAIN
+Usage: kistec enumerator [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
