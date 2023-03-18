@@ -234,7 +234,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kistec enumerate -r -t -a example.com 
+kistec enumerator -r -t -a example.com 
 ````
 
 <details>
