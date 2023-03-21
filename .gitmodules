@@ -1,0 +1,3 @@
+[submodule "kitsec-core"]
+	path = kitsec-core
+	url = https://github.com/kitsec-labs/kitsec-core
