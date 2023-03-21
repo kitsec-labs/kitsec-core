@@ -126,7 +126,7 @@ Intercept requests to example.com. This will capture the request headers and ext
 
 
 ``````
-Usage: kistec capture [OPTIONS] URL
+Usage: kitsec capture [OPTIONS] URL
 
   Captures the request headers for a given URL.
 
@@ -134,7 +134,7 @@ Options:
   --help  Show this message and exit.
 
 Example:
- kistec capture https://example.com
+ kitsec capture https://example.com
 ``````
 
 
@@ -199,7 +199,7 @@ Hex, Octal, Binary & GZIP).
 --help Show this message and exit.
 
 Example:
-kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
+kitsec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 ````
 
 <details>
@@ -215,7 +215,7 @@ kistec convert S2l0c2VjIFJvY2tzIQ== -t Base64
 Enumerate subdomains for example.com
 
 ````
-Usage: kistec enumerator [OPTIONS] DOMAIN
+Usage: kitsec enumerator [OPTIONS] DOMAIN
 
 Enumerates subdomains for a given domain using Subfinder and active enumeration.
 
@@ -229,7 +229,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kistec enumerator -r -t -a example.com 
+kitsec enumerator -r -t -a example.com 
 ````
 
 <details>
@@ -267,7 +267,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kistec portscan -c example.com 
+kitsec portscan -c example.com 
 ````
 
 <details>
@@ -286,7 +286,7 @@ example.com:443
 Search for CIDR ranges for a given domain name:
 
 `````
-Usage: kistec cidr [OPTIONS] COMPANY_NAME
+Usage: kitsec cidr [OPTIONS] COMPANY_NAME
 
 Look up the CIDR range for a company's domain name.
 
@@ -302,7 +302,7 @@ Returns:
   an error message will be displayed.
 
 Example:
- kistec cidr github.com
+ kitsec cidr github.com
 `````
 <details>
   <summary>Output</summary>
@@ -315,7 +315,7 @@ Example:
 Search for ssl / tlsfor the specified host and port:
 
 `````
-Usage: kistec certifcate [OPTIONS] HOSTNAME
+Usage: kitsec certifcate [OPTIONS] HOSTNAME
 
 Check the SSL/TLS certificate for the specified host and port.
 
@@ -330,7 +330,7 @@ Returns:
   None. Displays the certificate information to the console.
 
 Example:
- kistec certificate github.com
+ kitsec certificate github.com
 
 `````
 <details>
@@ -348,7 +348,7 @@ Not After: 2024-03-14 23:59:59
 Search for CVEs for the specified product.
 
 `````
-Usage: kistec cve [OPTIONS] PRODUCT_NAME
+Usage: kitsec cve [OPTIONS] PRODUCT_NAME
 
 Retrieves CVE data for a specific product and displays it.
 
@@ -360,7 +360,7 @@ Options:
   --help           Show this message and exit.
 
 Example:
- kistec cve python -l 2
+ kitsec cve python -l 2
 `````
 
 <details>
@@ -386,7 +386,7 @@ Summary   Python Software Foundation Python (CPython) version 2.7 contains a CWE
 Send HTTP requests to a given URL with a specified number of Attacks and requests.
 
 `````
-Usage: kistec storm [OPTIONS] URL
+Usage: kitsec storm [OPTIONS] URL
 
 Sends HTTP requests to a given URL with a specified number of threats and requests.
 
@@ -402,14 +402,14 @@ request. Default: 3000.
 --help Show this message and exit.
 
 Example:
-kistec storm https://example.com/
+kitsec storm https://example.com/
 `````
 
 ### 🌫️ fuzz <a name="fuzz"></a>
 
 
 `````
-Usage: kistec fuzz [OPTIONS] BASE_URL
+Usage: kitsec fuzz [OPTIONS] BASE_URL
 
 Sends HTTP GET requests to a specified base URL with a given list of paths.
 
@@ -422,7 +422,7 @@ Options:
 --help Show this message and exit.
 
 Example:
-kistec fuzz example.com
+kitsec fuzz example.com
 `````
 
 ### 🧢 VPS <a name="vps-logger"></a>
@@ -430,7 +430,7 @@ kistec fuzz example.com
 Connects to a remote VPS server and tails the auth.log file.
 
 ``````
-Usage: kistec vps-logger [OPTIONS]
+Usage: kitsec vps-logger [OPTIONS]
 
 Connects to a remote VPS server and tails the auth.log file.
 
