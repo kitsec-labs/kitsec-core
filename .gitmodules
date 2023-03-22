@@ -4,3 +4,6 @@
 [submodule "kitsec-website"]
 	path = kitsec-website
 	url = https://github.com/kitsec-labs/kitsec-website
+[submodule "website"]
+	path = website
+	url = https://github.com/kitsec-labs/website
