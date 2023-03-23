@@ -24,7 +24,7 @@ For full documentation, visit [Kitsec](https://www.kitsec.app/docs).
 
 For help, discussion about best practices, or any other conversation that would benefit from being searchable:
 
-Discuss Kitsec Core on [GitHub](https://github.com/kitsec-labs/kitsec-core/discussions)
+Join the Kitsec Core [discussion](https://github.com/kitsec-labs/kitsec-core/discussions)
 
 ## Contributing
 
