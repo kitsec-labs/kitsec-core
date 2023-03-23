@@ -28,7 +28,7 @@ For help, discussion about best practices, or any other conversation that would 
 
 ## Contributing
 
-If you're interested in contributing to Kitsec Core, please read our [contributing docs](https://github.com/tailwindcss/tailwindcss/blob/master/.github/CONTRIBUTING.md) **before submitting a pull request**.
+If you're interested in contributing to Kitsec Core, please read our [contributing docs](https://github.com/kitsec-labs/kitsec-core/blob/main/CONTRIBUTING.md) **before submitting a pull request**.
 
 
 # Disclaimer
