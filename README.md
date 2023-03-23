@@ -31,6 +31,6 @@ For help, discussion about best practices, or any other conversation that would 
 If you're interested in contributing to Kitsec Core, please read our [contributing docs](https://github.com/kitsec-labs/kitsec-core/blob/main/CONTRIBUTING.md) **before submitting a pull request**.
 
 
-# Disclaimer
+## Disclaimer
 
 This project is made for educational and ethical testing purposes only. Usage of this tool for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage caused by this tool.
