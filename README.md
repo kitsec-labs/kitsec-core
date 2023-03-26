@@ -19,7 +19,9 @@
 
 ## Endorsements
 
-"Really cool tool sets for specific tasks or combinations together :) great work!" [todayisnew](https://twitter.com/codecancare).
+"Really cool tool sets for specific tasks or combinations together :) great work!" [todayisnew](https://hackerone.com/todayisnew?type=user).
+
+"Kitsec impressed me. It's user-friendly and centralized, making it fast and efficient. It offers a wide range of capabilities, including OWASP Top 10 coverage, fuzzing, port scanning and more. It's an exceptional ethical hacking tool that I highly recommend." [yassinek3ch](https://hackerone.com/yassinek3ch?type=user).
 
 
 ## Documentation
