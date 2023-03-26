@@ -19,7 +19,7 @@
 
 ## Endorsements
 
-"Really cool tool sets for specific tasks or combinations together :) great work!" todayisnew, Elite Hacker on [hackerone](https://hackerone.com/todayisnew?type=user) and [bugcrowd](https://bugcrowd.com/todayisnew)
+"Really cool tool sets for specific tasks or combinations together :) great work!" [todayisnew](https://twitter.com/codecancare).
 
 
 ## Documentation
