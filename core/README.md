@@ -20,6 +20,10 @@
 
 ---
 
+## Endorsements
+
+"Really cool tool sets for specific tasks or combinations together :) great work!" todayisnew, Elite Hacker on [hackerone](https://hackerone.com/todayisnew?type=user) and [bugcrowd](https://bugcrowd.com/todayisnew)
+
 # Ethical hacking, made easy. 
 
 Kitsec is a powerful toolkit CLI designed to help you simplify and centralize your security workflow. Whether you're a seasoned professional or 

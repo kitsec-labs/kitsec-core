@@ -16,6 +16,12 @@
 
 ------
 
+
+## Endorsements
+
+"Really cool tool sets for specific tasks or combinations together :) great work!" todayisnew, Elite Hacker on [hackerone](https://hackerone.com/todayisnew?type=user) and [bugcrowd](https://bugcrowd.com/todayisnew)
+
+
 ## Documentation
 
 For full documentation, visit [Kitsec](https://www.kitsec.app/docs).
