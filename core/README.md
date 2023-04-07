@@ -59,10 +59,19 @@ it can execute multiple tasks simultaneously, making it a lightning-fast solutio
 <details>
   <summary>Run using Python </summary>
 
-Install dependencies:
+Install Kitsec using pip:
   
 ````
 pip install kitsec
+````
+
+Install go: https://golang.org/doc/install
+
+Install go dependencies:
+
+````
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install -v github.com/owasp-amass/amass/v3/...@master
 ````
 
 Run kitsec:
