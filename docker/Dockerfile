@@ -32,7 +32,7 @@ RUN pip install kitsec
 RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 
 # Install amass
-RUN go install -v github.com/OWASP/Amass/v3/...@master
+RUN go install -v github.com/OWASP/Amass/v3
 
 # Set the working directory to the parent directory of core
 WORKDIR /app
