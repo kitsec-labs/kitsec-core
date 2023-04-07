@@ -86,6 +86,7 @@ kitsec <command> <options>
 <details>
   <summary>Run using Docker </summary>
 
+Install Docker: https://docs.docker.com/get-docker/
 
 Pull the image from docker hub:
 
