@@ -65,13 +65,6 @@ Install dependencies:
 pip install kitsec
 ````
 
-
-Install go dependencies:
-
-````
-kitsec deps
-````
-
 Run kitsec:
 
 ````
