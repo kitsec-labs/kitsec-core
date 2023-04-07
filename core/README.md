@@ -94,22 +94,16 @@ Pull the image from docker hub:
 docker pull idrisschebak/kitsec
 ````
 
-Or build the docker image from the docker directory:
-
-````
-docker build -t kitsec .
-````
-
 To run kitsec within the docker container:
 
 ````
-docker run -it kitsec kitsec <command> <options>
+docker run -it idrisschebak/kitsec kitsec <command> <options>
 ````
 
 For example:
 
 ````
-docker run -it kitsec kitsec cve python -l 2
+docker run -it idrisschebak/kitsec kitsec cve python -l 2
 ````
 
 </details>
