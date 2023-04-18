@@ -51,7 +51,7 @@
 - **Fuzz**: Enrich fuzzing.
 - **Shuffler**: Enrich Shuffle IP/Agent/Referer lists.
 
-# Install
+### 💽 Quickstart
 
 <details>
   <summary>Run using Python </summary>
@@ -67,8 +67,8 @@ Install go: https://golang.org/doc/install
 Install go dependencies:
 
 ````
+go install -v github.com/OWASP/Amass/v3/...@master
 go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/owasp-amass/amass/v3/...@master
 ````
 
 Run kitsec:
@@ -112,9 +112,6 @@ docker run -it idrisschebak/kitsec kitsec cve python -l 2
   
 
 </details>
-
-# Usage
-
 
 ### 📸 Capture <a name="capture"></a>
 
