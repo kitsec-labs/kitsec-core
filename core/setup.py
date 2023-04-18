@@ -34,7 +34,6 @@ setup(
         "pandas==1.2.5",
         "click==7.1.2",
         "tqdm==4.64.1",
-        "nmap==0.0.1",
         "bs4==0.0.1"
     ],
     entry_points={
