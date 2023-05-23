@@ -27,7 +27,7 @@ setup(
         "wappalyzer==1.0.0",
         "ipaddress==1.0.7",
         "termcolor==2.2.0",
-        "requests==2.28.1",
+        "requests==2.31.0",
         "paramiko==3.0.0",
         "tabulate==0.9.0",
         "ipwhois==1.2.0",
