@@ -23,7 +23,6 @@ setup(
         "python_wappalyzer==0.3.1",
         "beautifulsoup4==4.11.2",
         "python-magic==0.4.27",
-        "cve_search==1.0.11",
         "wappalyzer==1.0.0",
         "ipaddress==1.0.7",
         "termcolor==2.2.0",
